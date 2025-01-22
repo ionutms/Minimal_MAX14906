@@ -1647,6 +1647,16 @@
 					(hide yes)
 				)
 			)
+			(property "MPN" "MAX14906ATM+"
+				(at 15.24 -50.8 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+					(hide yes)
+				)
+			)
 			(symbol "U_MAX14906ATM+_1_1"
 				(rectangle
 					(start -15.24 40.64)
@@ -7988,6 +7998,16 @@
 		)
 		(property "Description" "Quad-Channel Industrial Digital Output, Digital Input"
 			(at 167.64 147.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+		(property "MPN" "MAX14906ATM+"
+			(at 167.64 152.4 0)
 			(effects
 				(font
 					(size 1.27 1.27)
