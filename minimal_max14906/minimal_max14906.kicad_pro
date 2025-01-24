@@ -48,7 +48,7 @@
         "silk_text_thickness": 0.1524,
         "silk_text_upright": false,
         "zones": {
-          "min_clearance": 0.1778
+          "min_clearance": 0.2032
         }
       },
       "diff_pair_dimensions": [
@@ -474,7 +474,8 @@
       "/CHANNEL_1": "rgb(0, 194, 0)",
       "/CHANNEL_2": "rgb(0, 194, 194)",
       "/CHANNEL_3": "rgb(194, 0, 194)",
-      "/CHANNEL_4": "rgb(221, 133, 0)"
+      "/CHANNEL_4": "rgb(221, 133, 0)",
+      "GNDA": "rgb(72, 72, 72)"
     },
     "netclass_assignments": null,
     "netclass_patterns": []
