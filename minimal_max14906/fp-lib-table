@@ -11,4 +11,5 @@
   (lib (name "test_point_footprints")(type "KiCad")(uri "${KIPRJMOD}/KiCAD_Symbol_Generator/footprints/test_point_footprints.pretty")(options "")(descr ""))
   (lib (name "transformer_footprints")(type "KiCad")(uri "${KIPRJMOD}/KiCAD_Symbol_Generator/footprints/transformer_footprints.pretty")(options "")(descr ""))
   (lib (name "transistor_footprints")(type "KiCad")(uri "${KIPRJMOD}/KiCAD_Symbol_Generator/footprints/transistor_footprints.pretty")(options "")(descr ""))
+  (lib (name "mouse_bite_footprints")(type "KiCad")(uri "${KIPRJMOD}/KiCAD_Symbol_Generator/footprints/mouse_bite_footprints.pretty")(options "")(descr ""))
 )
