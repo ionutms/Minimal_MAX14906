@@ -12,4 +12,7 @@
   (lib (name "transformer_footprints")(type "KiCad")(uri "${KIPRJMOD}/KiCAD_Symbol_Generator/footprints/transformer_footprints.pretty")(options "")(descr ""))
   (lib (name "transistor_footprints")(type "KiCad")(uri "${KIPRJMOD}/KiCAD_Symbol_Generator/footprints/transistor_footprints.pretty")(options "")(descr ""))
   (lib (name "mouse_bite_footprints")(type "KiCad")(uri "${KIPRJMOD}/KiCAD_Symbol_Generator/footprints/mouse_bite_footprints.pretty")(options "")(descr ""))
+  (lib (name "crystal_footprints")(type "KiCad")(uri "${KIPRJMOD}/KiCAD_Symbol_Generator/footprints/crystal_footprints.pretty")(options "")(descr ""))
+  (lib (name "mechanical_parts")(type "KiCad")(uri "${KIPRJMOD}/KiCAD_Symbol_Generator/footprints/mechanical_parts.pretty")(options "")(descr ""))
+  (lib (name "modules_footprints")(type "KiCad")(uri "${KIPRJMOD}/KiCAD_Symbol_Generator/footprints/modules_footprints.pretty")(options "")(descr ""))
 )

@@ -11,4 +11,7 @@
   (lib (name "UNITED_TEST_POINTS")(type "KiCad")(uri "${KIPRJMOD}/KiCAD_Symbol_Generator/symbols/UNITED_TEST_POINTS.kicad_sym")(options "")(descr ""))
   (lib (name "UNITED_TRANSFORMERS_DATA_BASE")(type "KiCad")(uri "${KIPRJMOD}/KiCAD_Symbol_Generator/symbols/UNITED_TRANSFORMERS_DATA_BASE.kicad_sym")(options "")(descr ""))
   (lib (name "UNITED_TRANSISTORS_DATA_BASE")(type "KiCad")(uri "${KIPRJMOD}/KiCAD_Symbol_Generator/symbols/UNITED_TRANSISTORS_DATA_BASE.kicad_sym")(options "")(descr ""))
+  (lib (name "UNITED_CRYSTALS_DATA_BASE")(type "KiCad")(uri "${KIPRJMOD}/KiCAD_Symbol_Generator/symbols/UNITED_CRYSTALS_DATA_BASE.kicad_sym")(options "")(descr ""))
+  (lib (name "UNITED_MODULES_DATA_BASE")(type "KiCad")(uri "${KIPRJMOD}/KiCAD_Symbol_Generator/symbols/UNITED_MODULES_DATA_BASE.kicad_sym")(options "")(descr ""))
+  (lib (name "UNITED_MOUSE_BITES_DATA_BASE")(type "KiCad")(uri "${KIPRJMOD}/KiCAD_Symbol_Generator/symbols/UNITED_MOUSE_BITES_DATA_BASE.kicad_sym")(options "")(descr ""))
 )
