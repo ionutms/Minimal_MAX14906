@@ -26,7 +26,7 @@
         "output_filename": "minimal_max14906.glb",
         "overwrite": true,
         "subst_models": true,
-        "use_drill_origin": false,
+        "use_drill_origin": true,
         "use_grid_origin": false,
         "user_origin.x": 135.255,
         "user_origin.y": 103.4288,
