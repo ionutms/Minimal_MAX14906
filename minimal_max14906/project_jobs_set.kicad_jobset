@@ -2,38 +2,15 @@
   "jobs": [
     {
       "description": "",
-      "id": "8b17ce58-b582-4bab-91c2-7dde1b4bacfe",
+      "id": "dee10a29-3aca-4789-b6f2-4781ea99f806",
       "settings": {
-        "board_only": false,
-        "board_outlines_chaining_epsilon": 0.01,
-        "cut_vias_in_body": true,
+        "command": "kicad-cli pcb export glb minimal_max14906.kicad_pcb --include-tracks --include-pads --include-zones --include-silkscreen --include-soldermask --fill-all-vias --cut-vias-in-body",
         "description": "",
-        "export_board_body": true,
-        "export_components": true,
-        "export_inner_copper": false,
-        "export_pads": false,
-        "export_silkscreen": true,
-        "export_soldermask": true,
-        "export_tracks": false,
-        "export_zones": false,
-        "fill_all_vias": true,
-        "format": "brep",
-        "fuse_shapes": true,
-        "include_dnp": true,
-        "include_unspecified": true,
-        "occt_format": 1,
-        "optimize_step": true,
-        "output_filename": "minimal_max14906.glb",
-        "overwrite": true,
-        "subst_models": true,
-        "use_drill_origin": true,
-        "use_grid_origin": false,
-        "user_origin.x": 135.255,
-        "user_origin.y": 103.4288,
-        "vrml_model_dir": "",
-        "vrml_relative_paths": false
+        "ignore_exit_code": false,
+        "output_filename": "dee10a29-3aca-4789-b6f2-4781ea99f806.log",
+        "record_output": true
       },
-      "type": "pcb_export_3d"
+      "type": "special_execute"
     },
     {
       "description": "",
