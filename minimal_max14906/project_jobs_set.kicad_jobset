@@ -35,6 +35,18 @@
         "record_output": true
       },
       "type": "special_execute"
+    },
+    {
+      "description": "",
+      "id": "c641c62b-2e48-4c96-bec6-7b085a067742",
+      "settings": {
+        "command": "kicad-cli pcb render minimal_max14906.kicad_pcb -o minimal_max14906_top.png --side top --background transparent --quality high --zoom 0.9 --pan '0,0,0'",
+        "description": "",
+        "ignore_exit_code": false,
+        "output_filename": "",
+        "record_output": true
+      },
+      "type": "special_execute"
     }
   ],
   "meta": {
