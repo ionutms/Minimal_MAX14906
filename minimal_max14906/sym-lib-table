@@ -22,4 +22,5 @@
   (lib (name "UNITED_TRANSISTORS_DATA_BASE")(type "KiCad")(uri "${KIPRJMOD}/KiCAD_Symbols_Generator/symbols/UNITED_TRANSISTORS_DATA_BASE.kicad_sym")(options "")(descr ""))
   (lib (name "UNITED_UFL_CONNECTORS_DATA_BASE")(type "KiCad")(uri "${KIPRJMOD}/KiCAD_Symbols_Generator/symbols/UNITED_UFL_CONNECTORS_DATA_BASE.kicad_sym")(options "")(descr ""))
   (lib (name "UNITED_USB_TYPE_C_CONNECTORS_DATA_BASE")(type "KiCad")(uri "${KIPRJMOD}/KiCAD_Symbols_Generator/symbols/UNITED_USB_TYPE_C_CONNECTORS_DATA_BASE.kicad_sym")(options "")(descr ""))
+  (lib (name "UNITED_SWITCHES_DATA_BASE")(type "KiCad")(uri "${KIPRJMOD}/KiCAD_Symbols_Generator/symbols/UNITED_SWITCHES_DATA_BASE.kicad_sym")(options "")(descr ""))
 )

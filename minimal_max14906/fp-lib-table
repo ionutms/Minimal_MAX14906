@@ -21,4 +21,5 @@
   (lib (name "transistor_footprints")(type "KiCad")(uri "${KIPRJMOD}/KiCAD_Symbols_Generator/footprints/transistor_footprints.pretty")(options "")(descr ""))
   (lib (name "ufl_connector_footprints")(type "KiCad")(uri "${KIPRJMOD}/KiCAD_Symbols_Generator/footprints/ufl_connector_footprints.pretty")(options "")(descr ""))
   (lib (name "usb_type_c_connector_footprints")(type "KiCad")(uri "${KIPRJMOD}/KiCAD_Symbols_Generator/footprints/usb_type_c_connector_footprints.pretty")(options "")(descr ""))
+  (lib (name "switches_footprints")(type "KiCad")(uri "${KIPRJMOD}/KiCAD_Symbols_Generator/footprints/switches_footprints.pretty")(options "")(descr ""))
 )
