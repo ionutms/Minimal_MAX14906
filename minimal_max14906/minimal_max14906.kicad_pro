@@ -108,6 +108,7 @@
         "solder_mask_bridge": "error",
         "starved_thermal": "error",
         "text_height": "warning",
+        "text_on_edge_cuts": "error",
         "text_thickness": "warning",
         "through_hole_pad_without_hole": "error",
         "too_many_vias": "error",
@@ -493,6 +494,7 @@
     },
     "net_colors": {
       "/3V3": "rgb(204, 102, 0)",
+      "/3V3_ISO": "rgb(56, 118, 255)",
       "/CHANNEL_1": "rgb(0, 194, 0)",
       "/CHANNEL_2": "rgb(0, 194, 194)",
       "/CHANNEL_3": "rgb(194, 0, 194)",
@@ -500,7 +502,8 @@
       "/EXT_VIN": "rgb(132, 0, 132)",
       "/INT_VIN": "rgb(194, 0, 194)",
       "/VDD_24V_MAX14906": "rgb(194, 0, 0)",
-      "GNDA": "rgb(72, 72, 72)"
+      "GND": "rgb(72, 72, 72)",
+      "GNDA": "rgb(132, 132, 132)"
     },
     "netclass_assignments": null,
     "netclass_patterns": []
