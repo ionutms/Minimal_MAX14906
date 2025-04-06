@@ -3601,195 +3601,6 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "UNITED_DIODES_DATA_BASE:D_SMCJ40A-CA"
-			(pin_names
-				(offset 0.254)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "D"
-				(at 0 5.08 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left)
-				)
-			)
-			(property "Value" "40 V"
-				(at 0 -5.08 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left)
-				)
-			)
-			(property "Footprint" "diode_footprints:DO-214AB-2"
-				(at 0 -7.62 0)
-				(show_name)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" "https://www.st.com/resource/en/datasheet/smcj26a.pdf"
-				(at 0 -10.16 0)
-				(show_name)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left)
-					(hide yes)
-				)
-			)
-			(property "Description" "Bidirectional TVS SMD 40 V"
-				(at 0 -12.7 0)
-				(show_name)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left)
-					(hide yes)
-				)
-			)
-			(property "Diode Type" "Bidirectional TVS"
-				(at 0 -15.24 0)
-				(show_name)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left)
-					(hide yes)
-				)
-			)
-			(property "MPN" "SMCJ40A/CA"
-				(at 0 -17.78 0)
-				(show_name)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left)
-					(hide yes)
-				)
-			)
-			(property "Manufacturer" "STMicroelectronics"
-				(at 0 -20.32 0)
-				(show_name)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left)
-					(hide yes)
-				)
-			)
-			(property "Maximum DC Current (A)" "0.0"
-				(at 0 -22.86 0)
-				(show_name)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left)
-					(hide yes)
-				)
-			)
-			(property "Series" "SMCJ"
-				(at 0 -25.4 0)
-				(show_name)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left)
-					(hide yes)
-				)
-			)
-			(property "Symbol Name" "D_SMCJ40A-CA"
-				(at 0 -27.94 0)
-				(show_name)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left)
-					(hide yes)
-				)
-			)
-			(property "Trustedparts Search" "https://www.trustedparts.com/en/search/SMCJ40A/CA"
-				(at 0 -30.48 0)
-				(show_name)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left)
-					(hide yes)
-				)
-			)
-			(symbol "D_SMCJ40A-CA_1_0"
-				(polyline
-					(pts
-						(xy 3.81 0) (xy 2.54 0) (xy 2.54 1.905) (xy 0 0) (xy 0 1.27) (xy -0.635 1.905) (xy 0 1.27) (xy 0 0)
-						(xy -2.54 1.905) (xy -2.54 0) (xy -3.81 0) (xy -2.54 0) (xy -2.54 -1.905) (xy 0 0) (xy 0 -1.27)
-						(xy 0.635 -1.905) (xy 0 -1.27) (xy 0 0) (xy 2.54 -1.905) (xy 2.54 0)
-					)
-					(stroke
-						(width 0.2032)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(pin unspecified line
-					(at -5.08 0 0)
-					(length 1.27)
-					(name ""
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin unspecified line
-					(at 5.08 0 180)
-					(length 1.27)
-					(name ""
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
 		(symbol "UNITED_IC_ADI:U_ADUM1252AUA+"
 			(pin_names
 				(offset 0.254)
@@ -8540,12 +8351,6 @@
 		(uuid "4698189f-acfc-4ac8-b6e9-45582fe4c76e")
 	)
 	(junction
-		(at 346.71 119.38)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "47f969bf-5205-4c58-8243-3560c2cfcf36")
-	)
-	(junction
 		(at 129.54 149.86)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -8574,12 +8379,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "5020aaad-1ebb-4ee5-bec7-268250b065f0")
-	)
-	(junction
-		(at 345.44 165.1)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "50a1cbf7-c92b-417d-8937-99dd18f89631")
 	)
 	(junction
 		(at 308.61 165.1)
@@ -8864,12 +8663,6 @@
 		(uuid "c6512f87-d11f-44b0-9b4e-417bbd341745")
 	)
 	(junction
-		(at 345.44 142.24)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "ce0c6db7-774a-4600-b621-4862bbc7347e")
-	)
-	(junction
 		(at 43.18 149.86)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -8964,12 +8757,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "f107c3f5-5128-455a-99bb-bb9bfc8f84be")
-	)
-	(junction
-		(at 344.17 187.96)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "f14fca11-5213-4b1c-aae0-0524121cd63d")
 	)
 	(junction
 		(at 134.62 124.46)
@@ -9119,7 +8906,7 @@
 	)
 	(wire
 		(pts
-			(xy 354.33 201.93) (xy 354.33 195.58)
+			(xy 342.9 201.93) (xy 342.9 195.58)
 		)
 		(stroke
 			(width 0)
@@ -9139,7 +8926,7 @@
 	)
 	(wire
 		(pts
-			(xy 321.31 142.24) (xy 345.44 142.24)
+			(xy 321.31 142.24) (xy 342.9 142.24)
 		)
 		(stroke
 			(width 0)
@@ -9329,7 +9116,7 @@
 	)
 	(wire
 		(pts
-			(xy 355.6 147.32) (xy 355.6 142.24)
+			(xy 342.9 147.32) (xy 342.9 142.24)
 		)
 		(stroke
 			(width 0)
@@ -9459,16 +9246,6 @@
 	)
 	(wire
 		(pts
-			(xy 346.71 132.08) (xy 346.71 133.35)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "1a75cc86-5393-4003-a45a-a1c7ba6a38d2")
-	)
-	(wire
-		(pts
 			(xy 266.7 111.76) (xy 269.24 111.76)
 		)
 		(stroke
@@ -9539,23 +9316,13 @@
 	)
 	(wire
 		(pts
-			(xy 355.6 172.72) (xy 358.14 172.72)
+			(xy 342.9 172.72) (xy 345.44 172.72)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "1caf65f8-c484-4f58-a5e7-2a928455bfc1")
-	)
-	(wire
-		(pts
-			(xy 344.17 200.66) (xy 344.17 201.93)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "1dfbb893-fe66-413a-b1e6-d733e1bad7ef")
 	)
 	(wire
 		(pts
@@ -9919,16 +9686,6 @@
 	)
 	(wire
 		(pts
-			(xy 355.6 142.24) (xy 345.44 142.24)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2f93243a-3030-4df1-9af4-033b7ad3d841")
-	)
-	(wire
-		(pts
 			(xy 97.79 179.07) (xy 97.79 177.8)
 		)
 		(stroke
@@ -10009,7 +9766,7 @@
 	)
 	(wire
 		(pts
-			(xy 355.6 170.18) (xy 358.14 170.18)
+			(xy 342.9 170.18) (xy 345.44 170.18)
 		)
 		(stroke
 			(width 0)
@@ -10039,7 +9796,7 @@
 	)
 	(wire
 		(pts
-			(xy 356.87 119.38) (xy 346.71 119.38)
+			(xy 321.31 119.38) (xy 342.9 119.38)
 		)
 		(stroke
 			(width 0)
@@ -10169,7 +9926,7 @@
 	)
 	(wire
 		(pts
-			(xy 354.33 195.58) (xy 356.87 195.58)
+			(xy 342.9 195.58) (xy 345.44 195.58)
 		)
 		(stroke
 			(width 0)
@@ -10329,7 +10086,7 @@
 	)
 	(wire
 		(pts
-			(xy 355.6 179.07) (xy 355.6 172.72)
+			(xy 342.9 179.07) (xy 342.9 172.72)
 		)
 		(stroke
 			(width 0)
@@ -10499,7 +10256,7 @@
 	)
 	(wire
 		(pts
-			(xy 355.6 149.86) (xy 358.14 149.86)
+			(xy 342.9 149.86) (xy 345.44 149.86)
 		)
 		(stroke
 			(width 0)
@@ -10769,16 +10526,6 @@
 	)
 	(wire
 		(pts
-			(xy 346.71 121.92) (xy 346.71 119.38)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "5fb358fb-4b93-4dda-9934-ef6bab947794")
-	)
-	(wire
-		(pts
 			(xy 170.18 93.98) (xy 170.18 95.25)
 		)
 		(stroke
@@ -10799,7 +10546,7 @@
 	)
 	(wire
 		(pts
-			(xy 355.6 147.32) (xy 358.14 147.32)
+			(xy 342.9 147.32) (xy 345.44 147.32)
 		)
 		(stroke
 			(width 0)
@@ -10849,16 +10596,6 @@
 	)
 	(wire
 		(pts
-			(xy 321.31 165.1) (xy 345.44 165.1)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "6537f6e7-bd6e-4f5d-97dc-e0d9e95e260b")
-	)
-	(wire
-		(pts
 			(xy 195.58 175.26) (xy 198.12 175.26)
 		)
 		(stroke
@@ -10869,23 +10606,13 @@
 	)
 	(wire
 		(pts
-			(xy 356.87 124.46) (xy 359.41 124.46)
+			(xy 342.9 124.46) (xy 345.44 124.46)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "65a56e3f-d94c-4b35-bc53-139039c5379e")
-	)
-	(wire
-		(pts
-			(xy 345.44 144.78) (xy 345.44 142.24)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "660ddfcb-470c-42c1-aac6-603bc245ae96")
 	)
 	(wire
 		(pts
@@ -11179,7 +10906,7 @@
 	)
 	(wire
 		(pts
-			(xy 356.87 127) (xy 359.41 127)
+			(xy 342.9 127) (xy 345.44 127)
 		)
 		(stroke
 			(width 0)
@@ -11226,16 +10953,6 @@
 			(type default)
 		)
 		(uuid "79bc7870-dad8-4448-a465-de9a49a5d87d")
-	)
-	(wire
-		(pts
-			(xy 345.44 177.8) (xy 345.44 179.07)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "7a8df950-ac46-45f4-a047-c0f1cabc090e")
 	)
 	(wire
 		(pts
@@ -11416,16 +11133,6 @@
 			(type default)
 		)
 		(uuid "80c8bed2-2eb6-4666-96bc-0d8e3c84f7b6")
-	)
-	(wire
-		(pts
-			(xy 345.44 167.64) (xy 345.44 165.1)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "80c8ed4a-6bd4-42ec-9ea2-1085c337eda9")
 	)
 	(wire
 		(pts
@@ -11809,17 +11516,7 @@
 	)
 	(wire
 		(pts
-			(xy 355.6 165.1) (xy 345.44 165.1)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "9522c1e6-4320-41ba-80ca-a225efe1454a")
-	)
-	(wire
-		(pts
-			(xy 355.6 156.21) (xy 355.6 149.86)
+			(xy 342.9 156.21) (xy 342.9 149.86)
 		)
 		(stroke
 			(width 0)
@@ -12119,7 +11816,7 @@
 	)
 	(wire
 		(pts
-			(xy 356.87 124.46) (xy 356.87 119.38)
+			(xy 342.9 124.46) (xy 342.9 119.38)
 		)
 		(stroke
 			(width 0)
@@ -12136,6 +11833,16 @@
 			(type default)
 		)
 		(uuid "a1e6bc8a-c75b-49d1-a175-82b658b6413c")
+	)
+	(wire
+		(pts
+			(xy 321.31 165.1) (xy 342.9 165.1)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a24c7fa8-295b-468a-a34d-2795ee845f69")
 	)
 	(wire
 		(pts
@@ -12189,7 +11896,7 @@
 	)
 	(wire
 		(pts
-			(xy 355.6 170.18) (xy 355.6 165.1)
+			(xy 342.9 170.18) (xy 342.9 165.1)
 		)
 		(stroke
 			(width 0)
@@ -12299,16 +12006,6 @@
 	)
 	(wire
 		(pts
-			(xy 321.31 187.96) (xy 344.17 187.96)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a8f82b1e-bd17-4c5c-a757-01c729d62441")
-	)
-	(wire
-		(pts
 			(xy 116.84 73.66) (xy 121.92 73.66)
 		)
 		(stroke
@@ -12376,16 +12073,6 @@
 			(type default)
 		)
 		(uuid "ab9fb37f-a923-4e31-b124-a4cc3478cf1c")
-	)
-	(wire
-		(pts
-			(xy 321.31 119.38) (xy 346.71 119.38)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "acbd5d35-8717-4c35-a731-8a080c63101a")
 	)
 	(wire
 		(pts
@@ -12799,16 +12486,6 @@
 	)
 	(wire
 		(pts
-			(xy 345.44 154.94) (xy 345.44 156.21)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "bf2ede65-b152-4d81-be2d-2c1e5002c0a4")
-	)
-	(wire
-		(pts
 			(xy 55.88 137.16) (xy 60.96 137.16)
 		)
 		(stroke
@@ -12879,7 +12556,7 @@
 	)
 	(wire
 		(pts
-			(xy 354.33 193.04) (xy 354.33 187.96)
+			(xy 342.9 193.04) (xy 342.9 187.96)
 		)
 		(stroke
 			(width 0)
@@ -13459,7 +13136,7 @@
 	)
 	(wire
 		(pts
-			(xy 356.87 133.35) (xy 356.87 127)
+			(xy 342.9 133.35) (xy 342.9 127)
 		)
 		(stroke
 			(width 0)
@@ -13659,7 +13336,7 @@
 	)
 	(wire
 		(pts
-			(xy 354.33 187.96) (xy 344.17 187.96)
+			(xy 321.31 187.96) (xy 342.9 187.96)
 		)
 		(stroke
 			(width 0)
@@ -13759,7 +13436,7 @@
 	)
 	(wire
 		(pts
-			(xy 354.33 193.04) (xy 356.87 193.04)
+			(xy 342.9 193.04) (xy 345.44 193.04)
 		)
 		(stroke
 			(width 0)
@@ -13776,16 +13453,6 @@
 			(type default)
 		)
 		(uuid "f1621955-2275-49de-b0d9-2e4809031e14")
-	)
-	(wire
-		(pts
-			(xy 344.17 190.5) (xy 344.17 187.96)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f23a4fec-7170-4c5c-9796-b1468dd8041f")
 	)
 	(wire
 		(pts
@@ -15360,159 +15027,6 @@
 		)
 	)
 	(symbol
-		(lib_id "UNITED_DIODES_DATA_BASE:D_SMCJ40A-CA")
-		(at 345.44 172.72 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "0211276a-896c-4743-93b4-250c516f2976")
-		(property "Reference" "D2"
-			(at 349.25 171.4499 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "40 V"
-			(at 349.25 173.9899 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" "diode_footprints:DO-214AB-2"
-			(at 353.06 172.72 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.st.com/resource/en/datasheet/smcj26a.pdf"
-			(at 355.6 172.72 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Description" "Bidirectional TVS SMD 40 V"
-			(at 358.14 172.72 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Diode Type" "Bidirectional TVS"
-			(at 360.68 172.72 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "MPN" "SMCJ40A/CA"
-			(at 363.22 172.72 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer" "STMicroelectronics"
-			(at 365.76 172.72 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Maximum DC Current (A)" "0.0"
-			(at 368.3 172.72 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Series" "SMCJ"
-			(at 370.84 172.72 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Symbol Name" "D_SMCJ40A-CA"
-			(at 373.38 172.72 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Trustedparts Search" "https://www.trustedparts.com/en/search/SMCJ40A/CA"
-			(at 375.92 172.72 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "464b7c3c-4ecd-4c4e-adb7-98c9e5ae756d")
-		)
-		(pin "1"
-			(uuid "85104c83-9400-4831-9649-1e7a669bea47")
-		)
-		(instances
-			(project "minimal_max14906"
-				(path "/0138bc01-efaa-4f20-bf65-043bbc1a8346"
-					(reference "D2")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "UNITED_CONNECTORS_DATA_BASE:J_CLP-102-02-G-D-BE")
 		(at 314.96 171.45 0)
 		(mirror y)
@@ -16993,7 +16507,7 @@
 	)
 	(symbol
 		(lib_id "UNITED_CONNECTORS_DATA_BASE:J_TBP02R2-381-02BE")
-		(at 361.95 194.31 0)
+		(at 350.52 194.31 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -17002,7 +16516,7 @@
 		(fields_autoplaced yes)
 		(uuid "1400584f-f0b5-44d9-88d5-0cb3605a92e1")
 		(property "Reference" "J11"
-			(at 365.76 193.0399 0)
+			(at 354.33 193.0399 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17011,7 +16525,7 @@
 			)
 		)
 		(property "Value" "TBP02R2-381-02BE"
-			(at 365.76 195.5799 0)
+			(at 354.33 195.5799 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17020,7 +16534,7 @@
 			)
 		)
 		(property "Footprint" "connector_footprints:TBP02R2-381-02BE"
-			(at 367.03 201.93 0)
+			(at 355.6 201.93 0)
 			(show_name yes)
 			(effects
 				(font
@@ -17031,7 +16545,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.sameskydevices.com/product/resource/tbp02r2-381.pdf"
-			(at 367.03 204.47 0)
+			(at 355.6 204.47 0)
 			(show_name yes)
 			(effects
 				(font
@@ -17042,7 +16556,7 @@
 			)
 		)
 		(property "Description" "Same Sky TBP02R2-381 series,  2 positions connector,  3.81 mm pitch,  Blue,  Vertical mounting,  8.0 A,  300 V,  Through Hole,  Tin plated"
-			(at 367.03 207.01 0)
+			(at 355.6 207.01 0)
 			(show_name yes)
 			(effects
 				(font
@@ -17053,7 +16567,7 @@
 			)
 		)
 		(property "Color" "Blue"
-			(at 367.03 209.55 0)
+			(at 355.6 209.55 0)
 			(show_name yes)
 			(effects
 				(font
@@ -17064,7 +16578,7 @@
 			)
 		)
 		(property "Contact Plating" "Tin"
-			(at 367.03 212.09 0)
+			(at 355.6 212.09 0)
 			(show_name yes)
 			(effects
 				(font
@@ -17075,7 +16589,7 @@
 			)
 		)
 		(property "Current Rating (A)" "8.0"
-			(at 367.03 214.63 0)
+			(at 355.6 214.63 0)
 			(show_name yes)
 			(effects
 				(font
@@ -17086,7 +16600,7 @@
 			)
 		)
 		(property "MPN" "TBP02R2-381-02BE"
-			(at 367.03 217.17 0)
+			(at 355.6 217.17 0)
 			(show_name yes)
 			(effects
 				(font
@@ -17097,7 +16611,7 @@
 			)
 		)
 		(property "Manufacturer" "Same Sky"
-			(at 367.03 219.71 0)
+			(at 355.6 219.71 0)
 			(show_name yes)
 			(effects
 				(font
@@ -17108,7 +16622,7 @@
 			)
 		)
 		(property "Mounting Angle" "Vertical"
-			(at 367.03 222.25 0)
+			(at 355.6 222.25 0)
 			(show_name yes)
 			(effects
 				(font
@@ -17119,7 +16633,7 @@
 			)
 		)
 		(property "Mounting Style" "Through Hole"
-			(at 367.03 224.79 0)
+			(at 355.6 224.79 0)
 			(show_name yes)
 			(effects
 				(font
@@ -17130,7 +16644,7 @@
 			)
 		)
 		(property "Number of Rows" "1"
-			(at 367.03 227.33 0)
+			(at 355.6 227.33 0)
 			(show_name yes)
 			(effects
 				(font
@@ -17141,7 +16655,7 @@
 			)
 		)
 		(property "Pin Count" "2"
-			(at 367.03 229.87 0)
+			(at 355.6 229.87 0)
 			(show_name yes)
 			(effects
 				(font
@@ -17152,7 +16666,7 @@
 			)
 		)
 		(property "Pitch (mm)" "3.81"
-			(at 367.03 232.41 0)
+			(at 355.6 232.41 0)
 			(show_name yes)
 			(effects
 				(font
@@ -17163,7 +16677,7 @@
 			)
 		)
 		(property "Series" "TBP02R2-381"
-			(at 367.03 234.95 0)
+			(at 355.6 234.95 0)
 			(show_name yes)
 			(effects
 				(font
@@ -17174,7 +16688,7 @@
 			)
 		)
 		(property "Symbol Name" "J_TBP02R2-381-02BE"
-			(at 367.03 237.49 0)
+			(at 355.6 237.49 0)
 			(show_name yes)
 			(effects
 				(font
@@ -17185,7 +16699,7 @@
 			)
 		)
 		(property "Trustedparts Search" "https://www.trustedparts.com/en/search/TBP02R2-381-02BE"
-			(at 367.03 240.03 0)
+			(at 355.6 240.03 0)
 			(show_name yes)
 			(effects
 				(font
@@ -17196,7 +16710,7 @@
 			)
 		)
 		(property "Voltage Rating (V)" "300"
-			(at 367.03 242.57 0)
+			(at 355.6 242.57 0)
 			(show_name yes)
 			(effects
 				(font
@@ -17833,7 +17347,6 @@
 	(symbol
 		(lib_id "UNITED_CONNECTORS_DATA_BASE:J_CLP-102-02-G-D-BE")
 		(at 314.96 194.31 0)
-		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -17858,7 +17371,7 @@
 			)
 		)
 		(property "Footprint" "connector_footprints:CLP-102-02-G-D-BE"
-			(at 320.04 186.69 0)
+			(at 320.04 201.93 0)
 			(show_name yes)
 			(effects
 				(font
@@ -17869,7 +17382,7 @@
 			)
 		)
 		(property "Datasheet" "https://suddendocs.samtec.com/catalog_english/clp_sm.pdf?_gl=1*1y4jlr9*_gcl_au*MTM0MTYyNTQ5MS4xNzM2MDk5MTUz*_ga*MTYxNDYyMTQ0Mi4xNzM2MDk5MTUz*_ga_3KFNZC07WW*MTczNjY4MDQ4OS4xNS4xLjE3MzY2ODEzNzcuNjAuMC4w"
-			(at 320.04 184.15 0)
+			(at 320.04 204.47 0)
 			(show_name yes)
 			(effects
 				(font
@@ -17880,7 +17393,7 @@
 			)
 		)
 		(property "Description" "Samtec CLP-1xx-02-G-D-BE series,  2 positions connector,  1.27 mm pitch,  Black,  Vertical mounting,  5.2 A,  300 V,  Surface Mount,  Tin plated"
-			(at 320.04 181.61 0)
+			(at 320.04 207.01 0)
 			(show_name yes)
 			(effects
 				(font
@@ -17891,7 +17404,7 @@
 			)
 		)
 		(property "Color" "Black"
-			(at 320.04 179.07 0)
+			(at 320.04 209.55 0)
 			(show_name yes)
 			(effects
 				(font
@@ -17902,7 +17415,7 @@
 			)
 		)
 		(property "Contact Plating" "Tin"
-			(at 320.04 176.53 0)
+			(at 320.04 212.09 0)
 			(show_name yes)
 			(effects
 				(font
@@ -17913,7 +17426,7 @@
 			)
 		)
 		(property "Current Rating (A)" "5.2"
-			(at 320.04 173.99 0)
+			(at 320.04 214.63 0)
 			(show_name yes)
 			(effects
 				(font
@@ -17924,7 +17437,7 @@
 			)
 		)
 		(property "MPN" "CLP-102-02-G-D-BE"
-			(at 320.04 171.45 0)
+			(at 320.04 217.17 0)
 			(show_name yes)
 			(effects
 				(font
@@ -17935,7 +17448,7 @@
 			)
 		)
 		(property "Manufacturer" "Samtec"
-			(at 320.04 168.91 0)
+			(at 320.04 219.71 0)
 			(show_name yes)
 			(effects
 				(font
@@ -17946,7 +17459,7 @@
 			)
 		)
 		(property "Mounting Angle" "Vertical"
-			(at 320.04 166.37 0)
+			(at 320.04 222.25 0)
 			(show_name yes)
 			(effects
 				(font
@@ -17957,7 +17470,7 @@
 			)
 		)
 		(property "Mounting Style" "Surface Mount"
-			(at 320.04 163.83 0)
+			(at 320.04 224.79 0)
 			(show_name yes)
 			(effects
 				(font
@@ -17968,7 +17481,7 @@
 			)
 		)
 		(property "Number of Rows" "2"
-			(at 320.04 161.29 0)
+			(at 320.04 227.33 0)
 			(show_name yes)
 			(effects
 				(font
@@ -17979,7 +17492,7 @@
 			)
 		)
 		(property "Pin Count" "2"
-			(at 320.04 158.75 0)
+			(at 320.04 229.87 0)
 			(show_name yes)
 			(effects
 				(font
@@ -17990,7 +17503,7 @@
 			)
 		)
 		(property "Pitch (mm)" "1.27"
-			(at 320.04 156.21 0)
+			(at 320.04 232.41 0)
 			(show_name yes)
 			(effects
 				(font
@@ -18001,7 +17514,7 @@
 			)
 		)
 		(property "Series" "CLP-1xx-02-G-D-BE"
-			(at 320.04 153.67 0)
+			(at 320.04 234.95 0)
 			(show_name yes)
 			(effects
 				(font
@@ -18012,7 +17525,7 @@
 			)
 		)
 		(property "Symbol Name" "J_CLP-102-02-G-D-BE"
-			(at 320.04 151.13 0)
+			(at 320.04 237.49 0)
 			(show_name yes)
 			(effects
 				(font
@@ -18023,7 +17536,7 @@
 			)
 		)
 		(property "Trustedparts Search" "https://www.trustedparts.com/en/search/CLP-102-02-G-D-BE"
-			(at 320.04 148.59 0)
+			(at 320.04 240.03 0)
 			(show_name yes)
 			(effects
 				(font
@@ -18034,7 +17547,7 @@
 			)
 		)
 		(property "Voltage Rating (V)" "300"
-			(at 320.04 146.05 0)
+			(at 320.04 242.57 0)
 			(show_name yes)
 			(effects
 				(font
@@ -18668,159 +18181,6 @@
 			(project "minimal_max14906"
 				(path "/0138bc01-efaa-4f20-bf65-043bbc1a8346"
 					(reference "Q4")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "UNITED_DIODES_DATA_BASE:D_SMCJ40A-CA")
-		(at 344.17 195.58 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "23f6b568-e7d3-4a9b-9f76-c094d11b3205")
-		(property "Reference" "D13"
-			(at 347.98 194.3099 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "40 V"
-			(at 347.98 196.8499 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" "diode_footprints:DO-214AB-2"
-			(at 351.79 195.58 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.st.com/resource/en/datasheet/smcj26a.pdf"
-			(at 354.33 195.58 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Description" "Bidirectional TVS SMD 40 V"
-			(at 356.87 195.58 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Diode Type" "Bidirectional TVS"
-			(at 359.41 195.58 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "MPN" "SMCJ40A/CA"
-			(at 361.95 195.58 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer" "STMicroelectronics"
-			(at 364.49 195.58 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Maximum DC Current (A)" "0.0"
-			(at 367.03 195.58 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Series" "SMCJ"
-			(at 369.57 195.58 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Symbol Name" "D_SMCJ40A-CA"
-			(at 372.11 195.58 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Trustedparts Search" "https://www.trustedparts.com/en/search/SMCJ40A/CA"
-			(at 374.65 195.58 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "93471120-01f9-4ed3-93da-a3c1fdc6162e")
-		)
-		(pin "1"
-			(uuid "d3c8ea13-7705-41f0-94b0-636ac9517f67")
-		)
-		(instances
-			(project "minimal_max14906"
-				(path "/0138bc01-efaa-4f20-bf65-043bbc1a8346"
-					(reference "D13")
 					(unit 1)
 				)
 			)
@@ -19750,7 +19110,7 @@
 	)
 	(symbol
 		(lib_id "UNITED_CONNECTORS_DATA_BASE:J_TBP02R2-381-02BE")
-		(at 364.49 125.73 0)
+		(at 350.52 125.73 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -19759,7 +19119,7 @@
 		(fields_autoplaced yes)
 		(uuid "347d546b-2f04-4d4a-9906-3a761d4d53f3")
 		(property "Reference" "J10"
-			(at 368.3 124.4599 0)
+			(at 354.33 124.4599 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19768,7 +19128,7 @@
 			)
 		)
 		(property "Value" "TBP02R2-381-02BE"
-			(at 368.3 126.9999 0)
+			(at 354.33 126.9999 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19777,7 +19137,7 @@
 			)
 		)
 		(property "Footprint" "connector_footprints:TBP02R2-381-02BE"
-			(at 369.57 133.35 0)
+			(at 355.6 133.35 0)
 			(show_name yes)
 			(effects
 				(font
@@ -19788,7 +19148,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.sameskydevices.com/product/resource/tbp02r2-381.pdf"
-			(at 369.57 135.89 0)
+			(at 355.6 135.89 0)
 			(show_name yes)
 			(effects
 				(font
@@ -19799,7 +19159,7 @@
 			)
 		)
 		(property "Description" "Same Sky TBP02R2-381 series,  2 positions connector,  3.81 mm pitch,  Blue,  Vertical mounting,  8.0 A,  300 V,  Through Hole,  Tin plated"
-			(at 369.57 138.43 0)
+			(at 355.6 138.43 0)
 			(show_name yes)
 			(effects
 				(font
@@ -19810,7 +19170,7 @@
 			)
 		)
 		(property "Color" "Blue"
-			(at 369.57 140.97 0)
+			(at 355.6 140.97 0)
 			(show_name yes)
 			(effects
 				(font
@@ -19821,7 +19181,7 @@
 			)
 		)
 		(property "Contact Plating" "Tin"
-			(at 369.57 143.51 0)
+			(at 355.6 143.51 0)
 			(show_name yes)
 			(effects
 				(font
@@ -19832,7 +19192,7 @@
 			)
 		)
 		(property "Current Rating (A)" "8.0"
-			(at 369.57 146.05 0)
+			(at 355.6 146.05 0)
 			(show_name yes)
 			(effects
 				(font
@@ -19843,7 +19203,7 @@
 			)
 		)
 		(property "MPN" "TBP02R2-381-02BE"
-			(at 369.57 148.59 0)
+			(at 355.6 148.59 0)
 			(show_name yes)
 			(effects
 				(font
@@ -19854,7 +19214,7 @@
 			)
 		)
 		(property "Manufacturer" "Same Sky"
-			(at 369.57 151.13 0)
+			(at 355.6 151.13 0)
 			(show_name yes)
 			(effects
 				(font
@@ -19865,7 +19225,7 @@
 			)
 		)
 		(property "Mounting Angle" "Vertical"
-			(at 369.57 153.67 0)
+			(at 355.6 153.67 0)
 			(show_name yes)
 			(effects
 				(font
@@ -19876,7 +19236,7 @@
 			)
 		)
 		(property "Mounting Style" "Through Hole"
-			(at 369.57 156.21 0)
+			(at 355.6 156.21 0)
 			(show_name yes)
 			(effects
 				(font
@@ -19887,7 +19247,7 @@
 			)
 		)
 		(property "Number of Rows" "1"
-			(at 369.57 158.75 0)
+			(at 355.6 158.75 0)
 			(show_name yes)
 			(effects
 				(font
@@ -19898,7 +19258,7 @@
 			)
 		)
 		(property "Pin Count" "2"
-			(at 369.57 161.29 0)
+			(at 355.6 161.29 0)
 			(show_name yes)
 			(effects
 				(font
@@ -19909,7 +19269,7 @@
 			)
 		)
 		(property "Pitch (mm)" "3.81"
-			(at 369.57 163.83 0)
+			(at 355.6 163.83 0)
 			(show_name yes)
 			(effects
 				(font
@@ -19920,7 +19280,7 @@
 			)
 		)
 		(property "Series" "TBP02R2-381"
-			(at 369.57 166.37 0)
+			(at 355.6 166.37 0)
 			(show_name yes)
 			(effects
 				(font
@@ -19931,7 +19291,7 @@
 			)
 		)
 		(property "Symbol Name" "J_TBP02R2-381-02BE"
-			(at 369.57 168.91 0)
+			(at 355.6 168.91 0)
 			(show_name yes)
 			(effects
 				(font
@@ -19942,7 +19302,7 @@
 			)
 		)
 		(property "Trustedparts Search" "https://www.trustedparts.com/en/search/TBP02R2-381-02BE"
-			(at 369.57 171.45 0)
+			(at 355.6 171.45 0)
 			(show_name yes)
 			(effects
 				(font
@@ -19953,7 +19313,7 @@
 			)
 		)
 		(property "Voltage Rating (V)" "300"
-			(at 369.57 173.99 0)
+			(at 355.6 173.99 0)
 			(show_name yes)
 			(effects
 				(font
@@ -20529,73 +19889,7 @@
 	)
 	(symbol
 		(lib_id "power:GNDA")
-		(at 345.44 156.21 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "46e5c95c-ed30-48d8-b5af-58d92bcd2d00")
-		(property "Reference" "#PWR25"
-			(at 345.44 162.56 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GNDA"
-			(at 345.44 161.29 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 345.44 156.21 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 345.44 156.21 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GNDA\" , analog ground"
-			(at 345.44 156.21 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "ca1ab199-a4c5-4fa7-8c5b-c30b2c3e7272")
-		)
-		(instances
-			(project "minimal_max14906"
-				(path "/0138bc01-efaa-4f20-bf65-043bbc1a8346"
-					(reference "#PWR25")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GNDA")
-		(at 355.6 179.07 0)
+		(at 342.9 179.07 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -20604,7 +19898,7 @@
 		(fields_autoplaced yes)
 		(uuid "477a37cc-1a73-4e30-b208-d789dc56b77a")
 		(property "Reference" "#PWR31"
-			(at 355.6 185.42 0)
+			(at 342.9 185.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20613,7 +19907,7 @@
 			)
 		)
 		(property "Value" "GNDA"
-			(at 355.6 184.15 0)
+			(at 342.9 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20621,7 +19915,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 355.6 179.07 0)
+			(at 342.9 179.07 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20630,7 +19924,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 355.6 179.07 0)
+			(at 342.9 179.07 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20639,7 +19933,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GNDA\" , analog ground"
-			(at 355.6 179.07 0)
+			(at 342.9 179.07 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22919,7 +22213,6 @@
 	(symbol
 		(lib_id "UNITED_CONNECTORS_DATA_BASE:J_CLP-102-02-G-D-BE")
 		(at 314.96 148.59 0)
-		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -22944,7 +22237,7 @@
 			)
 		)
 		(property "Footprint" "connector_footprints:CLP-102-02-G-D-BE"
-			(at 320.04 140.97 0)
+			(at 320.04 156.21 0)
 			(show_name yes)
 			(effects
 				(font
@@ -22955,7 +22248,7 @@
 			)
 		)
 		(property "Datasheet" "https://suddendocs.samtec.com/catalog_english/clp_sm.pdf?_gl=1*1y4jlr9*_gcl_au*MTM0MTYyNTQ5MS4xNzM2MDk5MTUz*_ga*MTYxNDYyMTQ0Mi4xNzM2MDk5MTUz*_ga_3KFNZC07WW*MTczNjY4MDQ4OS4xNS4xLjE3MzY2ODEzNzcuNjAuMC4w"
-			(at 320.04 138.43 0)
+			(at 320.04 158.75 0)
 			(show_name yes)
 			(effects
 				(font
@@ -22966,7 +22259,7 @@
 			)
 		)
 		(property "Description" "Samtec CLP-1xx-02-G-D-BE series,  2 positions connector,  1.27 mm pitch,  Black,  Vertical mounting,  5.2 A,  300 V,  Surface Mount,  Tin plated"
-			(at 320.04 135.89 0)
+			(at 320.04 161.29 0)
 			(show_name yes)
 			(effects
 				(font
@@ -22977,7 +22270,7 @@
 			)
 		)
 		(property "Color" "Black"
-			(at 320.04 133.35 0)
+			(at 320.04 163.83 0)
 			(show_name yes)
 			(effects
 				(font
@@ -22988,7 +22281,7 @@
 			)
 		)
 		(property "Contact Plating" "Tin"
-			(at 320.04 130.81 0)
+			(at 320.04 166.37 0)
 			(show_name yes)
 			(effects
 				(font
@@ -22999,7 +22292,7 @@
 			)
 		)
 		(property "Current Rating (A)" "5.2"
-			(at 320.04 128.27 0)
+			(at 320.04 168.91 0)
 			(show_name yes)
 			(effects
 				(font
@@ -23010,7 +22303,7 @@
 			)
 		)
 		(property "MPN" "CLP-102-02-G-D-BE"
-			(at 320.04 125.73 0)
+			(at 320.04 171.45 0)
 			(show_name yes)
 			(effects
 				(font
@@ -23021,7 +22314,7 @@
 			)
 		)
 		(property "Manufacturer" "Samtec"
-			(at 320.04 123.19 0)
+			(at 320.04 173.99 0)
 			(show_name yes)
 			(effects
 				(font
@@ -23032,7 +22325,7 @@
 			)
 		)
 		(property "Mounting Angle" "Vertical"
-			(at 320.04 120.65 0)
+			(at 320.04 176.53 0)
 			(show_name yes)
 			(effects
 				(font
@@ -23043,7 +22336,7 @@
 			)
 		)
 		(property "Mounting Style" "Surface Mount"
-			(at 320.04 118.11 0)
+			(at 320.04 179.07 0)
 			(show_name yes)
 			(effects
 				(font
@@ -23054,7 +22347,7 @@
 			)
 		)
 		(property "Number of Rows" "2"
-			(at 320.04 115.57 0)
+			(at 320.04 181.61 0)
 			(show_name yes)
 			(effects
 				(font
@@ -23065,7 +22358,7 @@
 			)
 		)
 		(property "Pin Count" "2"
-			(at 320.04 113.03 0)
+			(at 320.04 184.15 0)
 			(show_name yes)
 			(effects
 				(font
@@ -23076,7 +22369,7 @@
 			)
 		)
 		(property "Pitch (mm)" "1.27"
-			(at 320.04 110.49 0)
+			(at 320.04 186.69 0)
 			(show_name yes)
 			(effects
 				(font
@@ -23087,7 +22380,7 @@
 			)
 		)
 		(property "Series" "CLP-1xx-02-G-D-BE"
-			(at 320.04 107.95 0)
+			(at 320.04 189.23 0)
 			(show_name yes)
 			(effects
 				(font
@@ -23098,7 +22391,7 @@
 			)
 		)
 		(property "Symbol Name" "J_CLP-102-02-G-D-BE"
-			(at 320.04 105.41 0)
+			(at 320.04 191.77 0)
 			(show_name yes)
 			(effects
 				(font
@@ -23109,7 +22402,7 @@
 			)
 		)
 		(property "Trustedparts Search" "https://www.trustedparts.com/en/search/CLP-102-02-G-D-BE"
-			(at 320.04 102.87 0)
+			(at 320.04 194.31 0)
 			(show_name yes)
 			(effects
 				(font
@@ -23120,7 +22413,7 @@
 			)
 		)
 		(property "Voltage Rating (V)" "300"
-			(at 320.04 100.33 0)
+			(at 320.04 196.85 0)
 			(show_name yes)
 			(effects
 				(font
@@ -23713,7 +23006,7 @@
 	)
 	(symbol
 		(lib_id "UNITED_CONNECTORS_DATA_BASE:J_TBP02R2-381-02BE")
-		(at 363.22 148.59 0)
+		(at 350.52 148.59 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -23722,7 +23015,7 @@
 		(fields_autoplaced yes)
 		(uuid "7b9225dc-22e2-413a-85a0-0604f6df2f1d")
 		(property "Reference" "J2"
-			(at 367.03 147.3199 0)
+			(at 354.33 147.3199 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23731,7 +23024,7 @@
 			)
 		)
 		(property "Value" "TBP02R2-381-02BE"
-			(at 367.03 149.8599 0)
+			(at 354.33 149.8599 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23740,7 +23033,7 @@
 			)
 		)
 		(property "Footprint" "connector_footprints:TBP02R2-381-02BE"
-			(at 368.3 156.21 0)
+			(at 355.6 156.21 0)
 			(show_name yes)
 			(effects
 				(font
@@ -23751,7 +23044,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.sameskydevices.com/product/resource/tbp02r2-381.pdf"
-			(at 368.3 158.75 0)
+			(at 355.6 158.75 0)
 			(show_name yes)
 			(effects
 				(font
@@ -23762,7 +23055,7 @@
 			)
 		)
 		(property "Description" "Same Sky TBP02R2-381 series,  2 positions connector,  3.81 mm pitch,  Blue,  Vertical mounting,  8.0 A,  300 V,  Through Hole,  Tin plated"
-			(at 368.3 161.29 0)
+			(at 355.6 161.29 0)
 			(show_name yes)
 			(effects
 				(font
@@ -23773,7 +23066,7 @@
 			)
 		)
 		(property "Color" "Blue"
-			(at 368.3 163.83 0)
+			(at 355.6 163.83 0)
 			(show_name yes)
 			(effects
 				(font
@@ -23784,7 +23077,7 @@
 			)
 		)
 		(property "Contact Plating" "Tin"
-			(at 368.3 166.37 0)
+			(at 355.6 166.37 0)
 			(show_name yes)
 			(effects
 				(font
@@ -23795,7 +23088,7 @@
 			)
 		)
 		(property "Current Rating (A)" "8.0"
-			(at 368.3 168.91 0)
+			(at 355.6 168.91 0)
 			(show_name yes)
 			(effects
 				(font
@@ -23806,7 +23099,7 @@
 			)
 		)
 		(property "MPN" "TBP02R2-381-02BE"
-			(at 368.3 171.45 0)
+			(at 355.6 171.45 0)
 			(show_name yes)
 			(effects
 				(font
@@ -23817,7 +23110,7 @@
 			)
 		)
 		(property "Manufacturer" "Same Sky"
-			(at 368.3 173.99 0)
+			(at 355.6 173.99 0)
 			(show_name yes)
 			(effects
 				(font
@@ -23828,7 +23121,7 @@
 			)
 		)
 		(property "Mounting Angle" "Vertical"
-			(at 368.3 176.53 0)
+			(at 355.6 176.53 0)
 			(show_name yes)
 			(effects
 				(font
@@ -23839,7 +23132,7 @@
 			)
 		)
 		(property "Mounting Style" "Through Hole"
-			(at 368.3 179.07 0)
+			(at 355.6 179.07 0)
 			(show_name yes)
 			(effects
 				(font
@@ -23850,7 +23143,7 @@
 			)
 		)
 		(property "Number of Rows" "1"
-			(at 368.3 181.61 0)
+			(at 355.6 181.61 0)
 			(show_name yes)
 			(effects
 				(font
@@ -23861,7 +23154,7 @@
 			)
 		)
 		(property "Pin Count" "2"
-			(at 368.3 184.15 0)
+			(at 355.6 184.15 0)
 			(show_name yes)
 			(effects
 				(font
@@ -23872,7 +23165,7 @@
 			)
 		)
 		(property "Pitch (mm)" "3.81"
-			(at 368.3 186.69 0)
+			(at 355.6 186.69 0)
 			(show_name yes)
 			(effects
 				(font
@@ -23883,7 +23176,7 @@
 			)
 		)
 		(property "Series" "TBP02R2-381"
-			(at 368.3 189.23 0)
+			(at 355.6 189.23 0)
 			(show_name yes)
 			(effects
 				(font
@@ -23894,7 +23187,7 @@
 			)
 		)
 		(property "Symbol Name" "J_TBP02R2-381-02BE"
-			(at 368.3 191.77 0)
+			(at 355.6 191.77 0)
 			(show_name yes)
 			(effects
 				(font
@@ -23905,7 +23198,7 @@
 			)
 		)
 		(property "Trustedparts Search" "https://www.trustedparts.com/en/search/TBP02R2-381-02BE"
-			(at 368.3 194.31 0)
+			(at 355.6 194.31 0)
 			(show_name yes)
 			(effects
 				(font
@@ -23916,7 +23209,7 @@
 			)
 		)
 		(property "Voltage Rating (V)" "300"
-			(at 368.3 196.85 0)
+			(at 355.6 196.85 0)
 			(show_name yes)
 			(effects
 				(font
@@ -24366,7 +23659,7 @@
 	)
 	(symbol
 		(lib_id "power:GNDA")
-		(at 355.6 156.21 0)
+		(at 342.9 156.21 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -24375,7 +23668,7 @@
 		(fields_autoplaced yes)
 		(uuid "81b8e010-27e4-4341-8257-d3a681a0cd16")
 		(property "Reference" "#PWR27"
-			(at 355.6 162.56 0)
+			(at 342.9 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24384,7 +23677,7 @@
 			)
 		)
 		(property "Value" "GNDA"
-			(at 355.6 161.29 0)
+			(at 342.9 161.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24392,7 +23685,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 355.6 156.21 0)
+			(at 342.9 156.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24401,7 +23694,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 355.6 156.21 0)
+			(at 342.9 156.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24410,7 +23703,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GNDA\" , analog ground"
-			(at 355.6 156.21 0)
+			(at 342.9 156.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24865,7 +24158,7 @@
 	)
 	(symbol
 		(lib_id "power:GNDA")
-		(at 356.87 133.35 0)
+		(at 342.9 133.35 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -24874,7 +24167,7 @@
 		(fields_autoplaced yes)
 		(uuid "87194002-daf9-49b6-a27f-5beea20827d2")
 		(property "Reference" "#PWR20"
-			(at 356.87 139.7 0)
+			(at 342.9 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24883,7 +24176,7 @@
 			)
 		)
 		(property "Value" "GNDA"
-			(at 356.87 138.43 0)
+			(at 342.9 138.43 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24891,7 +24184,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 356.87 133.35 0)
+			(at 342.9 133.35 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24900,7 +24193,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 356.87 133.35 0)
+			(at 342.9 133.35 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24909,7 +24202,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GNDA\" , analog ground"
-			(at 356.87 133.35 0)
+			(at 342.9 133.35 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -25354,7 +24647,7 @@
 	)
 	(symbol
 		(lib_id "UNITED_CONNECTORS_DATA_BASE:J_TBP02R2-381-02BE")
-		(at 363.22 171.45 0)
+		(at 350.52 171.45 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -25363,7 +24656,7 @@
 		(fields_autoplaced yes)
 		(uuid "8a98943a-22cf-4b67-bcc3-afdd301e349e")
 		(property "Reference" "J3"
-			(at 367.03 170.1799 0)
+			(at 354.33 170.1799 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -25372,7 +24665,7 @@
 			)
 		)
 		(property "Value" "TBP02R2-381-02BE"
-			(at 367.03 172.7199 0)
+			(at 354.33 172.7199 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -25381,7 +24674,7 @@
 			)
 		)
 		(property "Footprint" "connector_footprints:TBP02R2-381-02BE"
-			(at 368.3 179.07 0)
+			(at 355.6 179.07 0)
 			(show_name yes)
 			(effects
 				(font
@@ -25392,7 +24685,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.sameskydevices.com/product/resource/tbp02r2-381.pdf"
-			(at 368.3 181.61 0)
+			(at 355.6 181.61 0)
 			(show_name yes)
 			(effects
 				(font
@@ -25403,7 +24696,7 @@
 			)
 		)
 		(property "Description" "Same Sky TBP02R2-381 series,  2 positions connector,  3.81 mm pitch,  Blue,  Vertical mounting,  8.0 A,  300 V,  Through Hole,  Tin plated"
-			(at 368.3 184.15 0)
+			(at 355.6 184.15 0)
 			(show_name yes)
 			(effects
 				(font
@@ -25414,7 +24707,7 @@
 			)
 		)
 		(property "Color" "Blue"
-			(at 368.3 186.69 0)
+			(at 355.6 186.69 0)
 			(show_name yes)
 			(effects
 				(font
@@ -25425,7 +24718,7 @@
 			)
 		)
 		(property "Contact Plating" "Tin"
-			(at 368.3 189.23 0)
+			(at 355.6 189.23 0)
 			(show_name yes)
 			(effects
 				(font
@@ -25436,7 +24729,7 @@
 			)
 		)
 		(property "Current Rating (A)" "8.0"
-			(at 368.3 191.77 0)
+			(at 355.6 191.77 0)
 			(show_name yes)
 			(effects
 				(font
@@ -25447,7 +24740,7 @@
 			)
 		)
 		(property "MPN" "TBP02R2-381-02BE"
-			(at 368.3 194.31 0)
+			(at 355.6 194.31 0)
 			(show_name yes)
 			(effects
 				(font
@@ -25458,7 +24751,7 @@
 			)
 		)
 		(property "Manufacturer" "Same Sky"
-			(at 368.3 196.85 0)
+			(at 355.6 196.85 0)
 			(show_name yes)
 			(effects
 				(font
@@ -25469,7 +24762,7 @@
 			)
 		)
 		(property "Mounting Angle" "Vertical"
-			(at 368.3 199.39 0)
+			(at 355.6 199.39 0)
 			(show_name yes)
 			(effects
 				(font
@@ -25480,7 +24773,7 @@
 			)
 		)
 		(property "Mounting Style" "Through Hole"
-			(at 368.3 201.93 0)
+			(at 355.6 201.93 0)
 			(show_name yes)
 			(effects
 				(font
@@ -25491,7 +24784,7 @@
 			)
 		)
 		(property "Number of Rows" "1"
-			(at 368.3 204.47 0)
+			(at 355.6 204.47 0)
 			(show_name yes)
 			(effects
 				(font
@@ -25502,7 +24795,7 @@
 			)
 		)
 		(property "Pin Count" "2"
-			(at 368.3 207.01 0)
+			(at 355.6 207.01 0)
 			(show_name yes)
 			(effects
 				(font
@@ -25513,7 +24806,7 @@
 			)
 		)
 		(property "Pitch (mm)" "3.81"
-			(at 368.3 209.55 0)
+			(at 355.6 209.55 0)
 			(show_name yes)
 			(effects
 				(font
@@ -25524,7 +24817,7 @@
 			)
 		)
 		(property "Series" "TBP02R2-381"
-			(at 368.3 212.09 0)
+			(at 355.6 212.09 0)
 			(show_name yes)
 			(effects
 				(font
@@ -25535,7 +24828,7 @@
 			)
 		)
 		(property "Symbol Name" "J_TBP02R2-381-02BE"
-			(at 368.3 214.63 0)
+			(at 355.6 214.63 0)
 			(show_name yes)
 			(effects
 				(font
@@ -25546,7 +24839,7 @@
 			)
 		)
 		(property "Trustedparts Search" "https://www.trustedparts.com/en/search/TBP02R2-381-02BE"
-			(at 368.3 217.17 0)
+			(at 355.6 217.17 0)
 			(show_name yes)
 			(effects
 				(font
@@ -25557,7 +24850,7 @@
 			)
 		)
 		(property "Voltage Rating (V)" "300"
-			(at 368.3 219.71 0)
+			(at 355.6 219.71 0)
 			(show_name yes)
 			(effects
 				(font
@@ -28405,7 +27698,7 @@
 	)
 	(symbol
 		(lib_id "power:GNDA")
-		(at 354.33 201.93 0)
+		(at 342.9 201.93 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -28414,7 +27707,7 @@
 		(fields_autoplaced yes)
 		(uuid "b270d899-37b7-4466-89f2-b2e9063bb74b")
 		(property "Reference" "#PWR30"
-			(at 354.33 208.28 0)
+			(at 342.9 208.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -28423,7 +27716,7 @@
 			)
 		)
 		(property "Value" "GNDA"
-			(at 354.33 207.01 0)
+			(at 342.9 207.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -28431,7 +27724,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 354.33 201.93 0)
+			(at 342.9 201.93 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -28440,7 +27733,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 354.33 201.93 0)
+			(at 342.9 201.93 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -28449,7 +27742,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GNDA\" , analog ground"
-			(at 354.33 201.93 0)
+			(at 342.9 201.93 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -29692,158 +28985,6 @@
 		)
 	)
 	(symbol
-		(lib_id "UNITED_DIODES_DATA_BASE:D_SMCJ40A-CA")
-		(at 345.44 149.86 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "c4e9d839-7d18-4048-92be-62ca397b0b38")
-		(property "Reference" "D1"
-			(at 349.25 148.5899 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "40 V"
-			(at 349.25 151.1299 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" "diode_footprints:DO-214AB-2"
-			(at 353.06 149.86 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.st.com/resource/en/datasheet/smcj26a.pdf"
-			(at 355.6 149.86 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Description" "Bidirectional TVS SMD 40 V"
-			(at 358.14 149.86 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Diode Type" "Bidirectional TVS"
-			(at 360.68 149.86 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "MPN" "SMCJ40A/CA"
-			(at 363.22 149.86 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer" "STMicroelectronics"
-			(at 365.76 149.86 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Maximum DC Current (A)" "0.0"
-			(at 368.3 149.86 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Series" "SMCJ"
-			(at 370.84 149.86 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Symbol Name" "D_SMCJ40A-CA"
-			(at 373.38 149.86 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Trustedparts Search" "https://www.trustedparts.com/en/search/SMCJ40A/CA"
-			(at 375.92 149.86 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "39570c29-77cd-49ab-899c-4823cdd0cef7")
-		)
-		(pin "1"
-			(uuid "8bece87e-90d1-4a6c-9332-fcaae4bd3df0")
-		)
-		(instances
-			(project "minimal_max14906"
-				(path "/0138bc01-efaa-4f20-bf65-043bbc1a8346"
-					(reference "D1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "UNITED_CAPACITORS_DATA_BASE:C_GRJ21BC72A105KE11L")
 		(at 217.17 86.36 0)
 		(mirror x)
@@ -30489,72 +29630,6 @@
 			(project "minimal_max14906"
 				(path "/0138bc01-efaa-4f20-bf65-043bbc1a8346"
 					(reference "MB4")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GNDA")
-		(at 345.44 179.07 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "cee9d01d-d80c-42a8-971e-aaa5e7c9f7e0")
-		(property "Reference" "#PWR29"
-			(at 345.44 185.42 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GNDA"
-			(at 345.44 184.15 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 345.44 179.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 345.44 179.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GNDA\" , analog ground"
-			(at 345.44 179.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "75bd5c15-add5-4a94-beaa-1157f44c06a9")
-		)
-		(instances
-			(project "minimal_max14906"
-				(path "/0138bc01-efaa-4f20-bf65-043bbc1a8346"
-					(reference "#PWR29")
 					(unit 1)
 				)
 			)
@@ -32171,225 +31246,6 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GNDA")
-		(at 344.17 201.93 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "e81d191e-c6be-4a51-b55f-48af3a76f95c")
-		(property "Reference" "#PWR28"
-			(at 344.17 208.28 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GNDA"
-			(at 344.17 207.01 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 344.17 201.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 344.17 201.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GNDA\" , analog ground"
-			(at 344.17 201.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "d212293e-e344-4da6-9168-51e25cfc9c07")
-		)
-		(instances
-			(project "minimal_max14906"
-				(path "/0138bc01-efaa-4f20-bf65-043bbc1a8346"
-					(reference "#PWR28")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "UNITED_DIODES_DATA_BASE:D_SMCJ40A-CA")
-		(at 346.71 127 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "e8873eb1-0050-4774-9741-1514bed4817f")
-		(property "Reference" "D12"
-			(at 350.52 125.7299 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "40 V"
-			(at 350.52 128.2699 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" "diode_footprints:DO-214AB-2"
-			(at 354.33 127 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.st.com/resource/en/datasheet/smcj26a.pdf"
-			(at 356.87 127 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Description" "Bidirectional TVS SMD 40 V"
-			(at 359.41 127 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Diode Type" "Bidirectional TVS"
-			(at 361.95 127 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "MPN" "SMCJ40A/CA"
-			(at 364.49 127 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer" "STMicroelectronics"
-			(at 367.03 127 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Maximum DC Current (A)" "0.0"
-			(at 369.57 127 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Series" "SMCJ"
-			(at 372.11 127 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Symbol Name" "D_SMCJ40A-CA"
-			(at 374.65 127 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Trustedparts Search" "https://www.trustedparts.com/en/search/SMCJ40A/CA"
-			(at 377.19 127 0)
-			(show_name yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "14a796c1-d693-4bfb-9c74-0a98faa432a7")
-		)
-		(pin "1"
-			(uuid "8f0e7903-b5bc-43f5-a664-ce03e3959914")
-		)
-		(instances
-			(project ""
-				(path "/0138bc01-efaa-4f20-bf65-043bbc1a8346"
-					(reference "D12")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "UNITED_CAPACITORS_DATA_BASE:C_GCM155R71H102KA37D")
 		(at 133.35 193.04 270)
 		(unit 1)
@@ -32729,72 +31585,6 @@
 			(project "minimal_max14906"
 				(path "/0138bc01-efaa-4f20-bf65-043bbc1a8346"
 					(reference "MB6")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GNDA")
-		(at 346.71 133.35 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "f0e9a30b-418f-450f-a2ae-588f73718db3")
-		(property "Reference" "#PWR16"
-			(at 346.71 139.7 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GNDA"
-			(at 346.71 138.43 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 346.71 133.35 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 346.71 133.35 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GNDA\" , analog ground"
-			(at 346.71 133.35 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "aebf8e3b-4484-4fc0-8426-fbbe79ffc5d9")
-		)
-		(instances
-			(project "minimal_max14906"
-				(path "/0138bc01-efaa-4f20-bf65-043bbc1a8346"
-					(reference "#PWR16")
 					(unit 1)
 				)
 			)
