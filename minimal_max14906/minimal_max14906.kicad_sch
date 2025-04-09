@@ -7978,12 +7978,6 @@
 		(uuid "36209f84-6fea-4c8b-bbac-ea0c64438da0")
 	)
 	(junction
-		(at 48.26 152.4)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "3824013a-ea11-41eb-a482-8939815fb958")
-	)
-	(junction
 		(at 97.79 99.06)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -8342,6 +8336,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "d1ce4490-b3ae-4c80-94a6-d97ec96d0377")
+	)
+	(junction
+		(at 48.26 170.18)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "d20f9031-c0a6-48ab-9ce0-58ec4a750dcf")
 	)
 	(junction
 		(at 266.7 157.48)
@@ -9191,6 +9191,16 @@
 	)
 	(wire
 		(pts
+			(xy 48.26 170.18) (xy 48.26 171.45)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "22061931-de5b-498f-a5c1-509a8a98d6d4")
+	)
+	(wire
+		(pts
 			(xy 133.35 88.9) (xy 146.05 88.9)
 		)
 		(stroke
@@ -9411,7 +9421,7 @@
 	)
 	(wire
 		(pts
-			(xy 48.26 152.4) (xy 60.96 152.4)
+			(xy 45.72 152.4) (xy 60.96 152.4)
 		)
 		(stroke
 			(width 0)
@@ -9508,16 +9518,6 @@
 			(type default)
 		)
 		(uuid "3704847c-b1cd-4e5e-8748-507a0c3006d2")
-	)
-	(wire
-		(pts
-			(xy 48.26 152.4) (xy 45.72 152.4)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "38008192-fd07-4045-9b74-e9652c136a8c")
 	)
 	(wire
 		(pts
@@ -10211,16 +10211,6 @@
 	)
 	(wire
 		(pts
-			(xy 48.26 171.45) (xy 48.26 152.4)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "5aec5979-3207-487c-a181-7503fb712f80")
-	)
-	(wire
-		(pts
 			(xy 210.82 81.28) (xy 210.82 86.36)
 		)
 		(stroke
@@ -10511,7 +10501,7 @@
 	)
 	(wire
 		(pts
-			(xy 45.72 170.18) (xy 60.96 170.18)
+			(xy 45.72 170.18) (xy 48.26 170.18)
 		)
 		(stroke
 			(width 0)
@@ -12421,6 +12411,16 @@
 	)
 	(wire
 		(pts
+			(xy 48.26 170.18) (xy 60.96 170.18)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c560a17a-698a-431e-add0-2580bdcd55a6")
+	)
+	(wire
+		(pts
 			(xy 125.73 109.22) (xy 148.59 109.22)
 		)
 		(stroke
@@ -13560,7 +13560,7 @@
 		(uuid "0962af86-b140-48fb-a8d3-519fbfcf368b")
 	)
 	(label "D2_ISO"
-		(at 50.8 189.23 0)
+		(at 50.8 196.85 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -13790,7 +13790,7 @@
 		(uuid "3ce3af93-4e80-458c-8b3f-d0736e639d46")
 	)
 	(label "~{FAULT_ISO}"
-		(at 50.8 196.85 0)
+		(at 50.8 189.23 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -13810,7 +13810,7 @@
 		(uuid "3dd22552-e67f-444a-9b88-64c19effaa26")
 	)
 	(label "D3_ISO"
-		(at 50.8 167.64 0)
+		(at 50.8 162.56 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -13830,7 +13830,7 @@
 		(uuid "414ffb52-89fa-436f-86d9-73236bbc92ce")
 	)
 	(label "~{READY_ISO}"
-		(at 50.8 199.39 0)
+		(at 50.8 186.69 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -13930,7 +13930,7 @@
 		(uuid "601461c2-3380-4835-973e-eced9bf97735")
 	)
 	(label "SDI_ISO"
-		(at 50.8 165.1 0)
+		(at 50.8 160.02 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -14000,7 +14000,7 @@
 		(uuid "6e340caf-b642-4254-b423-ea4f9dbaa942")
 	)
 	(label "SYNCH_ISO"
-		(at 50.8 194.31 0)
+		(at 50.8 191.77 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -14110,7 +14110,7 @@
 		(uuid "97435be5-f6c5-454c-ba9e-191be4d3edee")
 	)
 	(label "D4_ISO"
-		(at 50.8 170.18 0)
+		(at 50.8 165.1 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -14240,7 +14240,7 @@
 		(uuid "ba907f1b-f1d0-4f77-a05c-77ba63343b8c")
 	)
 	(label "SDO_ISO"
-		(at 50.8 160.02 0)
+		(at 50.8 154.94 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -14250,7 +14250,7 @@
 		(uuid "c17c7942-c292-4952-9f9f-3aa644116248")
 	)
 	(label "D1_ISO"
-		(at 50.8 186.69 0)
+		(at 50.8 199.39 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -14280,7 +14280,7 @@
 		(uuid "c5d1afa3-49b4-4f4f-8d3b-bc83b1ea1b4e")
 	)
 	(label "~{CS_ISO}"
-		(at 50.8 157.48 0)
+		(at 50.8 152.4 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -14310,7 +14310,7 @@
 		(uuid "d2a18cd0-3b2f-46e5-b141-935876efb4d5")
 	)
 	(label "EN_ISO"
-		(at 50.8 191.77 0)
+		(at 50.8 194.31 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -14370,7 +14370,7 @@
 		(uuid "dd4521e6-5b38-4d0d-91e4-a09ba2f835db")
 	)
 	(label "CLK_ISO"
-		(at 50.8 162.56 0)
+		(at 50.8 157.48 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -14380,7 +14380,7 @@
 		(uuid "e497435b-c315-465d-9c3b-394aa6cd6c59")
 	)
 	(label "3V3_ISO"
-		(at 50.8 154.94 0)
+		(at 50.8 167.64 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -16482,8 +16482,7 @@
 	)
 	(symbol
 		(lib_id "UNITED_CONNECTORS_DATA_BASE:J_CLP-108-02-G-D-BE")
-		(at 40.64 195.58 0)
-		(mirror y)
+		(at 40.64 195.58 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -16507,7 +16506,7 @@
 			)
 		)
 		(property "Footprint" "connector_footprints:CLP-108-02-G-D-BE"
-			(at 35.56 210.82 0)
+			(at 35.56 180.34 0)
 			(show_name yes)
 			(effects
 				(font
@@ -16518,7 +16517,7 @@
 			)
 		)
 		(property "Datasheet" "https://suddendocs.samtec.com/catalog_english/clp_sm.pdf?_gl=1*1y4jlr9*_gcl_au*MTM0MTYyNTQ5MS4xNzM2MDk5MTUz*_ga*MTYxNDYyMTQ0Mi4xNzM2MDk5MTUz*_ga_3KFNZC07WW*MTczNjY4MDQ4OS4xNS4xLjE3MzY2ODEzNzcuNjAuMC4w"
-			(at 35.56 213.36 0)
+			(at 35.56 177.8 0)
 			(show_name yes)
 			(effects
 				(font
@@ -16529,7 +16528,7 @@
 			)
 		)
 		(property "Description" "Samtec CLP-1xx-02-G-D-BE series,  8 positions connector,  1.27 mm pitch,  Black,  Vertical mounting,  5.2 A,  300 V,  Surface Mount,  Tin plated"
-			(at 35.56 215.9 0)
+			(at 35.56 175.26 0)
 			(show_name yes)
 			(effects
 				(font
@@ -16540,7 +16539,7 @@
 			)
 		)
 		(property "Color" "Black"
-			(at 35.56 218.44 0)
+			(at 35.56 172.72 0)
 			(show_name yes)
 			(effects
 				(font
@@ -16551,7 +16550,7 @@
 			)
 		)
 		(property "Contact Plating" "Tin"
-			(at 35.56 220.98 0)
+			(at 35.56 170.18 0)
 			(show_name yes)
 			(effects
 				(font
@@ -16562,7 +16561,7 @@
 			)
 		)
 		(property "Current Rating (A)" "5.2"
-			(at 35.56 223.52 0)
+			(at 35.56 167.64 0)
 			(show_name yes)
 			(effects
 				(font
@@ -16573,7 +16572,7 @@
 			)
 		)
 		(property "MPN" "CLP-108-02-G-D-BE"
-			(at 35.56 226.06 0)
+			(at 35.56 165.1 0)
 			(show_name yes)
 			(effects
 				(font
@@ -16584,7 +16583,7 @@
 			)
 		)
 		(property "Manufacturer" "Samtec"
-			(at 35.56 228.6 0)
+			(at 35.56 162.56 0)
 			(show_name yes)
 			(effects
 				(font
@@ -16595,7 +16594,7 @@
 			)
 		)
 		(property "Mounting Angle" "Vertical"
-			(at 35.56 231.14 0)
+			(at 35.56 160.02 0)
 			(show_name yes)
 			(effects
 				(font
@@ -16606,7 +16605,7 @@
 			)
 		)
 		(property "Mounting Style" "Surface Mount"
-			(at 35.56 233.68 0)
+			(at 35.56 157.48 0)
 			(show_name yes)
 			(effects
 				(font
@@ -16617,7 +16616,7 @@
 			)
 		)
 		(property "Number of Rows" "2"
-			(at 35.56 236.22 0)
+			(at 35.56 154.94 0)
 			(show_name yes)
 			(effects
 				(font
@@ -16628,7 +16627,7 @@
 			)
 		)
 		(property "Pin Count" "8"
-			(at 35.56 238.76 0)
+			(at 35.56 152.4 0)
 			(show_name yes)
 			(effects
 				(font
@@ -16639,7 +16638,7 @@
 			)
 		)
 		(property "Pitch (mm)" "1.27"
-			(at 35.56 241.3 0)
+			(at 35.56 149.86 0)
 			(show_name yes)
 			(effects
 				(font
@@ -16650,7 +16649,7 @@
 			)
 		)
 		(property "Series" "CLP-1xx-02-G-D-BE"
-			(at 35.56 243.84 0)
+			(at 35.56 147.32 0)
 			(show_name yes)
 			(effects
 				(font
@@ -16661,7 +16660,7 @@
 			)
 		)
 		(property "Symbol Name" "J_CLP-108-02-G-D-BE"
-			(at 35.56 246.38 0)
+			(at 35.56 144.78 0)
 			(show_name yes)
 			(effects
 				(font
@@ -16672,7 +16671,7 @@
 			)
 		)
 		(property "Trustedparts Search" "https://www.trustedparts.com/en/search/CLP-108-02-G-D-BE"
-			(at 35.56 248.92 0)
+			(at 35.56 142.24 0)
 			(show_name yes)
 			(effects
 				(font
@@ -16683,7 +16682,7 @@
 			)
 		)
 		(property "Voltage Rating (V)" "300"
-			(at 35.56 251.46 0)
+			(at 35.56 139.7 0)
 			(show_name yes)
 			(effects
 				(font
