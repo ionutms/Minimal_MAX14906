@@ -8237,12 +8237,6 @@
 		(uuid "8d6d5cd8-f5a1-472e-887a-062471a6ec15")
 	)
 	(junction
-		(at 96.52 240.03)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "8e68f674-bc02-4cb8-b4a4-acfa529a73ef")
-	)
-	(junction
 		(at 215.9 196.85)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -8451,6 +8445,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "d2915d1a-318d-47cf-9ec2-ef54250f7204")
+	)
+	(junction
+		(at 96.52 243.84)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "d3a461d3-cf0c-476f-a46a-1acbac8456ca")
 	)
 	(junction
 		(at 308.61 119.38)
@@ -10502,7 +10502,7 @@
 	)
 	(wire
 		(pts
-			(xy 96.52 240.03) (xy 96.52 242.57)
+			(xy 96.52 228.6) (xy 96.52 243.84)
 		)
 		(stroke
 			(width 0)
@@ -10989,16 +10989,6 @@
 			(type default)
 		)
 		(uuid "7c2c84b9-84ab-4835-9aba-93a1bfbdf184")
-	)
-	(wire
-		(pts
-			(xy 96.52 228.6) (xy 96.52 240.03)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "7c351856-ca15-433f-b665-b9dff1cfb1f3")
 	)
 	(wire
 		(pts
@@ -22396,13 +22386,14 @@
 	)
 	(symbol
 		(lib_id "UNITED_DIODES_DATA_BASE:D_APHHS1005CGCK")
-		(at 96.52 245.11 90)
+		(at 96.52 250.19 90)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
+		(fields_autoplaced yes)
 		(uuid "5a141468-39e3-4183-87d7-79974860c0ce")
 		(property "Reference" "D4"
 			(at 100.33 251.8409 90)
@@ -22414,7 +22405,7 @@
 			)
 		)
 		(property "Value" "1.8 V"
-			(at 97.79 249.174 0)
+			(at 97.79 254.254 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22424,7 +22415,7 @@
 			)
 		)
 		(property "Footprint" "diode_footprints:LED_GREEN_0402_1005Metric"
-			(at 104.14 245.11 0)
+			(at 104.14 250.19 0)
 			(show_name yes)
 			(effects
 				(font
@@ -22435,7 +22426,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.kingbrightusa.com/product.asp?catalog_name=LED&product_id=APHHS1005CGCK"
-			(at 106.68 245.11 0)
+			(at 106.68 250.19 0)
 			(show_name yes)
 			(effects
 				(font
@@ -22446,7 +22437,7 @@
 			)
 		)
 		(property "Description" "Green LED SMD 1.8 V"
-			(at 109.22 245.11 0)
+			(at 109.22 250.19 0)
 			(show_name yes)
 			(effects
 				(font
@@ -22457,7 +22448,7 @@
 			)
 		)
 		(property "Diode Type" "Green LED"
-			(at 111.76 245.11 0)
+			(at 111.76 250.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22467,7 +22458,7 @@
 			)
 		)
 		(property "MPN" "APHHS1005CGCK"
-			(at 114.3 245.11 0)
+			(at 114.3 250.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22477,7 +22468,7 @@
 			)
 		)
 		(property "Manufacturer" "Kingbright"
-			(at 116.84 245.11 0)
+			(at 116.84 250.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22487,7 +22478,7 @@
 			)
 		)
 		(property "Maximum DC Current (A)" "0.03"
-			(at 119.38 245.11 0)
+			(at 119.38 250.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22497,7 +22488,7 @@
 			)
 		)
 		(property "Series" "APHHS1005CGCK"
-			(at 121.92 245.11 0)
+			(at 121.92 250.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22507,7 +22498,7 @@
 			)
 		)
 		(property "Symbol Name" "D_APHHS1005CGCK"
-			(at 124.46 245.11 0)
+			(at 124.46 250.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22517,7 +22508,7 @@
 			)
 		)
 		(property "Trustedparts Search" "https://www.trustedparts.com/en/search/APHHS1005CGCK"
-			(at 127 245.11 0)
+			(at 127 250.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22543,7 +22534,7 @@
 	)
 	(symbol
 		(lib_id "UNITED_TEST_POINTS:TestPoint_Castelated")
-		(at 59.69 35.56 90)
+		(at 59.69 38.1 90)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
@@ -22553,7 +22544,7 @@
 		(fields_autoplaced yes)
 		(uuid "6120926f-97db-44de-b58c-92eae83aca44")
 		(property "Reference" "TP32"
-			(at 54.61 35.5599 90)
+			(at 54.61 38.0999 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22562,7 +22553,7 @@
 			)
 		)
 		(property "Value" "TestPoint"
-			(at 57.15 38.1 0)
+			(at 57.15 40.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22572,7 +22563,7 @@
 			)
 		)
 		(property "Footprint" "test_point_footprints:TestPoint_THTPad_Castelated"
-			(at 64.77 38.1 0)
+			(at 64.77 40.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22582,7 +22573,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 59.69 38.1 0)
+			(at 59.69 40.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22592,7 +22583,7 @@
 			)
 		)
 		(property "Description" "test point"
-			(at 62.23 38.1 0)
+			(at 62.23 40.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30972,7 +30963,7 @@
 	)
 	(symbol
 		(lib_id "UNITED_TEST_POINTS:TestPoint_Castelated")
-		(at 59.69 38.1 90)
+		(at 59.69 35.56 90)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
@@ -30982,7 +30973,7 @@
 		(fields_autoplaced yes)
 		(uuid "c80d44fd-4a18-4835-9f35-c4c28526e85a")
 		(property "Reference" "TP31"
-			(at 54.61 38.0999 90)
+			(at 54.61 35.5599 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30991,7 +30982,7 @@
 			)
 		)
 		(property "Value" "TestPoint"
-			(at 57.15 40.64 0)
+			(at 57.15 38.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -31001,7 +30992,7 @@
 			)
 		)
 		(property "Footprint" "test_point_footprints:TestPoint_THTPad_Castelated"
-			(at 64.77 40.64 0)
+			(at 64.77 38.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -31011,7 +31002,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 59.69 40.64 0)
+			(at 59.69 38.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -31021,7 +31012,7 @@
 			)
 		)
 		(property "Description" "test point"
-			(at 62.23 40.64 0)
+			(at 62.23 38.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
