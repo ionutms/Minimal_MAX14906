@@ -110,9 +110,10 @@ jobs:
             bash -c "mkdir -p /tmp/home/.config/kicad/9.0/colors && \
                      export HOME=/tmp/home && \
                      mkdir -p /tmp && \
-                     kicad-cli sch export pdf -t gruvbox \
+                     kicad-cli sch export pdf \
                      --output '/tmp/schematic.pdf' \
-                     '/kicad_project/${{ steps.find-files.outputs.schematic_file }}' && \
+                     '/kicad_project/${{ steps.find-files.outputs.schematic_file }}' \
+                     -t gruvbox && \
                      cp /tmp/schematic.pdf '/kicad_project/docs/schematics/${{ steps.find-files.outputs.project_name }}_schematic.pdf'"
 
       - name: Render PCB 3D view
