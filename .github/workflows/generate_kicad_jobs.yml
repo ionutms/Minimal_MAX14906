@@ -4,9 +4,6 @@ on:
     branches: [ doc_workflow ]
   workflow_dispatch:
 
-env:
-  DEFAULT_ZOOM_FACTOR: '1.6'
-
 jobs:
   generate-kicad-outputs:
     runs-on: ubuntu-latest
@@ -18,6 +15,34 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Fetch all history for proper branch management
+
+      - name: Load configuration
+        id: config
+        run: |
+          # Set default values
+          DEFAULT_ZOOM_FACTOR="1.0"
+          
+          # Check if config file exists and load values
+          if [ -f ".github/kicad-config.yml" ]; then
+            echo "Found configuration file"
+            
+            # Extract zoom factor from config file
+            CUSTOM_ZOOM=$(grep 'default_zoom_factor:' .github/kicad-config.yml | awk '{print $2}' | tr -d "'\"")
+            
+            # Use custom value if it exists, otherwise keep default
+            if [ ! -z "$CUSTOM_ZOOM" ]; then
+              DEFAULT_ZOOM_FACTOR="$CUSTOM_ZOOM"
+              echo "Using custom zoom factor: $DEFAULT_ZOOM_FACTOR"
+            else
+              echo "Using default zoom factor: $DEFAULT_ZOOM_FACTOR"
+            fi
+          else
+            echo "Configuration file not found, using default values"
+            echo "Default zoom factor: $DEFAULT_ZOOM_FACTOR"
+          fi
+          
+          # Export variables for later steps
+          echo "zoom_factor=$DEFAULT_ZOOM_FACTOR" >> $GITHUB_OUTPUT
 
       - name: Find KiCad project files
         id: find-files
@@ -93,8 +118,8 @@ jobs:
       - name: Render PCB 3D view
         if: steps.find-files.outputs.pcb_found == 'true'
         run: |
-          # Use the default zoom factor directly from environment variable
-          echo "Using zoom factor: ${{ env.DEFAULT_ZOOM_FACTOR }}"
+          # Use the zoom factor from the configuration
+          echo "Using zoom factor: ${{ steps.config.outputs.zoom_factor }}"
           
           docker run --rm -u $(id -u):$(id -g) \
             -v ${{ github.workspace }}:/kicad_project \
@@ -110,7 +135,7 @@ jobs:
                      -o /kicad_project/docs/pictures/${{ steps.find-files.outputs.project_name }}_side.png \
                      --background transparent \
                      --quality high \
-                     --zoom ${{ env.DEFAULT_ZOOM_FACTOR }}"
+                     --zoom ${{ steps.config.outputs.zoom_factor }}"
 
       - name: Debug output directories
         run: |
