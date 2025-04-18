@@ -1,0 +1,232 @@
+name: Generate KiCad Documentation
+on:
+  push:
+    branches: [ doc_workflow ]
+  workflow_dispatch:
+
+env:
+  DEFAULT_ZOOM_FACTOR: '1.7'
+
+jobs:
+  generate-kicad-outputs:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for proper branch management
+
+      - name: Find KiCad project files
+        id: find-files
+        run: |
+          # Find all KiCad project files in the repository
+          PROJECT_FILE=$(find . -name "*.kicad_pro" | head -n 1)
+          
+          if [ -z "$PROJECT_FILE" ]; then
+            echo "No KiCad project files found"
+            echo "project_found=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          # Extract project directory and name
+          PROJECT_DIR=$(dirname "$PROJECT_FILE")
+          PROJECT_NAME=$(basename "$PROJECT_FILE" .kicad_pro)
+          
+          echo "PROJECT_FILE: $PROJECT_FILE"
+          echo "PROJECT_DIR: $PROJECT_DIR"
+          echo "PROJECT_NAME: $PROJECT_NAME"
+          
+          # Find matching schematic and PCB files
+          SCHEMATIC_FILE=$(find "$PROJECT_DIR" -name "${PROJECT_NAME}.kicad_sch" | head -n 1)
+          PCB_FILE=$(find "$PROJECT_DIR" -name "${PROJECT_NAME}.kicad_pcb" | head -n 1)
+          
+          # Output the results
+          echo "project_file=$PROJECT_FILE" >> $GITHUB_OUTPUT
+          echo "project_found=true" >> $GITHUB_OUTPUT
+          echo "project_name=$PROJECT_NAME" >> $GITHUB_OUTPUT
+          echo "project_dir=$PROJECT_DIR" >> $GITHUB_OUTPUT
+          
+          if [ -z "$SCHEMATIC_FILE" ]; then
+            echo "schematic_found=false" >> $GITHUB_OUTPUT
+          else
+            echo "schematic_file=$SCHEMATIC_FILE" >> $GITHUB_OUTPUT
+            echo "schematic_found=true" >> $GITHUB_OUTPUT
+          fi
+          
+          if [ -z "$PCB_FILE" ]; then
+            echo "pcb_found=false" >> $GITHUB_OUTPUT
+          else
+            echo "pcb_file=$PCB_FILE" >> $GITHUB_OUTPUT
+            echo "pcb_found=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Skip if project files not found
+        if: steps.find-files.outputs.project_found != 'true'
+        run: |
+          echo "No KiCad project found. Skipping workflow."
+          exit 0
+
+      - name: Create and set permissions on output directories
+        run: |
+          mkdir -p docs/schematics docs/pictures
+          # Ensure directories are writable by any user in the Docker container
+          chmod -R 777 docs
+
+      - name: Generate PDF schematic
+        if: steps.find-files.outputs.schematic_found == 'true'
+        run: |
+          docker run --rm -u $(id -u):$(id -g) \
+            -v ${{ github.workspace }}:/kicad_project \
+            -e HOME=/tmp/home \
+            ionutms/kicad:9.0 \
+            bash -c "mkdir -p /tmp/home/.config/kicad/9.0/colors && \
+                     export HOME=/tmp/home && \
+                     mkdir -p /tmp && \
+                     kicad-cli sch export pdf \
+                     --output '/tmp/schematic.pdf' \
+                     '/kicad_project/${{ steps.find-files.outputs.schematic_file }}' && \
+                     cp /tmp/schematic.pdf '/kicad_project/docs/schematics/${{ steps.find-files.outputs.project_name }}_schematic.pdf'"
+
+      - name: Render PCB 3D view
+        if: steps.find-files.outputs.pcb_found == 'true'
+        run: |
+          # Use the default zoom factor directly from environment variable
+          echo "Using zoom factor: ${{ env.DEFAULT_ZOOM_FACTOR }}"
+          
+          docker run --rm -u $(id -u):$(id -g) \
+            -v ${{ github.workspace }}:/kicad_project \
+            -e HOME=/tmp/home \
+            ionutms/kicad:9.0 \
+            bash -c "mkdir -p /tmp/home/.config/kicad/9.0 && \
+                     export HOME=/tmp/home && \
+                     cd /kicad_project && \
+                     mkdir -p /tmp/3d_models && \
+                     cp -r /usr/share/3D_Models_Vault/* /tmp/3d_models/ && \
+                     echo '{\"environment\":{\"vars\":{\"KICAD9_3D_MODELS_VAULT\":\"/tmp/3d_models/\"}}}' > /tmp/home/.config/kicad/9.0/kicad_common.json && \
+                     kicad-cli pcb render ${{ steps.find-files.outputs.pcb_file }} \
+                     -o /kicad_project/docs/pictures/${{ steps.find-files.outputs.project_name }}_side.png \
+                     --background transparent \
+                     --quality high \
+                     --zoom ${{ env.DEFAULT_ZOOM_FACTOR }}"
+
+      - name: Debug output directories
+        run: |
+          echo "Checking directory permissions:"
+          ls -la docs/
+          ls -la docs/schematics/ || echo "Schematics directory is empty"
+          ls -la docs/pictures/ || echo "Pictures directory is empty"
+
+      - name: Check for generated files
+        id: check-files
+        run: |
+          PDF_COUNT=$(find docs/schematics -type f -name "*.pdf" | wc -l)
+          PNG_COUNT=$(find docs/pictures -type f -name "*.png" | wc -l)
+          TOTAL_COUNT=$((PDF_COUNT + PNG_COUNT))
+
+          echo "Found $PDF_COUNT PDF files and $PNG_COUNT PNG files"
+          
+          if [ "$TOTAL_COUNT" -gt 0 ]; then
+            echo "files_generated=true" >> $GITHUB_OUTPUT
+            echo "Files generated successfully"
+          else
+            echo "files_generated=false" >> $GITHUB_OUTPUT
+            echo "No files were generated, checking for errors..."
+            # Don't exit with error code to allow artifact upload to proceed
+          fi
+
+      - name: Upload outputs as artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: kicad-outputs
+          path: |
+            docs/schematics/
+            docs/pictures/
+          retention-days: 1
+          if-no-files-found: warn
+
+      - name: Save generated files
+        if: steps.check-files.outputs.files_generated == 'true'
+        run: |
+          mkdir -p /tmp/kicad_outputs/schematics /tmp/kicad_outputs/pictures
+          cp -r docs/schematics/* /tmp/kicad_outputs/schematics/ || true
+          cp -r docs/pictures/* /tmp/kicad_outputs/pictures/ || true
+          
+          # Debug saved files
+          echo "Files saved to temporary location:"
+          find /tmp/kicad_outputs -type f | sort
+
+      - name: Configure Git
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+      - name: Determine default branch
+        id: default-branch
+        if: steps.check-files.outputs.files_generated == 'true'
+        run: |
+          # Get the default branch name from the repository
+          DEFAULT_BRANCH=$(git remote show origin | grep 'HEAD branch' | cut -d' ' -f5)
+          echo "default_branch=$DEFAULT_BRANCH" >> $GITHUB_OUTPUT
+          echo "Default branch is: $DEFAULT_BRANCH"
+
+      - name: Prepare branch for outputs
+        if: steps.check-files.outputs.files_generated == 'true'
+        run: |
+          # Determine if we're using main or master
+          DEFAULT_BRANCH="${{ steps.default-branch.outputs.default_branch }}"
+          
+          # Check if the default branch exists
+          if git show-ref --verify --quiet refs/remotes/origin/$DEFAULT_BRANCH; then
+            echo "Default branch $DEFAULT_BRANCH exists, checking it out"
+            git fetch origin $DEFAULT_BRANCH
+            git checkout $DEFAULT_BRANCH
+          else
+            echo "Default branch does not exist yet, creating it"
+            git checkout -b $DEFAULT_BRANCH
+          fi
+          
+          # Create output directories if they don't exist
+          mkdir -p docs/schematics docs/pictures
+          chmod -R 777 docs  # Ensure directories are writable
+
+      - name: Restore generated files
+        if: steps.check-files.outputs.files_generated == 'true'
+        run: |
+          cp -r /tmp/kicad_outputs/schematics/* docs/schematics/ || true
+          cp -r /tmp/kicad_outputs/pictures/* docs/pictures/ || true
+          echo "Final output contents:"
+          ls -la docs/schematics/ || true
+          ls -la docs/pictures/ || true
+
+      - name: Commit and push changes
+        if: steps.check-files.outputs.files_generated == 'true'
+        run: |
+          DEFAULT_BRANCH="${{ steps.default-branch.outputs.default_branch }}"
+          
+          # Add the files
+          git add docs/schematics || true
+          git add docs/pictures || true
+          
+          # Check if there are changes to commit
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            echo "Committing changes"
+            git commit -m "Update KiCad documentation (schematics and PCB renders)"
+            
+            # Push with error handling
+            echo "Pushing to $DEFAULT_BRANCH branch"
+            if ! git push origin $DEFAULT_BRANCH; then
+              # If push fails, try to create the branch first
+              echo "Push failed, trying to create branch first"
+              git push -u origin $DEFAULT_BRANCH
+              
+              if [ $? -ne 0 ]; then
+                echo "Push failed again. Attempting force push as last resort..."
+                git push -f origin $DEFAULT_BRANCH
+              fi
+            fi
+          fi
