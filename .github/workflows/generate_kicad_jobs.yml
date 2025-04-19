@@ -108,8 +108,14 @@ jobs:
             -e HOME=/tmp/home \
             ionutms/kicad:9.0 \
             bash -c "mkdir -p /tmp/home/.config/kicad/9.0/colors && \
+                     mkdir -p /tmp/home/.local/share/kicad/9.0/3rdparty/colors && \
                      export HOME=/tmp/home && \
                      mkdir -p /tmp && \
+                     # Clone Gruvbox theme repository
+                     git clone https://github.com/AlexanderBrevig/kicad-gruvbox-theme.git /tmp/kicad-gruvbox-theme && \
+                     # Copy the theme file to the proper location
+                     cp /tmp/kicad-gruvbox-theme/colors/Gruvbox.json /tmp/home/.local/share/kicad/9.0/3rdparty/colors/ && \
+                     # Export the schematic as PDF using Gruvbox theme
                      kicad-cli sch export pdf \
                      --output '/tmp/schematic.pdf' \
                      '/kicad_project/${{ steps.find-files.outputs.schematic_file }}' \
