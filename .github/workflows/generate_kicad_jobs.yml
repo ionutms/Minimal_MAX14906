@@ -106,7 +106,7 @@ jobs:
           docker run --rm -u $(id -u):$(id -g) \
             -v ${{ github.workspace }}:/kicad_project \
             -e HOME=/tmp/home \
-            ionutms/kicad:9.0 \
+            ionutms/ubuntu-desktop:v1.1 \
             bash -c "mkdir -p /tmp/home/.config/kicad/9.0/colors && \
                      export HOME=/tmp/home && \
                      mkdir -p /tmp && \
