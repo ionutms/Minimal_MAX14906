@@ -21,6 +21,7 @@ jobs:
         run: |
           # Set default values
           DEFAULT_ZOOM_FACTOR="1.0"
+          DEFAULT_ROTATE_COORDS="0,0,0"
           
           # Check if config file exists and load values
           if [ -f ".github/kicad-config.yml" ]; then
@@ -29,20 +30,32 @@ jobs:
             # Extract zoom factor from config file
             CUSTOM_ZOOM=$(grep 'project_zoom_factor_top_view:' .github/kicad-config.yml | awk '{print $2}' | tr -d "'\"")
             
-            # Use custom value if it exists, otherwise keep default
+            # Extract rotation coordinates from config file
+            CUSTOM_ROTATE=$(grep 'project_rotate_coordonates_top_view:' .github/kicad-config.yml | awk '{print $2}' | tr -d "'\"")
+            
+            # Use custom values if they exist, otherwise keep defaults
             if [ ! -z "$CUSTOM_ZOOM" ]; then
               DEFAULT_ZOOM_FACTOR="$CUSTOM_ZOOM"
               echo "Using custom zoom factor: $DEFAULT_ZOOM_FACTOR"
             else
               echo "Using default zoom factor: $DEFAULT_ZOOM_FACTOR"
             fi
+            
+            if [ ! -z "$CUSTOM_ROTATE" ]; then
+              DEFAULT_ROTATE_COORDS="$CUSTOM_ROTATE"
+              echo "Using custom rotation coordinates: $DEFAULT_ROTATE_COORDS"
+            else
+              echo "Using default rotation coordinates: $DEFAULT_ROTATE_COORDS"
+            fi
           else
             echo "Configuration file not found, using default values"
             echo "Default zoom factor: $DEFAULT_ZOOM_FACTOR"
+            echo "Default rotation coordinates: $DEFAULT_ROTATE_COORDS"
           fi
           
           # Export variables for later steps
           echo "zoom_factor_top_view=$DEFAULT_ZOOM_FACTOR" >> $GITHUB_OUTPUT
+          echo "rotate_coordonates_top_view=$DEFAULT_ROTATE_COORDS" >> $GITHUB_OUTPUT
 
       - name: Find KiCad project files
         id: find-files
@@ -150,11 +163,10 @@ jobs:
                         -o '/kicad_project/docs/pictures/${{ steps.find-files.outputs.project_name }}_side.png' \
                         --background transparent \
                         --quality high \
-                        --rotate=-45,0,45 \
-                        --pan=0,-0.5,0 \
+                        --rotate ${{ steps.config.outputs.rotate_coordonates_top_view }} \
                         --zoom ${{ steps.config.outputs.zoom_factor_top_view }} && \
                       echo 'Generated PCB render side view'
-                    fi
+                    fi"
 
       - name: Debug output directories
         run: |
