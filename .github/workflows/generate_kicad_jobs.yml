@@ -19,9 +19,6 @@ jobs:
       - name: Load configuration
         id: config
         run: |
-          # Set default values
-          DEFAULT_ZOOM_FACTOR="1.0"
-          
           # Check if config file exists and load values
           if [ -f ".github/kicad-config.yml" ]; then
             echo "Found configuration file"
@@ -29,20 +26,14 @@ jobs:
             # Extract zoom factor from config file
             CUSTOM_ZOOM=$(grep 'default_zoom_factor:' .github/kicad-config.yml | awk '{print $2}' | tr -d "'\"")
             
-            # Use custom value if it exists, otherwise keep default
+            # Use custom value if it exists
             if [ ! -z "$CUSTOM_ZOOM" ]; then
-              DEFAULT_ZOOM_FACTOR="$CUSTOM_ZOOM"
-              echo "Using custom zoom factor: $DEFAULT_ZOOM_FACTOR"
-            else
-              echo "Using default zoom factor: $DEFAULT_ZOOM_FACTOR"
+              echo "Using zoom factor: $CUSTOM_ZOOM"
+              echo "zoom_factor=$CUSTOM_ZOOM" >> $GITHUB_OUTPUT
             fi
           else
-            echo "Configuration file not found, using default values"
-            echo "Default zoom factor: $DEFAULT_ZOOM_FACTOR"
+            echo "Configuration file not found"
           fi
-          
-          # Export variables for later steps
-          echo "zoom_factor=$DEFAULT_ZOOM_FACTOR" >> $GITHUB_OUTPUT
 
       - name: Find KiCad project files
         id: find-files
@@ -125,8 +116,11 @@ jobs:
       - name: Render PCB 3D view
         if: steps.find-files.outputs.pcb_found == 'true'
         run: |
-          # Use the zoom factor from the configuration
-          echo "Using zoom factor: ${{ steps.config.outputs.zoom_factor }}"
+          # Use the zoom factor from the configuration if available
+          ZOOM_OPTION=""
+          if [ ! -z "${{ steps.config.outputs.zoom_factor }}" ]; then
+            ZOOM_OPTION="--zoom ${{ steps.config.outputs.zoom_factor }}"
+          fi
           
           docker run --rm -u $(id -u):$(id -g) \
             -v ${{ github.workspace }}:/kicad_project \
@@ -137,14 +131,11 @@ jobs:
                     cd /kicad_project && \
                     mkdir -p /tmp/3d_models && \
                     cp -r /usr/share/3D_Models_Vault/* /tmp/3d_models/ && \
-                    echo '{\"environment\":{\"vars\":{\"KICAD9_3D_MODELS_VAULT\":\"/tmp/3d_models/\"}}}' > /tmp/home/.config/kicad/9.0/kicad_common.json && \
-                    ROTATE="-45,0,45" && \
                     kicad-cli pcb render ${{ steps.find-files.outputs.pcb_file }} \
                     -o /kicad_project/docs/pictures/${{ steps.find-files.outputs.project_name }}_side.png \
                     --background transparent \
                     --quality high \
-                    --rotate $ROTATE \
-                    --zoom ${{ steps.config.outputs.zoom_factor }}"
+                    $ZOOM_OPTION"
 
       - name: Debug output directories
         run: |
