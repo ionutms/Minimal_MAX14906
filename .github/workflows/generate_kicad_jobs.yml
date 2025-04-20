@@ -21,42 +21,28 @@ jobs:
         run: |
           # Set default values
           DEFAULT_ZOOM_FACTOR="1.0"
-          DEFAULT_ROTATE_COORDS="'0,0,0'"
           
           # Check if config file exists and load values
           if [ -f ".github/kicad-config.yml" ]; then
             echo "Found configuration file"
             
             # Extract zoom factor from config file
-            CUSTOM_ZOOM=$(grep 'project_zoom_factor_top_view:' .github/kicad-config.yml | awk '{print $2}' | tr -d "'\"")
+            CUSTOM_ZOOM=$(grep 'default_zoom_factor:' .github/kicad-config.yml | awk '{print $2}' | tr -d "'\"")
             
-            # Extract rotation coordinates from config file
-            CUSTOM_ROTATE=$(grep 'project_rotate_coordonates_top_view:' .github/kicad-config.yml | awk '{print $2}' | tr -d "'\"")
-            
-            # Use custom values if they exist, otherwise keep defaults
+            # Use custom value if it exists, otherwise keep default
             if [ ! -z "$CUSTOM_ZOOM" ]; then
               DEFAULT_ZOOM_FACTOR="$CUSTOM_ZOOM"
               echo "Using custom zoom factor: $DEFAULT_ZOOM_FACTOR"
             else
               echo "Using default zoom factor: $DEFAULT_ZOOM_FACTOR"
             fi
-            
-            if [ ! -z "$CUSTOM_ROTATE" ]; then
-              # Format with single quotes as required by KiCad CLI
-              DEFAULT_ROTATE_COORDS="'$CUSTOM_ROTATE'"
-              echo "Using custom rotation coordinates: $DEFAULT_ROTATE_COORDS"
-            else
-              echo "Using default rotation coordinates: $DEFAULT_ROTATE_COORDS"
-            fi
           else
             echo "Configuration file not found, using default values"
             echo "Default zoom factor: $DEFAULT_ZOOM_FACTOR"
-            echo "Default rotation coordinates: $DEFAULT_ROTATE_COORDS"
           fi
           
           # Export variables for later steps
-          echo "zoom_factor_top_view=${DEFAULT_ZOOM_FACTOR}" >> $GITHUB_OUTPUT
-          echo "rotate_coordonates_top_view=${DEFAULT_ROTATE_COORDS}" >> $GITHUB_OUTPUT
+          echo "zoom_factor=$DEFAULT_ZOOM_FACTOR" >> $GITHUB_OUTPUT
 
       - name: Find KiCad project files
         id: find-files
@@ -122,52 +108,40 @@ jobs:
             -e HOME=/tmp/home \
             ionutms/kicad_9:V1.0 \
             bash -c "mkdir -p /tmp/home/.config/kicad/9.0/colors && \
-                    mkdir -p /tmp/home/.local/share/kicad/9.0/3rdparty/colors && \
-                    mkdir -p /tmp/home/.config/kicad/9.0 && \
-                    export HOME=/tmp/home && \
-                    
-                    # Set up 3D models paths
-                    mkdir -p /tmp/3d_models && \
-                    cp -r /usr/share/3D_Models_Vault/* /tmp/3d_models/ && \
-                    echo '{\"environment\":{\"vars\":{\"KICAD9_3D_MODELS_VAULT\":\"/tmp/3d_models/\"}}}' > /tmp/home/.config/kicad/9.0/kicad_common.json && \
-                    
-                    # Setup Gruvbox theme
-                    if [ -n '${{ steps.find-files.outputs.schematic_found }}' ] && [ '${{ steps.find-files.outputs.schematic_found }}' = 'true' ]; then
-                      git clone https://github.com/AlexanderBrevig/kicad-gruvbox-theme.git /tmp/kicad-gruvbox-theme && \
-                      cp /tmp/kicad-gruvbox-theme/colors/Gruvbox.json /tmp/home/.local/share/kicad/9.0/3rdparty/colors/ && \
-                      
-                      # Generate PDF schematic with Gruvbox theme
-                      kicad-cli sch export pdf \
-                        --output '/tmp/schematic.pdf' \
-                        '/kicad_project/${{ steps.find-files.outputs.schematic_file }}' \
-                        -t gruvbox && \
-                      mkdir -p '/kicad_project/docs/schematics/' && \
-                      cp /tmp/schematic.pdf '/kicad_project/docs/schematics/${{ steps.find-files.outputs.project_name }}_schematic.pdf' && \
-                      echo 'Generated schematic PDF'
-                    fi && \
-                    
-                    # Render PCB 3D top view if PCB file exists
-                    if [ -n '${{ steps.find-files.outputs.pcb_found }}' ] && [ '${{ steps.find-files.outputs.pcb_found }}' = 'true' ]; then
-                      mkdir -p '/kicad_project/docs/pictures/' && \
-                      kicad-cli pcb render '/kicad_project/${{ steps.find-files.outputs.pcb_file }}' \
-                        -o '/kicad_project/docs/pictures/${{ steps.find-files.outputs.project_name }}_top.png' \
-                        --background transparent \
-                        --quality high \
-                        --zoom ${{ steps.config.outputs.zoom_factor_top_view }} && \
-                      echo 'Generated PCB render top view'
-                    fi && \
-                    
-                    # Render PCB 3D side view if PCB file exists
-                    if [ -n '${{ steps.find-files.outputs.pcb_found }}' ] && [ '${{ steps.find-files.outputs.pcb_found }}' = 'true' ]; then
-                      mkdir -p '/kicad_project/docs/pictures/' && \
-                      kicad-cli pcb render '/kicad_project/${{ steps.find-files.outputs.pcb_file }}' \
-                        -o '/kicad_project/docs/pictures/${{ steps.find-files.outputs.project_name }}_side.png' \
-                        --background transparent \
-                        --quality high \
-                        --rotate ${{ steps.config.outputs.rotate_coordonates_top_view }} \
-                        --zoom ${{ steps.config.outputs.zoom_factor_top_view }} && \
-                      echo 'Generated PCB render side view'
-                    fi"
+                     mkdir -p /tmp/home/.local/share/kicad/9.0/3rdparty/colors && \
+                     mkdir -p /tmp/home/.config/kicad/9.0 && \
+                     export HOME=/tmp/home && \
+                     
+                     # Set up 3D models paths
+                     mkdir -p /tmp/3d_models && \
+                     cp -r /usr/share/3D_Models_Vault/* /tmp/3d_models/ && \
+                     echo '{\"environment\":{\"vars\":{\"KICAD9_3D_MODELS_VAULT\":\"/tmp/3d_models/\"}}}' > /tmp/home/.config/kicad/9.0/kicad_common.json && \
+                     
+                     # Setup Gruvbox theme
+                     if [ -n '${{ steps.find-files.outputs.schematic_found }}' ] && [ '${{ steps.find-files.outputs.schematic_found }}' = 'true' ]; then
+                       git clone https://github.com/AlexanderBrevig/kicad-gruvbox-theme.git /tmp/kicad-gruvbox-theme && \
+                       cp /tmp/kicad-gruvbox-theme/colors/Gruvbox.json /tmp/home/.local/share/kicad/9.0/3rdparty/colors/ && \
+                       
+                       # Generate PDF schematic with Gruvbox theme
+                       kicad-cli sch export pdf \
+                         --output '/tmp/schematic.pdf' \
+                         '/kicad_project/${{ steps.find-files.outputs.schematic_file }}' \
+                         -t gruvbox && \
+                       mkdir -p '/kicad_project/docs/schematics/' && \
+                       cp /tmp/schematic.pdf '/kicad_project/docs/schematics/${{ steps.find-files.outputs.project_name }}_schematic.pdf' && \
+                       echo 'Generated schematic PDF'
+                     fi && \
+                     
+                     # Render PCB 3D view if PCB file exists
+                     if [ -n '${{ steps.find-files.outputs.pcb_found }}' ] && [ '${{ steps.find-files.outputs.pcb_found }}' = 'true' ]; then
+                       mkdir -p '/kicad_project/docs/pictures/' && \
+                       kicad-cli pcb render '/kicad_project/${{ steps.find-files.outputs.pcb_file }}' \
+                         -o '/kicad_project/docs/pictures/${{ steps.find-files.outputs.project_name }}_side.png' \
+                         --background transparent \
+                         --quality high \
+                         --zoom ${{ steps.config.outputs.zoom_factor }} && \
+                       echo 'Generated PCB render'
+                     fi"
 
       - name: Debug output directories
         run: |
