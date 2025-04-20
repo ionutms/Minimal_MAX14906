@@ -43,6 +43,7 @@ jobs:
           
           # Export variables for later steps
           echo "zoom_factor=$DEFAULT_ZOOM_FACTOR" >> $GITHUB_OUTPUT
+          echo "rotate_factor=$DEFAULT_ROTATE_FACTOR" >> $GITHUB_OUTPUT
 
       - name: Find KiCad project files
         id: find-files
@@ -139,9 +140,8 @@ jobs:
                          -o '/kicad_project/docs/pictures/${{ steps.find-files.outputs.project_name }}_side.png' \
                          --background transparent \
                          --quality high \
-                         --zoom ${{ steps.config.outputs.default_zoom_factor }} && \
-                        #  --zoom '1.6' && \
-                         --rotate '-45,0,45' && \
+                         --zoom ${{ steps.config.outputs.zoom_factor }} && \
+                         --rotate ${{ steps.config.outputs.rotate_factor }} && \
                        echo 'Generated PCB render'
                      fi"
 
