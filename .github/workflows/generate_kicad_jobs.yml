@@ -42,8 +42,8 @@ jobs:
             fi
             
             if [ ! -z "$CUSTOM_ROTATE" ]; then
-              # Remove only outer quotes but preserve inner structure
-              DEFAULT_ROTATE_COORDS=$(echo $CUSTOM_ROTATE | sed "s/^['\"]//;s/['\"]$//")
+              # Keep the value as is without removing quotes
+              DEFAULT_ROTATE_COORDS="$CUSTOM_ROTATE"
               echo "Using custom rotation coordinates: $DEFAULT_ROTATE_COORDS"
             else
               echo "Using default rotation coordinates: $DEFAULT_ROTATE_COORDS"
@@ -164,7 +164,7 @@ jobs:
                         -o '/kicad_project/docs/pictures/${{ steps.find-files.outputs.project_name }}_side.png' \
                         --background transparent \
                         --quality high \
-                        --rotate '${{ steps.config.outputs.rotate_coordonates_top_view }}' \
+                        --rotate ${{ steps.config.outputs.rotate_coordonates_top_view }} \
                         --zoom ${{ steps.config.outputs.zoom_factor_top_view }} && \
                       echo 'Generated PCB render side view'
                     fi"
