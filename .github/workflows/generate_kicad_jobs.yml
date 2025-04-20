@@ -21,17 +21,20 @@ jobs:
         run: |
           # Set default values
           DEFAULT_ZOOM_FACTOR="1.0"
+          DEFAULT_ROTATE_FACTOR="0,0,0"
           
           # Check if config file exists and load values
           if [ -f ".github/kicad-config.yml" ]; then
             echo "Found configuration file"
             
             # Extract zoom factor from config file
-            CUSTOM_ZOOM=$(grep 'default_zoom_factor:' .github/kicad-config.yml | awk '{print $2}' | tr -d "'\"")
+            CUSTOM_ZOOM=$(grep 'default_zoom_factor:' .github/kicad-config.yml
+            CUSTOM_ROTATE=$(grep 'default_rotate_factor:' .github/kicad-config.yml
             
             # Use custom value if it exists, otherwise keep default
             if [ ! -z "$CUSTOM_ZOOM" ]; then
               DEFAULT_ZOOM_FACTOR="$CUSTOM_ZOOM"
+              DEFAULT_ROTATE_FACTOR="$CUSTOM_ROTATE"
               echo "Using custom zoom factor: $DEFAULT_ZOOM_FACTOR"
             else
               echo "Using default zoom factor: $DEFAULT_ZOOM_FACTOR"
