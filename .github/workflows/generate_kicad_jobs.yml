@@ -28,8 +28,8 @@ jobs:
             echo "Found configuration file"
             
             # Extract zoom factor from config file
-            CUSTOM_ZOOM=$(grep 'default_zoom_factor:' .github/kicad-config.yml
-            CUSTOM_ROTATE=$(grep 'default_rotate_factor:' .github/kicad-config.yml
+            CUSTOM_ZOOM=$(grep 'default_zoom_factor:' .github/kicad-config.yml)
+            CUSTOM_ROTATE=$(grep 'default_rotate_factor:' .github/kicad-config.yml)
             
             # Use custom value if it exists, otherwise keep default
             if [ ! -z "$CUSTOM_ZOOM" ]; then
