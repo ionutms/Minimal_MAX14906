@@ -143,7 +143,8 @@ jobs:
                      --background transparent \
                      --quality high \
                      --zoom 1.6 \
-                     --rotate '-45, 0, 45'"
+                     --rotate "-45,0,45"
+                     \"
 
       - name: Debug output directories
         run: |
