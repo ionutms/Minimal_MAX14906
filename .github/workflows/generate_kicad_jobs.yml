@@ -150,11 +150,11 @@ jobs:
                         -o '/kicad_project/docs/pictures/${{ steps.find-files.outputs.project_name }}_side.png' \
                         --background transparent \
                         --quality high \
-                        --rotate=-45,0,45 \
-                        --pan=0,-0.5,0 \
+                        --rotate '-45,0,45' \
+                        --pan '-45,0,45' \
                         --zoom ${{ steps.config.outputs.zoom_factor_top_view }} && \
                       echo 'Generated PCB render side view'
-                    fi
+                    fi"
 
       - name: Debug output directories
         run: |
