@@ -117,20 +117,20 @@ jobs:
                      cp -r /usr/share/3D_Models_Vault/* /tmp/3d_models/ && \
                      echo '{\"environment\":{\"vars\":{\"KICAD9_3D_MODELS_VAULT\":\"/tmp/3d_models/\"}}}' > /tmp/home/.config/kicad/9.0/kicad_common.json && \
                      
-                     # Setup Gruvbox theme
-                     if [ -n '${{ steps.find-files.outputs.schematic_found }}' ] && [ '${{ steps.find-files.outputs.schematic_found }}' = 'true' ]; then
-                       git clone https://github.com/AlexanderBrevig/kicad-gruvbox-theme.git /tmp/kicad-gruvbox-theme && \
-                       cp /tmp/kicad-gruvbox-theme/colors/Gruvbox.json /tmp/home/.local/share/kicad/9.0/3rdparty/colors/ && \
+                    #  # Setup Gruvbox theme
+                    #  if [ -n '${{ steps.find-files.outputs.schematic_found }}' ] && [ '${{ steps.find-files.outputs.schematic_found }}' = 'true' ]; then
+                    #    git clone https://github.com/AlexanderBrevig/kicad-gruvbox-theme.git /tmp/kicad-gruvbox-theme && \
+                    #    cp /tmp/kicad-gruvbox-theme/colors/Gruvbox.json /tmp/home/.local/share/kicad/9.0/3rdparty/colors/ && \
                        
-                       # Generate PDF schematic with Gruvbox theme
-                       kicad-cli sch export pdf \
-                         --output '/tmp/schematic.pdf' \
-                         '/kicad_project/${{ steps.find-files.outputs.schematic_file }}' \
-                         -t gruvbox && \
-                       mkdir -p '/kicad_project/docs/schematics/' && \
-                       cp /tmp/schematic.pdf '/kicad_project/docs/schematics/${{ steps.find-files.outputs.project_name }}_schematic.pdf' && \
-                       echo 'Generated schematic PDF'
-                     fi && \
+                    #    # Generate PDF schematic with Gruvbox theme
+                    #    kicad-cli sch export pdf \
+                    #      --output '/tmp/schematic.pdf' \
+                    #      '/kicad_project/${{ steps.find-files.outputs.schematic_file }}' \
+                    #      -t gruvbox && \
+                    #    mkdir -p '/kicad_project/docs/schematics/' && \
+                    #    cp /tmp/schematic.pdf '/kicad_project/docs/schematics/${{ steps.find-files.outputs.project_name }}_schematic.pdf' && \
+                    #    echo 'Generated schematic PDF'
+                    #  fi && \
                      
                      # Render PCB 3D view if PCB file exists
                      if [ -n '${{ steps.find-files.outputs.pcb_found }}' ] && [ '${{ steps.find-files.outputs.pcb_found }}' = 'true' ]; then
