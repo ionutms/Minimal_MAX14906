@@ -30,8 +30,8 @@ jobs:
             # Extract zoom factor from config file
             CUSTOM_ZOOM=$(grep 'project_zoom_factor_top_view:' .github/kicad-config.yml | awk '{print $2}' | tr -d "'\"")
             
-            # Extract rotation coordinates from config file
-            CUSTOM_ROTATE=$(grep 'project_rotate_coordonates_top_view:' .github/kicad-config.yml | awk '{print $2}' | tr -d "'\"")
+            # Extract rotation coordinates from config file - preserve quotes
+            CUSTOM_ROTATE=$(grep 'project_rotate_coordonates_top_view:' .github/kicad-config.yml | awk '{print $2}')
             
             # Use custom values if they exist, otherwise keep defaults
             if [ ! -z "$CUSTOM_ZOOM" ]; then
@@ -42,7 +42,8 @@ jobs:
             fi
             
             if [ ! -z "$CUSTOM_ROTATE" ]; then
-              DEFAULT_ROTATE_COORDS="$CUSTOM_ROTATE"
+              # Remove only outer quotes but preserve inner structure
+              DEFAULT_ROTATE_COORDS=$(echo $CUSTOM_ROTATE | sed "s/^['\"]//;s/['\"]$//")
               echo "Using custom rotation coordinates: $DEFAULT_ROTATE_COORDS"
             else
               echo "Using default rotation coordinates: $DEFAULT_ROTATE_COORDS"
@@ -53,9 +54,9 @@ jobs:
             echo "Default rotation coordinates: $DEFAULT_ROTATE_COORDS"
           fi
           
-          # Export variables for later steps
-          echo "zoom_factor_top_view=$DEFAULT_ZOOM_FACTOR" >> $GITHUB_OUTPUT
-          echo "rotate_coordonates_top_view=$DEFAULT_ROTATE_COORDS" >> $GITHUB_OUTPUT
+          # Export variables for later steps (with proper escaping)
+          echo "zoom_factor_top_view=${DEFAULT_ZOOM_FACTOR}" >> $GITHUB_OUTPUT
+          echo "rotate_coordonates_top_view=${DEFAULT_ROTATE_COORDS}" >> $GITHUB_OUTPUT
 
       - name: Find KiCad project files
         id: find-files
@@ -163,7 +164,7 @@ jobs:
                         -o '/kicad_project/docs/pictures/${{ steps.find-files.outputs.project_name }}_side.png' \
                         --background transparent \
                         --quality high \
-                        --rotate "${{ steps.config.outputs.rotate_coordonates_top_view }}" \
+                        --rotate '${{ steps.config.outputs.rotate_coordonates_top_view }}' \
                         --zoom ${{ steps.config.outputs.zoom_factor_top_view }} && \
                       echo 'Generated PCB render side view'
                     fi"
