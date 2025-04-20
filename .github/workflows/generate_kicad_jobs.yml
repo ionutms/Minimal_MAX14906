@@ -100,49 +100,48 @@ jobs:
           # Ensure directories are writable by any user in the Docker container
           chmod -R 777 docs
 
-      - name: Generate PDF schematic
-        if: steps.find-files.outputs.schematic_found == 'true'
+      - name: Generate KiCad outputs (Schematic PDF and PCB render)
+        if: steps.find-files.outputs.project_found == 'true'
         run: |
           docker run --rm -u $(id -u):$(id -g) \
             -v ${{ github.workspace }}:/kicad_project \
             -e HOME=/tmp/home \
-            ionutms/kicad:9.0 \
+            ionutms/kicad_9:V1.0 \
             bash -c "mkdir -p /tmp/home/.config/kicad/9.0/colors && \
                      mkdir -p /tmp/home/.local/share/kicad/9.0/3rdparty/colors && \
+                     mkdir -p /tmp/home/.config/kicad/9.0 && \
                      export HOME=/tmp/home && \
-                     mkdir -p /tmp && \
-                     # Clone Gruvbox theme repository
-                     git clone https://github.com/AlexanderBrevig/kicad-gruvbox-theme.git /tmp/kicad-gruvbox-theme && \
-                     # Copy the theme file to the proper location
-                     cp /tmp/kicad-gruvbox-theme/colors/Gruvbox.json /tmp/home/.local/share/kicad/9.0/3rdparty/colors/ && \
-                     # Export the schematic as PDF using Gruvbox theme
-                     kicad-cli sch export pdf \
-                     --output '/tmp/schematic.pdf' \
-                     '/kicad_project/${{ steps.find-files.outputs.schematic_file }}' \
-                     -t gruvbox && \
-                     cp /tmp/schematic.pdf '/kicad_project/docs/schematics/${{ steps.find-files.outputs.project_name }}_schematic.pdf'"
-
-      - name: Render PCB 3D view
-        if: steps.find-files.outputs.pcb_found == 'true'
-        run: |
-          # Use the zoom factor from the configuration
-          echo "Using zoom factor: ${{ steps.config.outputs.zoom_factor }}"
-          
-          docker run --rm -u $(id -u):$(id -g) \
-            -v ${{ github.workspace }}:/kicad_project \
-            -e HOME=/tmp/home \
-            ionutms/kicad:9.0 \
-            bash -c "mkdir -p /tmp/home/.config/kicad/9.0 && \
-                     export HOME=/tmp/home && \
-                     cd /kicad_project && \
+                     
+                     # Set up 3D models paths
                      mkdir -p /tmp/3d_models && \
                      cp -r /usr/share/3D_Models_Vault/* /tmp/3d_models/ && \
                      echo '{\"environment\":{\"vars\":{\"KICAD9_3D_MODELS_VAULT\":\"/tmp/3d_models/\"}}}' > /tmp/home/.config/kicad/9.0/kicad_common.json && \
-                     kicad-cli pcb render ${{ steps.find-files.outputs.pcb_file }} \
-                     -o /kicad_project/docs/pictures/${{ steps.find-files.outputs.project_name }}_side.png \
-                     --background transparent \
-                     --quality high \
-                     --zoom ${{ steps.config.outputs.zoom_factor }}"
+                     
+                     # Setup Gruvbox theme
+                     if [ -n '${{ steps.find-files.outputs.schematic_found }}' ] && [ '${{ steps.find-files.outputs.schematic_found }}' = 'true' ]; then
+                       git clone https://github.com/AlexanderBrevig/kicad-gruvbox-theme.git /tmp/kicad-gruvbox-theme && \
+                       cp /tmp/kicad-gruvbox-theme/colors/Gruvbox.json /tmp/home/.local/share/kicad/9.0/3rdparty/colors/ && \
+                       
+                       # Generate PDF schematic with Gruvbox theme
+                       kicad-cli sch export pdf \
+                         --output '/tmp/schematic.pdf' \
+                         '/kicad_project/${{ steps.find-files.outputs.schematic_file }}' \
+                         -t gruvbox && \
+                       mkdir -p '/kicad_project/docs/schematics/' && \
+                       cp /tmp/schematic.pdf '/kicad_project/docs/schematics/${{ steps.find-files.outputs.project_name }}_schematic.pdf' && \
+                       echo 'Generated schematic PDF'
+                     fi && \
+                     
+                     # Render PCB 3D view if PCB file exists
+                     if [ -n '${{ steps.find-files.outputs.pcb_found }}' ] && [ '${{ steps.find-files.outputs.pcb_found }}' = 'true' ]; then
+                       mkdir -p '/kicad_project/docs/pictures/' && \
+                       kicad-cli pcb render '/kicad_project/${{ steps.find-files.outputs.pcb_file }}' \
+                         -o '/kicad_project/docs/pictures/${{ steps.find-files.outputs.project_name }}_side.png' \
+                         --background transparent \
+                         --quality high \
+                         --zoom ${{ steps.config.outputs.zoom_factor }} && \
+                       echo 'Generated PCB render'
+                     fi"
 
       - name: Debug output directories
         run: |
