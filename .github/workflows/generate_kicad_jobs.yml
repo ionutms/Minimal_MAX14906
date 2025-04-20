@@ -163,8 +163,8 @@ jobs:
                         -o '/kicad_project/docs/pictures/${{ steps.find-files.outputs.project_name }}_side.png' \
                         --background transparent \
                         --quality high \
-                        --rotate ${{ steps.config.outputs.rotate_coordonates_top_view }} \
-                        --rotate "${{ steps.config.outputs.rotate_coordonates_top_view }}" && \
+                        --rotate "${{ steps.config.outputs.rotate_coordonates_top_view }}" \
+                        --zoom ${{ steps.config.outputs.zoom_factor_top_view }} && \
                       echo 'Generated PCB render side view'
                     fi"
 
