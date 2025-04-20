@@ -151,7 +151,7 @@ jobs:
                          --background transparent \
                          --quality high \
                          --rotate "-45,0,45" \
-                          --pan "0,-0.5,0" \
+                         --pan "0,-0.5,0" \
                          --zoom ${{ steps.config.outputs.zoom_factor_top_view }} && \
                        echo 'Generated PCB render side view'
                      fi"
