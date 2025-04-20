@@ -142,7 +142,7 @@ jobs:
                     -o /kicad_project/docs/pictures/${{ steps.find-files.outputs.project_name }}_side.png \
                     --background transparent \
                     --quality high \
-                    -- --rotate -45,0,45 \
+                    --rotate='-45,0,45' \
                     --zoom ${{ steps.config.outputs.zoom_factor }}"
 
       - name: Debug output directories
