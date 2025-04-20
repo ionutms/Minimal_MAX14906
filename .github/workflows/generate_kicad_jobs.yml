@@ -21,7 +21,7 @@ jobs:
         run: |
           # Set default values
           DEFAULT_ZOOM_FACTOR="1.0"
-          DEFAULT_ROTATE_COORDS="0,0,0"
+          DEFAULT_ROTATE_COORDS="'0,0,0'"
           
           # Check if config file exists and load values
           if [ -f ".github/kicad-config.yml" ]; then
@@ -30,8 +30,8 @@ jobs:
             # Extract zoom factor from config file
             CUSTOM_ZOOM=$(grep 'project_zoom_factor_top_view:' .github/kicad-config.yml | awk '{print $2}' | tr -d "'\"")
             
-            # Extract rotation coordinates from config file - preserve quotes
-            CUSTOM_ROTATE=$(grep 'project_rotate_coordonates_top_view:' .github/kicad-config.yml | awk '{print $2}')
+            # Extract rotation coordinates from config file
+            CUSTOM_ROTATE=$(grep 'project_rotate_coordonates_top_view:' .github/kicad-config.yml | awk '{print $2}' | tr -d "'\"")
             
             # Use custom values if they exist, otherwise keep defaults
             if [ ! -z "$CUSTOM_ZOOM" ]; then
@@ -42,8 +42,8 @@ jobs:
             fi
             
             if [ ! -z "$CUSTOM_ROTATE" ]; then
-              # Keep the value as is without removing quotes
-              DEFAULT_ROTATE_COORDS="$CUSTOM_ROTATE"
+              # Format with single quotes as required by KiCad CLI
+              DEFAULT_ROTATE_COORDS="'$CUSTOM_ROTATE'"
               echo "Using custom rotation coordinates: $DEFAULT_ROTATE_COORDS"
             else
               echo "Using default rotation coordinates: $DEFAULT_ROTATE_COORDS"
@@ -54,7 +54,7 @@ jobs:
             echo "Default rotation coordinates: $DEFAULT_ROTATE_COORDS"
           fi
           
-          # Export variables for later steps (with proper escaping)
+          # Export variables for later steps
           echo "zoom_factor_top_view=${DEFAULT_ZOOM_FACTOR}" >> $GITHUB_OUTPUT
           echo "rotate_coordonates_top_view=${DEFAULT_ROTATE_COORDS}" >> $GITHUB_OUTPUT
 
