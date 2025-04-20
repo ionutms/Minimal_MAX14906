@@ -27,7 +27,7 @@ jobs:
             echo "Found configuration file"
             
             # Extract zoom factor from config file
-            CUSTOM_ZOOM=$(grep 'default_zoom_factor:' .github/kicad-config.yml | awk '{print $2}' | tr -d "'\"")
+            CUSTOM_ZOOM=$(grep 'project_zoom_factor_top_view:' .github/kicad-config.yml | awk '{print $2}' | tr -d "'\"")
             
             # Use custom value if it exists, otherwise keep default
             if [ ! -z "$CUSTOM_ZOOM" ]; then
@@ -42,7 +42,7 @@ jobs:
           fi
           
           # Export variables for later steps
-          echo "zoom_factor=$DEFAULT_ZOOM_FACTOR" >> $GITHUB_OUTPUT
+          echo "zoom_factor_top_view=$DEFAULT_ZOOM_FACTOR" >> $GITHUB_OUTPUT
 
       - name: Find KiCad project files
         id: find-files
@@ -132,15 +132,28 @@ jobs:
                        echo 'Generated schematic PDF'
                      fi && \
                      
-                     # Render PCB 3D view if PCB file exists
+                     # Render PCB 3D top view if PCB file exists
+                     if [ -n '${{ steps.find-files.outputs.pcb_found }}' ] && [ '${{ steps.find-files.outputs.pcb_found }}' = 'true' ]; then
+                       mkdir -p '/kicad_project/docs/pictures/' && \
+                       kicad-cli pcb render '/kicad_project/${{ steps.find-files.outputs.pcb_file }}' \
+                         -o '/kicad_project/docs/pictures/${{ steps.find-files.outputs.project_name }}_top.png' \
+                         --background transparent \
+                         --quality high \
+                         --zoom ${{ steps.config.outputs.zoom_factor_top_view }} && \
+                       echo 'Generated PCB render top view'
+                     fi"
+                     
+                     # Render PCB 3D side view if PCB file exists
                      if [ -n '${{ steps.find-files.outputs.pcb_found }}' ] && [ '${{ steps.find-files.outputs.pcb_found }}' = 'true' ]; then
                        mkdir -p '/kicad_project/docs/pictures/' && \
                        kicad-cli pcb render '/kicad_project/${{ steps.find-files.outputs.pcb_file }}' \
                          -o '/kicad_project/docs/pictures/${{ steps.find-files.outputs.project_name }}_side.png' \
                          --background transparent \
                          --quality high \
-                         --zoom ${{ steps.config.outputs.zoom_factor }} && \
-                       echo 'Generated PCB render'
+                         --rotate "-45,0,45" \
+                          --pan "0,-0.5,0" \
+                         --zoom ${{ steps.config.outputs.zoom_factor_top_view }} && \
+                       echo 'Generated PCB render side view'
                      fi"
 
       - name: Debug output directories
