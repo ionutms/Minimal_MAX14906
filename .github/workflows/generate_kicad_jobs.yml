@@ -133,17 +133,17 @@ jobs:
             -e HOME=/tmp/home \
             ionutms/kicad:9.0 \
             bash -c "mkdir -p /tmp/home/.config/kicad/9.0 && \
-                     export HOME=/tmp/home && \
-                     cd /kicad_project && \
-                     mkdir -p /tmp/3d_models && \
-                     cp -r /usr/share/3D_Models_Vault/* /tmp/3d_models/ && \
-                     echo '{\"environment\":{\"vars\":{\"KICAD9_3D_MODELS_VAULT\":\"/tmp/3d_models/\"}}}' > /tmp/home/.config/kicad/9.0/kicad_common.json && \
-                     kicad-cli pcb render ${{ steps.find-files.outputs.pcb_file }} \
-                     -o /kicad_project/docs/pictures/${{ steps.find-files.outputs.project_name }}_side.png \
-                     --background transparent \
-                     --quality high \
-                     --zoom 1.6 \
-                     --rotate "-45,0,45""
+                    export HOME=/tmp/home && \
+                    cd /kicad_project && \
+                    mkdir -p /tmp/3d_models && \
+                    cp -r /usr/share/3D_Models_Vault/* /tmp/3d_models/ && \
+                    echo '{\"environment\":{\"vars\":{\"KICAD9_3D_MODELS_VAULT\":\"/tmp/3d_models/\"}}}' > /tmp/home/.config/kicad/9.0/kicad_common.json && \
+                    kicad-cli pcb render ${{ steps.find-files.outputs.pcb_file }} \
+                    -o /kicad_project/docs/pictures/${{ steps.find-files.outputs.project_name }}_side.png \
+                    --background transparent \
+                    --quality high \
+                    --zoom 1.6 \
+                    --rotate -45,0,45"
 
       - name: Debug output directories
         run: |
