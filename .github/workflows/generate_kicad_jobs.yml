@@ -122,7 +122,7 @@ jobs:
                      -t gruvbox && \
                      cp /tmp/schematic.pdf '/kicad_project/docs/schematics/${{ steps.find-files.outputs.project_name }}_schematic.pdf'"
 
-      - name: Render PCB 3D view
+      - name: Render PCB 3D side view
         if: steps.find-files.outputs.pcb_found == 'true'
         run: |
           # Use the zoom factor from the configuration
@@ -142,7 +142,8 @@ jobs:
                      -o /kicad_project/docs/pictures/${{ steps.find-files.outputs.project_name }}_side.png \
                      --background transparent \
                      --quality high \
-                     --zoom ${{ steps.config.outputs.zoom_factor }}"
+                     --zoom 1.6 \
+                     --rotate '-45, 0, 45'"
 
       - name: Debug output directories
         run: |
