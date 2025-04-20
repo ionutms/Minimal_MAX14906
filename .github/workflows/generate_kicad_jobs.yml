@@ -141,6 +141,7 @@ jobs:
                          --quality high \
                         #  --zoom ${{ steps.config.outputs.zoom_factor }} && \
                          --zoom '1.6' && \
+                         --rotate '-45,0,45' && \
                        echo 'Generated PCB render'
                      fi"
 
