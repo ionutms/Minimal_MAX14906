@@ -79,7 +79,7 @@
         "command": "kicad-cli sch export pdf minimal_max14906.kicad_sch -o docs\\schematics\\minimal_max14906.pdf -t gruvbox",
         "description": "",
         "ignore_exit_code": false,
-        "output_filename": "",
+        "output_filename": "export_schematics.log",
         "record_output": true
       },
       "type": "special_execute"
