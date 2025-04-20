@@ -138,15 +138,13 @@ jobs:
                     mkdir -p /tmp/3d_models && \
                     cp -r /usr/share/3D_Models_Vault/* /tmp/3d_models/ && \
                     echo '{\"environment\":{\"vars\":{\"KICAD9_3D_MODELS_VAULT\":\"/tmp/3d_models/\"}}}' > /tmp/home/.config/kicad/9.0/kicad_common.json && \
-                    ROTATE='-45,0,45' && \
-                    PAN='0,-0.5,0' && \
+                    ROTATE="-45,0,45" && \
                     kicad-cli pcb render ${{ steps.find-files.outputs.pcb_file }} \
                     -o /kicad_project/docs/pictures/${{ steps.find-files.outputs.project_name }}_side.png \
                     --background transparent \
                     --quality high \
                     --rotate \"$ROTATE\" \
-                    --zoom ${{ steps.config.outputs.zoom_factor }} \
-                    --pan \"$PAN\""
+                    --zoom ${{ steps.config.outputs.zoom_factor }}"
 
       - name: Debug output directories
         run: |
