@@ -27,9 +27,22 @@ jobs:
             echo "Found configuration file"
             
             # Extract zoom factor from config file
-            CUSTOM_ZOOM=$(grep 'default_zoom_factor:' .github/kicad-config.yml)
-
+            CUSTOM_ZOOM=$(grep 'default_zoom_factor:' .github/kicad-config.yml | awk '{print $2}' | tr -d "'\"")
+            
+            # Use custom value if it exists, otherwise keep default
+            if [ ! -z "$CUSTOM_ZOOM" ]; then
+              DEFAULT_ZOOM_FACTOR="$CUSTOM_ZOOM"
+              echo "Using custom zoom factor: $DEFAULT_ZOOM_FACTOR"
+            else
+              echo "Using default zoom factor: $DEFAULT_ZOOM_FACTOR"
+            fi
+          else
+            echo "Configuration file not found, using default values"
+            echo "Default zoom factor: $DEFAULT_ZOOM_FACTOR"
           fi
+          
+          # Export variables for later steps
+          echo "zoom_factor=$DEFAULT_ZOOM_FACTOR" >> $GITHUB_OUTPUT
 
       - name: Find KiCad project files
         id: find-files
@@ -87,27 +100,27 @@ jobs:
           # Ensure directories are writable by any user in the Docker container
           chmod -R 777 docs
 
-      # - name: Generate PDF schematic
-      #   if: steps.find-files.outputs.schematic_found == 'true'
-      #   run: |
-      #     docker run --rm -u $(id -u):$(id -g) \
-      #       -v ${{ github.workspace }}:/kicad_project \
-      #       -e HOME=/tmp/home \
-      #       ionutms/kicad:9.0 \
-      #       bash -c "mkdir -p /tmp/home/.config/kicad/9.0/colors && \
-      #                mkdir -p /tmp/home/.local/share/kicad/9.0/3rdparty/colors && \
-      #                export HOME=/tmp/home && \
-      #                mkdir -p /tmp && \
-      #                # Clone Gruvbox theme repository
-      #                git clone https://github.com/AlexanderBrevig/kicad-gruvbox-theme.git /tmp/kicad-gruvbox-theme && \
-      #                # Copy the theme file to the proper location
-      #                cp /tmp/kicad-gruvbox-theme/colors/Gruvbox.json /tmp/home/.local/share/kicad/9.0/3rdparty/colors/ && \
-      #                # Export the schematic as PDF using Gruvbox theme
-      #                kicad-cli sch export pdf \
-      #                --output '/tmp/schematic.pdf' \
-      #                '/kicad_project/${{ steps.find-files.outputs.schematic_file }}' \
-      #                -t gruvbox && \
-      #                cp /tmp/schematic.pdf '/kicad_project/docs/schematics/${{ steps.find-files.outputs.project_name }}_schematic.pdf'"
+      - name: Generate PDF schematic
+        if: steps.find-files.outputs.schematic_found == 'true'
+        run: |
+          docker run --rm -u $(id -u):$(id -g) \
+            -v ${{ github.workspace }}:/kicad_project \
+            -e HOME=/tmp/home \
+            ionutms/kicad:9.0 \
+            bash -c "mkdir -p /tmp/home/.config/kicad/9.0/colors && \
+                     mkdir -p /tmp/home/.local/share/kicad/9.0/3rdparty/colors && \
+                     export HOME=/tmp/home && \
+                     mkdir -p /tmp && \
+                     # Clone Gruvbox theme repository
+                     git clone https://github.com/AlexanderBrevig/kicad-gruvbox-theme.git /tmp/kicad-gruvbox-theme && \
+                     # Copy the theme file to the proper location
+                     cp /tmp/kicad-gruvbox-theme/colors/Gruvbox.json /tmp/home/.local/share/kicad/9.0/3rdparty/colors/ && \
+                     # Export the schematic as PDF using Gruvbox theme
+                     kicad-cli sch export pdf \
+                     --output '/tmp/schematic.pdf' \
+                     '/kicad_project/${{ steps.find-files.outputs.schematic_file }}' \
+                     -t gruvbox && \
+                     cp /tmp/schematic.pdf '/kicad_project/docs/schematics/${{ steps.find-files.outputs.project_name }}_schematic.pdf'"
 
       - name: Render PCB 3D view
         if: steps.find-files.outputs.pcb_found == 'true'
@@ -129,7 +142,7 @@ jobs:
                      -o /kicad_project/docs/pictures/${{ steps.find-files.outputs.project_name }}_side.png \
                      --background transparent \
                      --quality high \
-                     --zoom $CUSTOM_ZOOM"
+                     --zoom ${{ steps.config.outputs.zoom_factor }}"
 
       - name: Debug output directories
         run: |
