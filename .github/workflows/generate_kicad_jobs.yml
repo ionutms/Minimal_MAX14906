@@ -139,7 +139,8 @@ jobs:
                          -o '/kicad_project/docs/pictures/${{ steps.find-files.outputs.project_name }}_side.png' \
                          --background transparent \
                          --quality high \
-                         --zoom ${{ steps.config.outputs.zoom_factor }} && \
+                        #  --zoom ${{ steps.config.outputs.zoom_factor }} && \
+                         --zoom '1.6' && \
                        echo 'Generated PCB render'
                      fi"
 
