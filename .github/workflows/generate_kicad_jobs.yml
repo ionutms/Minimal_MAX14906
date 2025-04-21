@@ -16,11 +16,18 @@ jobs:
         with:
           fetch-depth: 0  # Fetch all history for proper branch management
 
-      # Set up Docker caching to improve build speeds
+      # Set up Docker Buildx with proper cache location
       - name: Set up Docker Buildx
+        id: buildx
         uses: docker/setup-buildx-action@v2
 
-      # Cache Docker layers
+      # Create Docker cache directory
+      - name: Create cache directory
+        run: |
+          mkdir -p /tmp/.buildx-cache
+          chmod -R 777 /tmp/.buildx-cache
+
+      # Cache Docker layers with proper path
       - name: Cache Docker layers
         uses: actions/cache@v3
         with:
@@ -84,6 +91,7 @@ jobs:
           mkdir -p docs/schematics docs/pictures
           chmod -R 777 docs
 
+      # Extract configuration values once
       - name: Extract KiCad configuration
         id: kicad-config
         if: steps.find-files.outputs.pcb_found == 'true'
@@ -116,6 +124,12 @@ jobs:
             fi
           fi
 
+      # Pull Docker image before using it to ensure cache is properly used
+      - name: Pull KiCad Docker image
+        if: steps.find-files.outputs.project_found == 'true'
+        run: docker pull ionutms/kicad_9:V1.0
+
+      # Combined KiCad operations - run all tasks in a single container
       - name: Generate KiCad outputs
         if: steps.find-files.outputs.project_found == 'true'
         run: |
@@ -164,11 +178,27 @@ jobs:
                   --zoom ${{ steps.kicad-config.outputs.side_view_zoom_factor }}
               fi"
 
+      # Cleanup Docker cache and temporary files
+      - name: Cleanup after Docker operations
+        if: always()
+        run: |
+          # Remove any dangling Docker images
+          docker image prune -f
+          
+          # Clean up temporary directories
+          rm -rf /tmp/kicad_outputs || true
+          rm -rf /tmp/home || true
+          
+          # Move cache for next workflow run
+          rm -rf /tmp/.buildx-cache-old || true
+          mv /tmp/.buildx-cache /tmp/.buildx-cache-old || true
+          mkdir -p /tmp/.buildx-cache
+
       - name: Check for generated files
         id: check-files
         run: |
-          PDF_COUNT=$(find docs/schematics -type f -name "*.pdf" | wc -l)
-          PNG_COUNT=$(find docs/pictures -type f -name "*.png" | wc -l)
+          PDF_COUNT=$(find docs/schematics -type f -name "*.pdf" | wc -l || echo "0")
+          PNG_COUNT=$(find docs/pictures -type f -name "*.png" | wc -l || echo "0")
           TOTAL_COUNT=$((PDF_COUNT + PNG_COUNT))
 
           echo "Found $PDF_COUNT PDF files and $PNG_COUNT PNG files"
