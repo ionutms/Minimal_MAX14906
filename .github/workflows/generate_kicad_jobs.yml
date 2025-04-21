@@ -27,7 +27,7 @@ jobs:
             echo "Found configuration file"
             
             # Extract zoom factor from config file
-            CUSTOM_ZOOM=$(grep 'default_zoom_factor:' .github/kicad-config.yml | awk '{print $2}' | tr -d "'\"")
+            CUSTOM_ZOOM=$(grep 'default_zoom_factor:' .github/kicad-config.yml)
             
             # Use custom value if it exists, otherwise keep default
             if [ ! -z "$CUSTOM_ZOOM" ]; then
@@ -137,7 +137,7 @@ jobs:
                      cd /kicad_project && \
                      mkdir -p /tmp/3d_models && \
                      cp -r /usr/share/3D_Models_Vault/* /tmp/3d_models/ && \
-                     echo '{\"environment\":{\"vars\":{\"KICAD9_3D_MODELS_VAULT\":\"/tmp/3d_models/\"}}}' > /tmp/home/.config/kicad/9.0/kicad_common.json && \
+                     echo '{\"environment\":{\"vars\":{\"KICAD9_3D_MODELS_VAULT\":\"/tmp/3d_models/\"}}}' && \
                      kicad-cli pcb render ${{ steps.find-files.outputs.pcb_file }} \
                      -o /kicad_project/docs/pictures/${{ steps.find-files.outputs.project_name }}_side.png \
                      --background transparent \
