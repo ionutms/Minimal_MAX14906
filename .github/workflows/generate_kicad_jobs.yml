@@ -157,7 +157,7 @@ jobs:
                   --output '/tmp/schematic.pdf' \
                   '/kicad_project/${{ steps.find-files.outputs.schematic_file }}' \
                   -t gruvbox && \
-                cp /tmp/schematic.pdf '/kicad_project/${PROJECT_NAME}/docs/schematics/${PROJECT_NAME}_schematic.pdf'
+                cp /tmp/schematic.pdf '/kicad_project/${PROJECT_NAME}/docs/schematics/${PROJECT_NAME}_schematics.pdf'
               fi && \
               
               # Generate PCB render top view if PCB found
