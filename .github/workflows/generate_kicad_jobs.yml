@@ -26,8 +26,8 @@ jobs:
           if [ -f ".github/kicad-config.yml" ]; then
             echo "Found configuration file"
             
-            # Extract zoom factor from config file
-            CUSTOM_ZOOM=$(grep 'default_zoom_factor:' .github/kicad-config.yml)
+            # Extract zoom factor from config file - properly parse just the value
+            CUSTOM_ZOOM=$(grep 'default_zoom_factor:' .github/kicad-config.yml | sed 's/default_zoom_factor: *//')
             
             # Use custom value if it exists, otherwise keep default
             if [ ! -z "$CUSTOM_ZOOM" ]; then
