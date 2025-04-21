@@ -160,6 +160,19 @@ jobs:
                 cp /tmp/schematic.pdf '/kicad_project/${PROJECT_NAME}/docs/schematics/${PROJECT_NAME}_schematics.pdf'
               fi && \
               
+              # Generate GLB file if PCB found
+              if [ '${{ steps.find-files.outputs.pcb_found }}' == 'true' ]; then
+                kicad-cli pcb export glb /kicad_project/${{ steps.find-files.outputs.pcb_file }} \
+                  -o /kicad_project/${PROJECT_NAME}/docs/3D_models/${PROJECT_NAME}.glb \
+                  --include-tracks \
+                  --include-pads \
+                  --include-zones \
+                  --include-silkscreen \
+                  --include-soldermask \
+                  --fill-all-vias \
+                  --cut-vias-in-body
+              fi && \
+
               # Generate PCB render top view if PCB found
               if [ '${{ steps.find-files.outputs.pcb_found }}' == 'true' ]; then
                 kicad-cli pcb render /kicad_project/${{ steps.find-files.outputs.pcb_file }} \
@@ -188,9 +201,10 @@ jobs:
           
           PDF_COUNT=$(find "${PROJECT_NAME}/docs/schematics" -type f -name "*.pdf" | wc -l || echo "0")
           PNG_COUNT=$(find "${PROJECT_NAME}/docs/pictures" -type f -name "*.png" | wc -l || echo "0")
-          TOTAL_COUNT=$((PDF_COUNT + PNG_COUNT))
+          GLB_COUNT=$(find "${PROJECT_NAME}/docs/3D_models" -type f -name "*.glb" | wc -l || echo "0")
+          TOTAL_COUNT=$((PDF_COUNT + PNG_COUNT + GLB_COUNT))
 
-          echo "Found $PDF_COUNT PDF files and $PNG_COUNT PNG files in ${PROJECT_NAME}/docs"
+          echo "Found $PDF_COUNT PDF files, $PNG_COUNT PNG files and $GLB_COUNT GLB in ${PROJECT_NAME}/docs"
           
           if [ "$TOTAL_COUNT" -gt 0 ]; then
             echo "files_generated=true" >> $GITHUB_OUTPUT
@@ -208,6 +222,7 @@ jobs:
           path: |
             ${{ steps.find-files.outputs.project_name }}/docs/schematics/
             ${{ steps.find-files.outputs.project_name }}/docs/pictures/
+            ${{ steps.find-files.outputs.project_name }}/docs/3D_models/
           retention-days: 1
           if-no-files-found: warn
 
@@ -240,7 +255,7 @@ jobs:
           fi
           
           # Add the files
-          git add "${PROJECT_NAME}/docs/schematics" "${PROJECT_NAME}/docs/pictures"
+          git add "${PROJECT_NAME}/docs/schematics" "${PROJECT_NAME}/docs/pictures" "${PROJECT_NAME}/docs/3D_models"
           
           # Check if there are changes to commit
           if git diff --staged --quiet; then
