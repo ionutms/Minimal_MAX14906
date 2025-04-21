@@ -99,7 +99,9 @@ jobs:
           # Set default values
           echo "side_view_zoom_factor=1.0" >> $GITHUB_OUTPUT
           echo "side_view_rotate=\"0,0,0\"" >> $GITHUB_OUTPUT
-          echo "side_view_pan=\"0,0\"" >> $GITHUB_OUTPUT
+          echo "side_view_pan=\"0,0,0\"" >> $GITHUB_OUTPUT
+          echo "top_view_zoom_factor=1.0" >> $GITHUB_OUTPUT
+
           
           # Extract parameters from config file if it exists
           if [ -f ".github/kicad-config.yml" ]; then
@@ -109,6 +111,12 @@ jobs:
             SIDE_VIEW_ZOOM_FACTOR=$(grep 'side_view_zoom_factor:' .github/kicad-config.yml | sed 's/side_view_zoom_factor: *//')
             if [ ! -z "$SIDE_VIEW_ZOOM_FACTOR" ]; then
               echo "side_view_zoom_factor=$SIDE_VIEW_ZOOM_FACTOR" >> $GITHUB_OUTPUT
+            fi
+            
+            # Extract zoom factor
+            TOP_VIEW_ZOOM_FACTOR=$(grep 'top_view_zoom_factor:' .github/kicad-config.yml | sed 's/top_view_zoom_factor: *//')
+            if [ ! -z "$TOP_VIEW_ZOOM_FACTOR" ]; then
+              echo "top_view_zoom_factor=$TOP_VIEW_ZOOM_FACTOR" >> $GITHUB_OUTPUT
             fi
             
             # Extract rotate values - preserve quotes
@@ -173,7 +181,7 @@ jobs:
                   -o /kicad_project/docs/pictures/${{ steps.find-files.outputs.project_name }}_top.png \
                   --background transparent \
                   --quality high \
-                  --zoom ${{ steps.kicad-config.outputs.side_view_zoom_factor }}
+                  --zoom ${{ steps.kicad-config.outputs.top_view_zoom_factor }}
               fi && \
 
               # Generate PCB render side view if PCB found

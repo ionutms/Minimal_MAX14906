@@ -1,3 +1,5 @@
 side_view_zoom_factor: 1.2
 side_view_rotate: '315,360,405'
 side_view_pan: '0,-0.5,0'
+
+top_view_zoom_factor: 0.9
