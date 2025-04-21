@@ -20,7 +20,7 @@ jobs:
         id: config
         run: |
           # Set default values
-          DEFAULT_ZOOM_FACTOR="1.0"
+          DEFAULT_ZOOM_FACTOR=1.0
           
           # Check if config file exists and load values
           if [ -f ".github/kicad-config.yml" ]; then
