@@ -100,11 +100,10 @@ jobs:
           # Extract zoom factor from config file if it exists
           if [ -f ".github/kicad-config.yml" ]; then
             echo "Found configuration file"
-            FOUNT_SIDE_VIEW_ZOOM_FACTOR=$(grep 'side_view_zoom_factor:' .github/kicad-config.yml | sed 's/side_view_zoom_factor: *//')
+            SIDE_VIEW_ZOOM_FACTOR=$(grep 'side_view_zoom_factor:' .github/kicad-config.yml | sed 's/side_view_zoom_factor: *//')
             
-            if [ ! -z "$FOUNT_SIDE_VIEW_ZOOM_FACTOR" ]; then
-              echo "Found side view zoom factor: $FOUNT_SIDE_VIEW_ZOOM_FACTOR"
-              SIDE_VIEW_ZOOM_FACTOR="$FOUNT_SIDE_VIEW_ZOOM_FACTOR"
+            if [ ! -z "$SIDE_VIEW_ZOOM_FACTOR" ]; then
+              echo "Found side view zoom factor: $SIDE_VIEW_ZOOM_FACTOR"
             else
               echo "Zoom factor not found in configuration file"
             fi
