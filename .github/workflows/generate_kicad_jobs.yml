@@ -132,13 +132,6 @@ jobs:
                      --pan '0,-0.5,0' \
                      --zoom $SIDE_VIEW_ZOOM_FACTOR"
 
-      - name: Debug output directories
-        run: |
-          echo "Checking directory permissions:"
-          ls -la docs/
-          ls -la docs/schematics/ || echo "Schematics directory is empty"
-          ls -la docs/pictures/ || echo "Pictures directory is empty"
-
       - name: Check for generated files
         id: check-files
         run: |
