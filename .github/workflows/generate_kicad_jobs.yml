@@ -100,11 +100,11 @@ jobs:
           # Extract zoom factor from config file if it exists
           if [ -f ".github/kicad-config.yml" ]; then
             echo "Found configuration file"
-            CONFIG_ZOOM=$(grep 'default_zoom_factor:' .github/kicad-config.yml | sed 's/default_zoom_factor: *//')
+            FOUNT_SIDE_VIEW_ZOOM_FACTOR=$(grep 'side_view_zoom_factor:' .github/kicad-config.yml | sed 's/side_view_zoom_factor: *//')
             
-            if [ ! -z "$CONFIG_ZOOM" ]; then
-              echo "Found zoom factor: $CONFIG_ZOOM"
-              ZOOM_FACTOR="$CONFIG_ZOOM"
+            if [ ! -z "$FOUNT_SIDE_VIEW_ZOOM_FACTOR" ]; then
+              echo "Found side view zoom factor: $FOUNT_SIDE_VIEW_ZOOM_FACTOR"
+              SIDE_VIEW_ZOOM_FACTOR="$FOUNT_SIDE_VIEW_ZOOM_FACTOR"
             else
               echo "Zoom factor not found in configuration file"
             fi
@@ -113,7 +113,7 @@ jobs:
           fi
           
           # Use the zoom factor that was found, or let the command fail if not found
-          echo "Using zoom factor: $ZOOM_FACTOR"
+          echo "Using zoom factor: $SIDE_VIEW_ZOOM_FACTOR"
           
           docker run --rm -u $(id -u):$(id -g) \
             -v ${{ github.workspace }}:/kicad_project \
@@ -131,7 +131,7 @@ jobs:
                      --quality high \
                      --rotate '315,360,405' \
                      --pan '0,-0.5,0' \
-                     --zoom $ZOOM_FACTOR"
+                     --zoom $SIDE_VIEW_ZOOM_FACTOR"
 
       - name: Debug output directories
         run: |
