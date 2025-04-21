@@ -28,7 +28,7 @@
       "description": "",
       "id": "46e6ce2c-32b5-4188-b7b0-32112468610d",
       "settings": {
-        "command": "kicad-cli pcb render minimal_max14906.kicad_pcb -o docs\\pictures\\minimal_max14906_side.png --background transparent --quality high --rotate '-45,0,45' --zoom 0.9 --pan '0,-0.5,0'",
+        "command": "kicad-cli pcb render minimal_max14906.kicad_pcb -o docs\\pictures\\minimal_max14906_side.png --background transparent --quality high --rotate '315,360,405' --zoom 1.2 --pan '0,-0.5,0'",
         "description": "",
         "ignore_exit_code": false,
         "output_filename": "export_side_png.log",
