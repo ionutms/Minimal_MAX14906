@@ -66,13 +66,35 @@ jobs:
           echo "No KiCad project found. Skipping workflow."
           exit 0
 
+      - name: Determine default branch
+        id: default-branch
+        if: steps.find-files.outputs.project_found == 'true'
+        run: |
+          DEFAULT_BRANCH=$(git remote show origin | grep 'HEAD branch' | cut -d' ' -f5)
+          echo "default_branch=$DEFAULT_BRANCH" >> $GITHUB_OUTPUT
+          echo "Default branch is: $DEFAULT_BRANCH"
+
+      # Checkout default branch first before any operations
+      - name: Checkout default branch
+        if: steps.find-files.outputs.project_found == 'true'
+        run: |
+          DEFAULT_BRANCH="${{ steps.default-branch.outputs.default_branch }}"
+          
+          # Checkout the default branch
+          git fetch origin $DEFAULT_BRANCH
+          git checkout $DEFAULT_BRANCH || git checkout -b $DEFAULT_BRANCH
+
       - name: Create and set permissions on project-specific output directories
         if: steps.find-files.outputs.project_found == 'true'
         run: |
+          # Clean any existing output directories to prevent conflicts
+          PROJECT_NAME="${{ steps.find-files.outputs.project_name }}"
+          rm -rf "${PROJECT_NAME}/docs/schematics" "${PROJECT_NAME}/docs/pictures" "${PROJECT_NAME}/docs/3D_models"
+          
           # Create project-specific directories
-          mkdir -p "${{ steps.find-files.outputs.project_name }}/docs/schematics" "${{ steps.find-files.outputs.project_name }}/docs/pictures"
-          chmod -R 777 "${{ steps.find-files.outputs.project_name }}/docs"
-          echo "Created project-specific directories at ${{ steps.find-files.outputs.project_name }}/docs"
+          mkdir -p "$PROJECT_NAME/docs/schematics" "$PROJECT_NAME/docs/pictures" "$PROJECT_NAME/docs/3D_models"
+          chmod -R 777 "$PROJECT_NAME/docs"
+          echo "Created project-specific directories at $PROJECT_NAME/docs"
 
       # Extract configuration values once
       - name: Extract KiCad configuration
@@ -232,27 +254,10 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
 
-      - name: Determine default branch
-        id: default-branch
-        if: steps.check-files.outputs.files_generated == 'true'
-        run: |
-          DEFAULT_BRANCH=$(git remote show origin | grep 'HEAD branch' | cut -d' ' -f5)
-          echo "default_branch=$DEFAULT_BRANCH" >> $GITHUB_OUTPUT
-          echo "Default branch is: $DEFAULT_BRANCH"
-
       - name: Commit and push changes
         if: steps.check-files.outputs.files_generated == 'true'
         run: |
-          DEFAULT_BRANCH="${{ steps.default-branch.outputs.default_branch }}"
           PROJECT_NAME="${{ steps.find-files.outputs.project_name }}"
-          
-          # Check out default branch
-          if git show-ref --verify --quiet refs/remotes/origin/$DEFAULT_BRANCH; then
-            git fetch origin $DEFAULT_BRANCH
-            git checkout $DEFAULT_BRANCH
-          else
-            git checkout -b $DEFAULT_BRANCH
-          fi
           
           # Add the files
           git add "${PROJECT_NAME}/docs/schematics" "${PROJECT_NAME}/docs/pictures" "${PROJECT_NAME}/docs/3D_models"
@@ -265,6 +270,6 @@ jobs:
             git commit -m "Update KiCad documentation for ${PROJECT_NAME} (schematics and PCB renders)"
             
             # Push with error handling
-            echo "Pushing to $DEFAULT_BRANCH branch"
-            git push origin $DEFAULT_BRANCH || git push -u origin $DEFAULT_BRANCH || git push -f origin $DEFAULT_BRANCH
+            echo "Pushing to current branch"
+            git push origin HEAD || git push -u origin HEAD
           fi
