@@ -143,6 +143,7 @@ jobs:
                      --background transparent \
                      --quality high \
                      --rotate '315,360,405' \
+                     --pan '0,-0.5,0' \
                      --zoom ${{ steps.config.outputs.zoom_factor }}"
 
       - name: Debug output directories
