@@ -28,7 +28,7 @@
       "description": "",
       "id": "46e6ce2c-32b5-4188-b7b0-32112468610d",
       "settings": {
-        "command": "kicad-cli pcb render minimal_max14906.kicad_pcb -o docs\\pictures\\minimal_max14906_side.png --background transparent --quality high --rotate '315,360,405' --zoom 1.2 --pan '0,-0.5,0'",
+        "command": "kicad-cli pcb render minimal_max14906.kicad_pcb -o docs\\pictures\\minimal_max14906_side.png --background transparent --quality high --rotate '315,360,405' --zoom 1.3 --pan '0,-0.4,0'",
         "description": "",
         "ignore_exit_code": false,
         "output_filename": "export_side_png.log",
@@ -40,7 +40,7 @@
       "description": "",
       "id": "c641c62b-2e48-4c96-bec6-7b085a067742",
       "settings": {
-        "command": "kicad-cli pcb render minimal_max14906.kicad_pcb -o docs\\pictures\\minimal_max14906_top.png --side top --background transparent --quality high --zoom 0.9 --pan '0,0,0'",
+        "command": "kicad-cli pcb render minimal_max14906.kicad_pcb -o docs\\pictures\\minimal_max14906_top.png --side top --background transparent --quality high --zoom 1.6",
         "description": "",
         "ignore_exit_code": false,
         "output_filename": "export_top_png.log",
@@ -50,33 +50,9 @@
     },
     {
       "description": "",
-      "id": "bfc7bda9-7e9a-4603-8b47-46f2cf904bfc",
-      "settings": {
-        "command": "kicad-cli pcb render minimal_max14906.kicad_pcb -o docs\\pictures\\minimal_max14906_front.png --side front --background transparent --quality high --zoom 1.6 --pan '0,-1,0'",
-        "description": "",
-        "ignore_exit_code": false,
-        "output_filename": "export_front_png.log",
-        "record_output": true
-      },
-      "type": "special_execute"
-    },
-    {
-      "description": "",
-      "id": "d17f9f14-a22a-43c2-9c2e-d53bad81289c",
-      "settings": {
-        "command": "kicad-cli pcb render minimal_max14906.kicad_pcb -o docs\\pictures\\minimal_max14906_right.png --side right --background transparent --quality high --zoom 1.6 --pan '0,-1,0'",
-        "description": "",
-        "ignore_exit_code": false,
-        "output_filename": "export_right_png.log",
-        "record_output": true
-      },
-      "type": "special_execute"
-    },
-    {
-      "description": "",
       "id": "c8083e09-fff5-4692-9a56-95e84f1a9f22",
       "settings": {
-        "command": "kicad-cli sch export pdf minimal_max14906.kicad_sch -o docs\\schematics\\minimal_max14906.pdf -t gruvbox",
+        "command": "kicad-cli sch export pdf minimal_max14906.kicad_sch -o docs\\schematics\\minimal_max14906_schematics.pdf -t gruvbox",
         "description": "",
         "ignore_exit_code": false,
         "output_filename": "export_schematics.log",
