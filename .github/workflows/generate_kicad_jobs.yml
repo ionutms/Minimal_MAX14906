@@ -181,25 +181,6 @@ jobs:
                   -t gruvbox && \
                 cp /tmp/schematic.pdf '/kicad_project/${PROJECT_NAME}/docs/schematics/${PROJECT_NAME}_schematics.pdf'
               fi && \
-              
-              # Generate GLB file if PCB found
-              if [ '${{ steps.find-files.outputs.pcb_found }}' == 'true' ]; then
-                kicad-cli pcb export glb /kicad_project/${{ steps.find-files.outputs.pcb_file }} \
-                  -o /kicad_project/${PROJECT_NAME}/docs/3d_models/${PROJECT_NAME}.glb \
-                  --include-tracks \
-                  --include-pads \
-                  --include-zones \
-                  --include-silkscreen \
-                  --include-soldermask \
-                  --fill-all-vias \
-                  --cut-vias-in-body
-              fi && \
-              
-              # Generate WRL file if PCB found
-              if [ '${{ steps.find-files.outputs.pcb_found }}' == 'true' ]; then
-                kicad-cli pcb export vrml /kicad_project/${{ steps.find-files.outputs.pcb_file }} \
-                  -o /kicad_project/${PROJECT_NAME}/docs/3d_models/${PROJECT_NAME}.wrl
-              fi && \
 
               # Generate PCB render top view if PCB found
               if [ '${{ steps.find-files.outputs.pcb_found }}' == 'true' ]; then
@@ -229,11 +210,9 @@ jobs:
           
           PDF_COUNT=$(find "${PROJECT_NAME}/docs/schematics" -type f -name "*.pdf" | wc -l || echo "0")
           PNG_COUNT=$(find "${PROJECT_NAME}/docs/pictures" -type f -name "*.png" | wc -l || echo "0")
-          GLB_COUNT=$(find "${PROJECT_NAME}/docs/3d_models" -type f -name "*.glb" | wc -l || echo "0")
-          WRL_COUNT=$(find "${PROJECT_NAME}/docs/3d_models" -type f -name "*.wrl" | wc -l || echo "0")
-          TOTAL_COUNT=$((PDF_COUNT + PNG_COUNT + GLB_COUNT + WRL_COUNT))
+          TOTAL_COUNT=$((PDF_COUNT + PNG_COUNT))
 
-          echo "Found $PDF_COUNT PDF files, $PNG_COUNT PNG files, $GLB_COUNT GLB and $WRL_COUNT WRL in ${PROJECT_NAME}/docs"
+          echo "Found $PDF_COUNT PDF files and $PNG_COUNT PNG files in ${PROJECT_NAME}/docs"
           
           if [ "$TOTAL_COUNT" -gt 0 ]; then
             echo "files_generated=true" >> $GITHUB_OUTPUT
@@ -251,7 +230,6 @@ jobs:
           path: |
             ${{ steps.find-files.outputs.project_name }}/docs/schematics/
             ${{ steps.find-files.outputs.project_name }}/docs/pictures/
-            ${{ steps.find-files.outputs.project_name }}/docs/3d_models/
           retention-days: 1
           if-no-files-found: warn
 
@@ -267,7 +245,7 @@ jobs:
           PROJECT_NAME="${{ steps.find-files.outputs.project_name }}"
           
           # Add the files
-          git add "${PROJECT_NAME}/docs/schematics" "${PROJECT_NAME}/docs/pictures" "${PROJECT_NAME}/docs/3d_models"
+          git add "${PROJECT_NAME}/docs/schematics" "${PROJECT_NAME}/docs/pictures"
           
           # Check if there are changes to commit
           if git diff --staged --quiet; then
