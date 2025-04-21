@@ -97,40 +97,53 @@ jobs:
       - name: Render PCB 3D view
         if: steps.find-files.outputs.pcb_found == 'true'
         run: |
-          # Extract zoom factor from config file if it exists
+          # Extract parameters from config file if it exists
           if [ -f ".github/kicad-config.yml" ]; then
             echo "Found configuration file"
-            SIDE_VIEW_ZOOM_FACTOR=$(grep 'side_view_zoom_factor:' .github/kicad-config.yml | sed 's/side_view_zoom_factor: *//')
             
+            # Extract zoom factor
+            SIDE_VIEW_ZOOM_FACTOR=$(grep 'side_view_zoom_factor:' .github/kicad-config.yml | sed 's/side_view_zoom_factor: *//')
             if [ ! -z "$SIDE_VIEW_ZOOM_FACTOR" ]; then
               echo "Found side view zoom factor: $SIDE_VIEW_ZOOM_FACTOR"
-            else
-              echo "Zoom factor not found in configuration file"
+            fi
+            
+            # Extract rotate values - preserve quotes
+            SIDE_VIEW_ROTATE=$(grep 'side_view_rotate:' .github/kicad-config.yml | sed 's/side_view_rotate: *//')
+            if [ ! -z "$SIDE_VIEW_ROTATE" ]; then
+              echo "Found side view rotate: $SIDE_VIEW_ROTATE"
+            fi
+            
+            # Extract pan values - preserve quotes
+            SIDE_VIEW_PAN=$(grep 'side_view_pan:' .github/kicad-config.yml | sed 's/side_view_pan: *//')
+            if [ ! -z "$SIDE_VIEW_PAN" ]; then
+              echo "Found side view pan: $SIDE_VIEW_PAN"
             fi
           else
             echo "Configuration file not found"
           fi
           
-          # Use the zoom factor that was found, or let the command fail if not found
+          # Debug the found parameters
           echo "Using zoom factor: $SIDE_VIEW_ZOOM_FACTOR"
+          echo "Using rotate values: $SIDE_VIEW_ROTATE"
+          echo "Using pan values: $SIDE_VIEW_PAN"
           
           docker run --rm -u $(id -u):$(id -g) \
             -v ${{ github.workspace }}:/kicad_project \
             -e HOME=/tmp/home \
             ionutms/kicad:9.0 \
             bash -c "mkdir -p /tmp/home/.config/kicad/9.0 && \
-                     export HOME=/tmp/home && \
-                     cd /kicad_project && \
-                     mkdir -p /tmp/3d_models && \
-                     cp -r /usr/share/3D_Models_Vault/* /tmp/3d_models/ && \
-                     echo '{\"environment\":{\"vars\":{\"KICAD9_3D_MODELS_VAULT\":\"/tmp/3d_models/\"}}}' > /tmp/home/.config/kicad/9.0/kicad_common.json && \
-                     kicad-cli pcb render ${{ steps.find-files.outputs.pcb_file }} \
-                     -o /kicad_project/docs/pictures/${{ steps.find-files.outputs.project_name }}_side.png \
-                     --background transparent \
-                     --quality high \
-                     --rotate '315,360,405' \
-                     --pan '0,-0.5,0' \
-                     --zoom $SIDE_VIEW_ZOOM_FACTOR"
+                    export HOME=/tmp/home && \
+                    cd /kicad_project && \
+                    mkdir -p /tmp/3d_models && \
+                    cp -r /usr/share/3D_Models_Vault/* /tmp/3d_models/ && \
+                    echo '{\"environment\":{\"vars\":{\"KICAD9_3D_MODELS_VAULT\":\"/tmp/3d_models/\"}}}' > /tmp/home/.config/kicad/9.0/kicad_common.json && \
+                    kicad-cli pcb render ${{ steps.find-files.outputs.pcb_file }} \
+                    -o /kicad_project/docs/pictures/${{ steps.find-files.outputs.project_name }}_side.png \
+                    --background transparent \
+                    --quality high \
+                    --rotate $SIDE_VIEW_ROTATE \
+                    --pan $SIDE_VIEW_PAN \
+                    --zoom $SIDE_VIEW_ZOOM_FACTOR"
 
       - name: Check for generated files
         id: check-files
