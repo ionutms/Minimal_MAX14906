@@ -16,6 +16,19 @@ jobs:
         with:
           fetch-depth: 0  # Fetch all history for proper branch management
 
+      # Set up Docker caching to improve build speeds
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      # Cache Docker layers
+      - name: Cache Docker layers
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
       - name: Find KiCad project files
         id: find-files
         run: |
@@ -69,34 +82,17 @@ jobs:
       - name: Create and set permissions on output directories
         run: |
           mkdir -p docs/schematics docs/pictures
-          # Ensure directories are writable by any user in the Docker container
           chmod -R 777 docs
 
-      - name: Generate PDF schematic
-        if: steps.find-files.outputs.schematic_found == 'true'
-        run: |
-          docker run --rm -u $(id -u):$(id -g) \
-            -v ${{ github.workspace }}:/kicad_project \
-            -e HOME=/tmp/home \
-            ionutms/kicad:9.0 \
-            bash -c "mkdir -p /tmp/home/.config/kicad/9.0/colors && \
-                     mkdir -p /tmp/home/.local/share/kicad/9.0/3rdparty/colors && \
-                     export HOME=/tmp/home && \
-                     mkdir -p /tmp && \
-                     # Clone Gruvbox theme repository
-                     git clone https://github.com/AlexanderBrevig/kicad-gruvbox-theme.git /tmp/kicad-gruvbox-theme && \
-                     # Copy the theme file to the proper location
-                     cp /tmp/kicad-gruvbox-theme/colors/Gruvbox.json /tmp/home/.local/share/kicad/9.0/3rdparty/colors/ && \
-                     # Export the schematic as PDF using Gruvbox theme
-                     kicad-cli sch export pdf \
-                     --output '/tmp/schematic.pdf' \
-                     '/kicad_project/${{ steps.find-files.outputs.schematic_file }}' \
-                     -t gruvbox && \
-                     cp /tmp/schematic.pdf '/kicad_project/docs/schematics/${{ steps.find-files.outputs.project_name }}_schematic.pdf'"
-
-      - name: Render PCB 3D view
+      - name: Extract KiCad configuration
+        id: kicad-config
         if: steps.find-files.outputs.pcb_found == 'true'
         run: |
+          # Set default values
+          echo "side_view_zoom_factor=1.0" >> $GITHUB_OUTPUT
+          echo "side_view_rotate=\"0,0,0\"" >> $GITHUB_OUTPUT
+          echo "side_view_pan=\"0,0\"" >> $GITHUB_OUTPUT
+          
           # Extract parameters from config file if it exists
           if [ -f ".github/kicad-config.yml" ]; then
             echo "Found configuration file"
@@ -104,46 +100,69 @@ jobs:
             # Extract zoom factor
             SIDE_VIEW_ZOOM_FACTOR=$(grep 'side_view_zoom_factor:' .github/kicad-config.yml | sed 's/side_view_zoom_factor: *//')
             if [ ! -z "$SIDE_VIEW_ZOOM_FACTOR" ]; then
-              echo "Found side view zoom factor: $SIDE_VIEW_ZOOM_FACTOR"
+              echo "side_view_zoom_factor=$SIDE_VIEW_ZOOM_FACTOR" >> $GITHUB_OUTPUT
             fi
             
             # Extract rotate values - preserve quotes
             SIDE_VIEW_ROTATE=$(grep 'side_view_rotate:' .github/kicad-config.yml | sed 's/side_view_rotate: *//')
             if [ ! -z "$SIDE_VIEW_ROTATE" ]; then
-              echo "Found side view rotate: $SIDE_VIEW_ROTATE"
+              echo "side_view_rotate=$SIDE_VIEW_ROTATE" >> $GITHUB_OUTPUT
             fi
             
             # Extract pan values - preserve quotes
             SIDE_VIEW_PAN=$(grep 'side_view_pan:' .github/kicad-config.yml | sed 's/side_view_pan: *//')
             if [ ! -z "$SIDE_VIEW_PAN" ]; then
-              echo "Found side view pan: $SIDE_VIEW_PAN"
+              echo "side_view_pan=$SIDE_VIEW_PAN" >> $GITHUB_OUTPUT
             fi
-          else
-            echo "Configuration file not found"
           fi
+
+      - name: Generate KiCad outputs
+        if: steps.find-files.outputs.project_found == 'true'
+        run: |
+          # Create a temporary directory for shared files
+          mkdir -p /tmp/kicad_outputs/schematics /tmp/kicad_outputs/pictures
           
-          # Debug the found parameters
-          echo "Using zoom factor: $SIDE_VIEW_ZOOM_FACTOR"
-          echo "Using rotate values: $SIDE_VIEW_ROTATE"
-          echo "Using pan values: $SIDE_VIEW_PAN"
-          
+          # Run all KiCad operations in a single container
           docker run --rm -u $(id -u):$(id -g) \
             -v ${{ github.workspace }}:/kicad_project \
             -e HOME=/tmp/home \
-            ionutms/kicad:9.0 \
-            bash -c "mkdir -p /tmp/home/.config/kicad/9.0 && \
-                    export HOME=/tmp/home && \
-                    cd /kicad_project && \
-                    mkdir -p /tmp/3d_models && \
-                    cp -r /usr/share/3D_Models_Vault/* /tmp/3d_models/ && \
-                    echo '{\"environment\":{\"vars\":{\"KICAD9_3D_MODELS_VAULT\":\"/tmp/3d_models/\"}}}' > /tmp/home/.config/kicad/9.0/kicad_common.json && \
-                    kicad-cli pcb render ${{ steps.find-files.outputs.pcb_file }} \
-                    -o /kicad_project/docs/pictures/${{ steps.find-files.outputs.project_name }}_side.png \
-                    --background transparent \
-                    --quality high \
-                    --rotate $SIDE_VIEW_ROTATE \
-                    --pan $SIDE_VIEW_PAN \
-                    --zoom $SIDE_VIEW_ZOOM_FACTOR"
+            ionutms/kicad_9:V1.0 \
+            bash -c "set -e && \
+              # Create necessary directories
+              mkdir -p /tmp/home/.config/kicad/9.0/colors \
+              /tmp/home/.local/share/kicad/9.0/3rdparty/colors \
+              /tmp/3d_models && \
+              
+              # Set environment variables
+              export HOME=/tmp/home && \
+              
+              # Copy 3D models
+              cp -r /usr/share/3D_Models_Vault/* /tmp/3d_models/ && \
+              echo '{\"environment\":{\"vars\":{\"KICAD9_3D_MODELS_VAULT\":\"/tmp/3d_models/\"}}}' > /tmp/home/.config/kicad/9.0/kicad_common.json && \
+              
+              # Setup Gruvbox theme if schematic found
+              if [ '${{ steps.find-files.outputs.schematic_found }}' == 'true' ]; then
+                git clone --depth 1 https://github.com/AlexanderBrevig/kicad-gruvbox-theme.git /tmp/kicad-gruvbox-theme && \
+                cp /tmp/kicad-gruvbox-theme/colors/Gruvbox.json /tmp/home/.local/share/kicad/9.0/3rdparty/colors/ && \
+                
+                # Generate PDF schematic
+                kicad-cli sch export pdf \
+                  --output '/tmp/schematic.pdf' \
+                  '/kicad_project/${{ steps.find-files.outputs.schematic_file }}' \
+                  -t gruvbox && \
+                cp /tmp/schematic.pdf '/kicad_project/docs/schematics/${{ steps.find-files.outputs.project_name }}_schematic.pdf'
+              fi && \
+              
+              # Generate PCB render if PCB found
+              if [ '${{ steps.find-files.outputs.pcb_found }}' == 'true' ]; then
+                kicad-cli pcb render /kicad_project/${{ steps.find-files.outputs.pcb_file }} \
+                  -o /kicad_project/docs/pictures/${{ steps.find-files.outputs.project_name }}_side.png \
+                  --background transparent \
+                  --quality high \
+                  --rotate ${{ steps.kicad-config.outputs.side_view_rotate }} \
+                  --pan ${{ steps.kicad-config.outputs.side_view_pan }} \
+                  --zoom ${{ steps.kicad-config.outputs.side_view_zoom_factor }}
+              fi"
 
       - name: Check for generated files
         id: check-files
@@ -160,7 +179,6 @@ jobs:
           else
             echo "files_generated=false" >> $GITHUB_OUTPUT
             echo "No files were generated, checking for errors..."
-            # Don't exit with error code to allow artifact upload to proceed
           fi
 
       - name: Upload outputs as artifacts
@@ -173,18 +191,8 @@ jobs:
           retention-days: 1
           if-no-files-found: warn
 
-      - name: Save generated files
-        if: steps.check-files.outputs.files_generated == 'true'
-        run: |
-          mkdir -p /tmp/kicad_outputs/schematics /tmp/kicad_outputs/pictures
-          cp -r docs/schematics/* /tmp/kicad_outputs/schematics/ || true
-          cp -r docs/pictures/* /tmp/kicad_outputs/pictures/ || true
-          
-          # Debug saved files
-          echo "Files saved to temporary location:"
-          find /tmp/kicad_outputs -type f | sort
-
       - name: Configure Git
+        if: steps.check-files.outputs.files_generated == 'true'
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
@@ -193,48 +201,25 @@ jobs:
         id: default-branch
         if: steps.check-files.outputs.files_generated == 'true'
         run: |
-          # Get the default branch name from the repository
           DEFAULT_BRANCH=$(git remote show origin | grep 'HEAD branch' | cut -d' ' -f5)
           echo "default_branch=$DEFAULT_BRANCH" >> $GITHUB_OUTPUT
           echo "Default branch is: $DEFAULT_BRANCH"
-
-      - name: Prepare branch for outputs
-        if: steps.check-files.outputs.files_generated == 'true'
-        run: |
-          # Determine if we're using main or master
-          DEFAULT_BRANCH="${{ steps.default-branch.outputs.default_branch }}"
-          
-          # Check if the default branch exists
-          if git show-ref --verify --quiet refs/remotes/origin/$DEFAULT_BRANCH; then
-            echo "Default branch $DEFAULT_BRANCH exists, checking it out"
-            git fetch origin $DEFAULT_BRANCH
-            git checkout $DEFAULT_BRANCH
-          else
-            echo "Default branch does not exist yet, creating it"
-            git checkout -b $DEFAULT_BRANCH
-          fi
-          
-          # Create output directories if they don't exist
-          mkdir -p docs/schematics docs/pictures
-          chmod -R 777 docs  # Ensure directories are writable
-
-      - name: Restore generated files
-        if: steps.check-files.outputs.files_generated == 'true'
-        run: |
-          cp -r /tmp/kicad_outputs/schematics/* docs/schematics/ || true
-          cp -r /tmp/kicad_outputs/pictures/* docs/pictures/ || true
-          echo "Final output contents:"
-          ls -la docs/schematics/ || true
-          ls -la docs/pictures/ || true
 
       - name: Commit and push changes
         if: steps.check-files.outputs.files_generated == 'true'
         run: |
           DEFAULT_BRANCH="${{ steps.default-branch.outputs.default_branch }}"
           
+          # Check out default branch
+          if git show-ref --verify --quiet refs/remotes/origin/$DEFAULT_BRANCH; then
+            git fetch origin $DEFAULT_BRANCH
+            git checkout $DEFAULT_BRANCH
+          else
+            git checkout -b $DEFAULT_BRANCH
+          fi
+          
           # Add the files
-          git add docs/schematics || true
-          git add docs/pictures || true
+          git add docs/schematics docs/pictures
           
           # Check if there are changes to commit
           if git diff --staged --quiet; then
@@ -245,14 +230,5 @@ jobs:
             
             # Push with error handling
             echo "Pushing to $DEFAULT_BRANCH branch"
-            if ! git push origin $DEFAULT_BRANCH; then
-              # If push fails, try to create the branch first
-              echo "Push failed, trying to create branch first"
-              git push -u origin $DEFAULT_BRANCH
-              
-              if [ $? -ne 0 ]; then
-                echo "Push failed again. Attempting force push as last resort..."
-                git push -f origin $DEFAULT_BRANCH
-              fi
-            fi
+            git push origin $DEFAULT_BRANCH || git push -u origin $DEFAULT_BRANCH || git push -f origin $DEFAULT_BRANCH
           fi
