@@ -96,7 +96,7 @@ jobs:
           chmod -R 777 "$PROJECT_NAME/docs"
           echo "Created project-specific directories at $PROJECT_NAME/docs"
 
-      # Extract configuration values once
+      # Extract configuration values once - with proper trimming
       - name: Extract KiCad configuration
         id: kicad-config
         if: steps.find-files.outputs.pcb_found == 'true'
@@ -112,26 +112,26 @@ jobs:
           if [ -f ".github/kicad-config.yml" ]; then
             echo "Found configuration file"
             
-            # Extract zoom factor
-            SIDE_VIEW_ZOOM_FACTOR=$(grep 'side_view_zoom_factor:' .github/kicad-config.yml | sed 's/side_view_zoom_factor: *//')
+            # Extract zoom factor with proper trimming
+            SIDE_VIEW_ZOOM_FACTOR=$(grep 'side_view_zoom_factor:' .github/kicad-config.yml | sed 's/side_view_zoom_factor: *//' | tr -d '\n\r')
             if [ ! -z "$SIDE_VIEW_ZOOM_FACTOR" ]; then
               echo "side_view_zoom_factor=$SIDE_VIEW_ZOOM_FACTOR" >> $GITHUB_OUTPUT
             fi
             
-            # Extract zoom factor
-            TOP_VIEW_ZOOM_FACTOR=$(grep 'top_view_zoom_factor:' .github/kicad-config.yml | sed 's/top_view_zoom_factor: *//')
+            # Extract top view zoom factor with proper trimming
+            TOP_VIEW_ZOOM_FACTOR=$(grep 'top_view_zoom_factor:' .github/kicad-config.yml | sed 's/top_view_zoom_factor: *//' | tr -d '\n\r')
             if [ ! -z "$TOP_VIEW_ZOOM_FACTOR" ]; then
               echo "top_view_zoom_factor=$TOP_VIEW_ZOOM_FACTOR" >> $GITHUB_OUTPUT
             fi
             
-            # Extract rotate values - preserve quotes
-            SIDE_VIEW_ROTATE=$(grep 'side_view_rotate:' .github/kicad-config.yml | sed 's/side_view_rotate: *//')
+            # Extract rotate values - preserve quotes but trim whitespace
+            SIDE_VIEW_ROTATE=$(grep 'side_view_rotate:' .github/kicad-config.yml | sed 's/side_view_rotate: *//' | tr -d '\n\r')
             if [ ! -z "$SIDE_VIEW_ROTATE" ]; then
               echo "side_view_rotate=$SIDE_VIEW_ROTATE" >> $GITHUB_OUTPUT
             fi
             
-            # Extract pan values - preserve quotes
-            SIDE_VIEW_PAN=$(grep 'side_view_pan:' .github/kicad-config.yml | sed 's/side_view_pan: *//')
+            # Extract pan values - preserve quotes but trim whitespace
+            SIDE_VIEW_PAN=$(grep 'side_view_pan:' .github/kicad-config.yml | sed 's/side_view_pan: *//' | tr -d '\n\r')
             if [ ! -z "$SIDE_VIEW_PAN" ]; then
               echo "side_view_pan=$SIDE_VIEW_PAN" >> $GITHUB_OUTPUT
             fi
@@ -142,32 +142,31 @@ jobs:
         if: steps.find-files.outputs.project_found == 'true'
         run: docker pull ionutms/kicad_9:V1.0
 
-      # Combined KiCad operations - run all tasks in a single container
+      # Modified to use temporary directory for 3D models
       - name: Generate KiCad outputs
         if: steps.find-files.outputs.project_found == 'true'
         run: |
-          # Create a temporary directory for shared files
-          mkdir -p /tmp/kicad_outputs/schematics /tmp/kicad_outputs/pictures
-          
           PROJECT_NAME="${{ steps.find-files.outputs.project_name }}"
           
-          # Run all KiCad operations in a single container
+          # Run KiCad operations with improved 3D model handling
           docker run --rm -u $(id -u):$(id -g) \
             -v ${{ github.workspace }}:/kicad_project \
             -e HOME=/tmp/home \
             ionutms/kicad_9:V1.0 \
             bash -c "set -e && \
+              # Clone 3D models to a temporary directory to avoid ownership issues
+              mkdir -p /tmp/3D_Models_Vault && \
+              git clone https://github.com/ionutms/3D_Models_Vault.git /tmp/3D_Models_Vault && \
+              
               # Create necessary directories
               mkdir -p /tmp/home/.config/kicad/9.0/colors \
-              /tmp/home/.local/share/kicad/9.0/3rdparty/colors \
-              /tmp/3d_models && \
+              /tmp/home/.local/share/kicad/9.0/3rdparty/colors && \
               
               # Set environment variables
               export HOME=/tmp/home && \
               
-              # Copy 3D models
-              cp -r /usr/share/3D_Models_Vault/* /tmp/3d_models/ && \
-              echo '{\"environment\":{\"vars\":{\"KICAD9_3D_MODELS_VAULT\":\"/tmp/3d_models/\"}}}' > /tmp/home/.config/kicad/9.0/kicad_common.json && \
+              # Configure KiCad to use 3D models from temporary location
+              echo '{\"environment\":{\"vars\":{\"KICAD9_3D_MODELS_VAULT\":\"/tmp/3D_Models_Vault/\"}}}' > /tmp/home/.config/kicad/9.0/kicad_common.json && \
               
               # Setup Gruvbox theme if schematic found
               if [ '${{ steps.find-files.outputs.schematic_found }}' == 'true' ]; then
@@ -179,13 +178,13 @@ jobs:
                   --output '/tmp/schematic.pdf' \
                   '/kicad_project/${{ steps.find-files.outputs.schematic_file }}' \
                   -t gruvbox && \
-                cp /tmp/schematic.pdf '/kicad_project/${PROJECT_NAME}/docs/schematics/${PROJECT_NAME}_schematics.pdf'
+                cp /tmp/schematic.pdf \"/kicad_project/$PROJECT_NAME/docs/schematics/${PROJECT_NAME}_schematics.pdf\"
               fi && \
 
               # Generate PCB render top view if PCB found
               if [ '${{ steps.find-files.outputs.pcb_found }}' == 'true' ]; then
                 kicad-cli pcb render /kicad_project/${{ steps.find-files.outputs.pcb_file }} \
-                  -o /kicad_project/${PROJECT_NAME}/docs/pictures/${PROJECT_NAME}_top.png \
+                  -o \"/kicad_project/$PROJECT_NAME/docs/pictures/${PROJECT_NAME}_top.png\" \
                   --background transparent \
                   --quality high \
                   --zoom ${{ steps.kicad-config.outputs.top_view_zoom_factor }}
@@ -194,7 +193,7 @@ jobs:
               # Generate PCB render side view if PCB found
               if [ '${{ steps.find-files.outputs.pcb_found }}' == 'true' ]; then
                 kicad-cli pcb render /kicad_project/${{ steps.find-files.outputs.pcb_file }} \
-                  -o /kicad_project/${PROJECT_NAME}/docs/pictures/${PROJECT_NAME}_side.png \
+                  -o \"/kicad_project/$PROJECT_NAME/docs/pictures/${PROJECT_NAME}_side.png\" \
                   --background transparent \
                   --quality high \
                   --rotate ${{ steps.kicad-config.outputs.side_view_rotate }} \
