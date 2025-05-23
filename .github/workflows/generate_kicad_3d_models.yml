@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      actions: write
 
     steps:
       - name: Checkout repository
@@ -59,6 +60,27 @@ jobs:
         run: |
           echo "No PCB file found. Cannot generate 3D models without PCB."
           exit 0
+
+      - name: Clean up old 3D model artifacts
+        if: steps.find-files.outputs.project_found == 'true' && steps.find-files.outputs.pcb_found == 'true'
+        continue-on-error: true  # Don't fail the workflow if cleanup fails
+        run: |
+          PROJECT_NAME="${{ steps.find-files.outputs.project_name }}"
+          ARTIFACT_NAME="kicad-3d-models-${PROJECT_NAME}"
+          
+          echo "Cleaning up old artifacts with name pattern: ${ARTIFACT_NAME}"
+          
+          # Get list of artifacts and delete matching ones
+          gh api repos/${{ github.repository }}/actions/artifacts \
+            --jq ".artifacts[] | select(.name | startswith(\"${ARTIFACT_NAME}\")) | .id" \
+            | while read artifact_id; do
+              if [ -n "$artifact_id" ]; then
+                echo "Deleting artifact ID: $artifact_id"
+                gh api --method DELETE repos/${{ github.repository }}/actions/artifacts/$artifact_id || true
+              fi
+            done
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create 3D models output directory
         run: |
