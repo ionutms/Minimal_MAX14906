@@ -114,7 +114,7 @@ jobs:
 
               kicad-cli pcb export glb /kicad_project/${{ steps.find-files.outputs.pcb_file }} \
                 -o \"/kicad_project/$PROJECT_NAME/docs/3d_models/${PROJECT_NAME}.glb\" \
-                --include-tracks --include-pads --include-zones --include-silkscreen --include-soldermask && \
+                --include-tracks --include-pads --include-zones --include-silkscreen --include-soldermask --subst-models && \
 
               kicad-cli pcb export vrml /kicad_project/${{ steps.find-files.outputs.pcb_file }} \
                 -o \"/kicad_project/$PROJECT_NAME/docs/3d_models/${PROJECT_NAME}.wrl\""
