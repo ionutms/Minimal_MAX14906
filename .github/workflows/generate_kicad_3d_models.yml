@@ -113,7 +113,8 @@ jobs:
               echo '{\"environment\":{\"vars\":{\"KICAD9_3D_MODELS_VAULT\":\"/tmp/3D_Models_Vault/\"}}}' > /tmp/home/.config/kicad/9.0/kicad_common.json && \
 
               kicad-cli pcb export glb /kicad_project/${{ steps.find-files.outputs.pcb_file }} \
-                -o \"/kicad_project/$PROJECT_NAME/docs/3d_models/${PROJECT_NAME}.glb\" && \
+                -o \"/kicad_project/$PROJECT_NAME/docs/3d_models/${PROJECT_NAME}.glb\" \
+                --include-tracks --include-pads --include-zones --include-silkscreen --include-soldermask && \
 
               kicad-cli pcb export vrml /kicad_project/${{ steps.find-files.outputs.pcb_file }} \
                 -o \"/kicad_project/$PROJECT_NAME/docs/3d_models/${PROJECT_NAME}.wrl\""
