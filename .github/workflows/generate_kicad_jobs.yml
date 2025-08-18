@@ -106,6 +106,7 @@ jobs:
           echo "side_view_rotate=\"0,0,0\"" >> $GITHUB_OUTPUT
           echo "side_view_pan=\"0,0,0\"" >> $GITHUB_OUTPUT
           echo "top_view_zoom_factor=1.0" >> $GITHUB_OUTPUT
+          echo "bottom_view_zoom_factor=1.0" >> $GITHUB_OUTPUT
 
           
           # Extract parameters from config file if it exists
@@ -122,6 +123,15 @@ jobs:
             TOP_VIEW_ZOOM_FACTOR=$(grep 'top_view_zoom_factor:' .github/kicad-config.yml | sed 's/top_view_zoom_factor: *//' | tr -d '\n\r')
             if [ ! -z "$TOP_VIEW_ZOOM_FACTOR" ]; then
               echo "top_view_zoom_factor=$TOP_VIEW_ZOOM_FACTOR" >> $GITHUB_OUTPUT
+            fi
+            
+            # Extract bottom view parameters (using side view as default if not specified)
+            BOTTOM_VIEW_ZOOM_FACTOR=$(grep 'bottom_view_zoom_factor:' .github/kicad-config.yml | sed 's/bottom_view_zoom_factor: *//' | tr -d '\n\r')
+            if [ ! -z "$BOTTOM_VIEW_ZOOM_FACTOR" ]; then
+              echo "bottom_view_zoom_factor=$BOTTOM_VIEW_ZOOM_FACTOR" >> $GITHUB_OUTPUT
+            else
+              # Default to side view parameters if not specified
+              echo "bottom_view_zoom_factor=$SIDE_VIEW_ZOOM_FACTOR" >> $GITHUB_OUTPUT
             fi
             
             # Extract rotate values - preserve quotes but trim whitespace
@@ -184,7 +194,7 @@ jobs:
               # Generate PCB render top view if PCB found
               if [ '${{ steps.find-files.outputs.pcb_found }}' == 'true' ]; then
                 kicad-cli pcb render /kicad_project/${{ steps.find-files.outputs.pcb_file }} \
-                  -o \"/kicad_project/$PROJECT_NAME/docs/pictures/${PROJECT_NAME}_top.png\" \
+                  -o "/kicad_project/$PROJECT_NAME/docs/pictures/2_${PROJECT_NAME}_top.png" \
                   --background transparent \
                   --quality high \
                   --zoom ${{ steps.kicad-config.outputs.top_view_zoom_factor }}
@@ -193,12 +203,22 @@ jobs:
               # Generate PCB render side view if PCB found
               if [ '${{ steps.find-files.outputs.pcb_found }}' == 'true' ]; then
                 kicad-cli pcb render /kicad_project/${{ steps.find-files.outputs.pcb_file }} \
-                  -o \"/kicad_project/$PROJECT_NAME/docs/pictures/${PROJECT_NAME}_side.png\" \
+                  -o "/kicad_project/$PROJECT_NAME/docs/pictures/1_${PROJECT_NAME}_side.png" \
                   --background transparent \
                   --quality high \
                   --rotate ${{ steps.kicad-config.outputs.side_view_rotate }} \
                   --pan ${{ steps.kicad-config.outputs.side_view_pan }} \
                   --zoom ${{ steps.kicad-config.outputs.side_view_zoom_factor }}
+              fi && \
+
+              # Generate PCB render bottom view if PCB found
+              if [ '${{ steps.find-files.outputs.pcb_found }}' == 'true' ]; then
+                kicad-cli pcb render /kicad_project/${{ steps.find-files.outputs.pcb_file }} \
+                  -o "/kicad_project/$PROJECT_NAME/docs/pictures/3_${PROJECT_NAME}_bottom.png" \
+                  --background transparent \
+                  --quality high \
+                  --side bottom \
+                  --zoom ${{ steps.kicad-config.outputs.bottom_view_zoom_factor }}
               fi"
 
       - name: Check for generated files
