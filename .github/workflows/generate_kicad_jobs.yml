@@ -277,3 +277,17 @@ jobs:
             echo "Pushing to current branch"
             git push origin HEAD || git push -u origin HEAD
           fi
+
+      - name: Trigger 3D Models Generation Workflow
+        if: steps.check-files.outputs.files_generated == 'true'
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.REPO_DISPATCH_TOKEN }}
+          event-type: generate-3d-models
+          client-payload: |
+            {
+              "source_repo": "${{ github.repository }}",
+              "project_name": "${{ steps.find-files.outputs.project_name }}",
+              "ref": "${{ github.ref }}",
+              "sha": "${{ github.sha }}"
+            }

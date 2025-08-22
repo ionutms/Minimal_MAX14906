@@ -1,8 +1,8 @@
 name: Generate KiCad 3D Models
 on:
-  push:
-    branches: [ doc_workflow ]
   workflow_dispatch:
+  repository_dispatch:
+    types: [generate-3d-models]
 
 jobs:
   generate-kicad-3d-models:
