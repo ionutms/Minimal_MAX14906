@@ -91,7 +91,7 @@ jobs:
           echo "Created 3D models directory at $PROJECT_NAME/docs/3d_models"
 
       - name: Pull KiCad Docker image
-        run: docker pull ionutms/kicad_9:V1.0
+        run: docker pull ionutms/kicad_9:V1.1
 
       - name: Generate 3D models
         run: |
@@ -100,7 +100,7 @@ jobs:
           docker run --rm -u $(id -u):$(id -g) \
             -v ${{ github.workspace }}:/kicad_project \
             -e HOME=/tmp/home \
-            ionutms/kicad_9:V1.0 \
+            ionutms/kicad_9:V1.1 \
             bash -c "set -e && \
               mkdir -p /tmp/3D_Models_Vault && \
               git clone https://github.com/ionutms/3D_Models_Vault.git /tmp/3D_Models_Vault && \
