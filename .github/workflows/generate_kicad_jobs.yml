@@ -106,7 +106,15 @@ jobs:
           echo "side_view_rotate=\"0,0,0\"" >> $GITHUB_OUTPUT
           echo "side_view_pan=\"0,0,0\"" >> $GITHUB_OUTPUT
           echo "top_view_zoom_factor=1.0" >> $GITHUB_OUTPUT
+          echo "top_view_pan=\"0,0,0\"" >> $GITHUB_OUTPUT
           echo "bottom_view_zoom_factor=1.0" >> $GITHUB_OUTPUT
+          echo "bottom_view_pan=\"0,0,0\"" >> $GITHUB_OUTPUT
+          echo "left_view_zoom_factor=1.0" >> $GITHUB_OUTPUT
+          echo "left_view_rotate=\"0,90,0\"" >> $GITHUB_OUTPUT
+          echo "left_view_pan=\"0,0,0\"" >> $GITHUB_OUTPUT
+          echo "right_view_zoom_factor=1.0" >> $GITHUB_OUTPUT
+          echo "right_view_rotate=\"0,-90,0\"" >> $GITHUB_OUTPUT
+          echo "right_view_pan=\"0,0,0\"" >> $GITHUB_OUTPUT
 
           
           # Extract parameters from config file if it exists
@@ -124,6 +132,12 @@ jobs:
             if [ ! -z "$TOP_VIEW_ZOOM_FACTOR" ]; then
               echo "top_view_zoom_factor=$TOP_VIEW_ZOOM_FACTOR" >> $GITHUB_OUTPUT
             fi
+
+            # Extract top view pan values - preserve quotes but trim whitespace
+            TOP_VIEW_PAN=$(grep 'top_view_pan:' .github/kicad-config.yml | sed 's/top_view_pan: *//' | tr -d '\n\r')
+            if [ ! -z "$TOP_VIEW_PAN" ]; then
+              echo "top_view_pan=$TOP_VIEW_PAN" >> $GITHUB_OUTPUT
+            fi
             
             # Extract bottom view parameters (using side view as default if not specified)
             BOTTOM_VIEW_ZOOM_FACTOR=$(grep 'bottom_view_zoom_factor:' .github/kicad-config.yml | sed 's/bottom_view_zoom_factor: *//' | tr -d '\n\r')
@@ -132,6 +146,12 @@ jobs:
             else
               # Default to side view parameters if not specified
               echo "bottom_view_zoom_factor=$SIDE_VIEW_ZOOM_FACTOR" >> $GITHUB_OUTPUT
+            fi
+
+            # Extract bottom view pan values - preserve quotes but trim whitespace
+            BOTTOM_VIEW_PAN=$(grep 'bottom_view_pan:' .github/kicad-config.yml | sed 's/bottom_view_pan: *//' | tr -d '\n\r')
+            if [ ! -z "$BOTTOM_VIEW_PAN" ]; then
+              echo "bottom_view_pan=$BOTTOM_VIEW_PAN" >> $GITHUB_OUTPUT
             fi
             
             # Extract rotate values - preserve quotes but trim whitespace
@@ -144,6 +164,42 @@ jobs:
             SIDE_VIEW_PAN=$(grep 'side_view_pan:' .github/kicad-config.yml | sed 's/side_view_pan: *//' | tr -d '\n\r')
             if [ ! -z "$SIDE_VIEW_PAN" ]; then
               echo "side_view_pan=$SIDE_VIEW_PAN" >> $GITHUB_OUTPUT
+            fi
+
+            # Extract left view parameters
+            LEFT_VIEW_ZOOM_FACTOR=$(grep 'left_view_zoom_factor:' .github/kicad-config.yml | sed 's/left_view_zoom_factor: *//' | tr -d '\n\r')
+            if [ ! -z "$LEFT_VIEW_ZOOM_FACTOR" ]; then
+              echo "left_view_zoom_factor=$LEFT_VIEW_ZOOM_FACTOR" >> $GITHUB_OUTPUT
+            else
+              echo "left_view_zoom_factor=$SIDE_VIEW_ZOOM_FACTOR" >> $GITHUB_OUTPUT
+            fi
+            LEFT_VIEW_ROTATE=$(grep 'left_view_rotate:' .github/kicad-config.yml | sed 's/left_view_rotate: *//' | tr -d '\n\r')
+            if [ ! -z "$LEFT_VIEW_ROTATE" ]; then
+              echo "left_view_rotate=$LEFT_VIEW_ROTATE" >> $GITHUB_OUTPUT
+            fi
+            LEFT_VIEW_PAN=$(grep 'left_view_pan:' .github/kicad-config.yml | sed 's/left_view_pan: *//' | tr -d '\n\r')
+            if [ ! -z "$LEFT_VIEW_PAN" ]; then
+              echo "left_view_pan=$LEFT_VIEW_PAN" >> $GITHUB_OUTPUT
+            else
+              echo "left_view_pan=$SIDE_VIEW_PAN" >> $GITHUB_OUTPUT
+            fi
+
+            # Extract right view parameters
+            RIGHT_VIEW_ZOOM_FACTOR=$(grep 'right_view_zoom_factor:' .github/kicad-config.yml | sed 's/right_view_zoom_factor: *//' | tr -d '\n\r')
+            if [ ! -z "$RIGHT_VIEW_ZOOM_FACTOR" ]; then
+              echo "right_view_zoom_factor=$RIGHT_VIEW_ZOOM_FACTOR" >> $GITHUB_OUTPUT
+            else
+              echo "right_view_zoom_factor=$SIDE_VIEW_ZOOM_FACTOR" >> $GITHUB_OUTPUT
+            fi
+            RIGHT_VIEW_ROTATE=$(grep 'right_view_rotate:' .github/kicad-config.yml | sed 's/right_view_rotate: *//' | tr -d '\n\r')
+            if [ ! -z "$RIGHT_VIEW_ROTATE" ]; then
+              echo "right_view_rotate=$RIGHT_VIEW_ROTATE" >> $GITHUB_OUTPUT
+            fi
+            RIGHT_VIEW_PAN=$(grep 'right_view_pan:' .github/kicad-config.yml | sed 's/right_view_pan: *//' | tr -d '\n\r')
+            if [ ! -z "$RIGHT_VIEW_PAN" ]; then
+              echo "right_view_pan=$RIGHT_VIEW_PAN" >> $GITHUB_OUTPUT
+            else
+              echo "right_view_pan=$SIDE_VIEW_PAN" >> $GITHUB_OUTPUT
             fi
           fi
 
@@ -197,6 +253,7 @@ jobs:
                   -o "/kicad_project/$PROJECT_NAME/docs/pictures/2_${PROJECT_NAME}_top.png" \
                   --background transparent \
                   --quality high \
+                  --pan ${{ steps.kicad-config.outputs.top_view_pan }} \
                   --zoom ${{ steps.kicad-config.outputs.top_view_zoom_factor }}
               fi && \
 
@@ -218,7 +275,30 @@ jobs:
                   --background transparent \
                   --quality high \
                   --side bottom \
+                  --pan ${{ steps.kicad-config.outputs.bottom_view_pan }} \
                   --zoom ${{ steps.kicad-config.outputs.bottom_view_zoom_factor }}
+              fi && \
+
+              # Generate PCB render left side view if PCB found
+              if [ '${{ steps.find-files.outputs.pcb_found }}' == 'true' ]; then
+                kicad-cli pcb render /kicad_project/${{ steps.find-files.outputs.pcb_file }} \
+                  -o "/kicad_project/$PROJECT_NAME/docs/pictures/4_${PROJECT_NAME}_left.png" \
+                  --background transparent \
+                  --quality high \
+                  --side left \
+                  --pan ${{ steps.kicad-config.outputs.left_view_pan }} \
+                  --zoom ${{ steps.kicad-config.outputs.left_view_zoom_factor }}
+              fi && \
+
+              # Generate PCB render right side view if PCB found
+              if [ '${{ steps.find-files.outputs.pcb_found }}' == 'true' ]; then
+                kicad-cli pcb render /kicad_project/${{ steps.find-files.outputs.pcb_file }} \
+                  -o "/kicad_project/$PROJECT_NAME/docs/pictures/5_${PROJECT_NAME}_right.png" \
+                  --background transparent \
+                  --quality high \
+                  --side right \
+                  --pan ${{ steps.kicad-config.outputs.right_view_pan }} \
+                  --zoom ${{ steps.kicad-config.outputs.right_view_zoom_factor }}
               fi && \
 
               # Generate Interactive HTML BOM if PCB found - using Docker image's wrapper
@@ -309,6 +389,20 @@ jobs:
         with:
           token: ${{ secrets.REPO_DISPATCH_TOKEN }}
           event-type: generate-3d-models
+          client-payload: |
+            {
+              "source_repo": "${{ github.repository }}",
+              "project_name": "${{ steps.find-files.outputs.project_name }}",
+              "ref": "${{ github.ref }}",
+              "sha": "${{ github.sha }}"
+            }
+
+      - name: Trigger Symbol Check Workflow
+        if: steps.check-files.outputs.files_generated == 'true'
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.REPO_DISPATCH_TOKEN }}
+          event-type: symbol-check-trigger
           client-payload: |
             {
               "source_repo": "${{ github.repository }}",

@@ -1,0 +1,47 @@
+name: Trigger Symbol Generator Check
+
+on:
+  push:
+    paths:
+      - '**/docs/pictures/**'
+  repository_dispatch:
+    types: [symbol-check-trigger]
+  workflow_dispatch:
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      
+      - name: Detect pictures path
+        id: detect-path
+        run: |
+          # Find the docs/pictures directory
+          PICTURES_PATH=$(find . -type d -path "*/docs/pictures" | head -n 1 | sed 's|^./||')
+          
+          if [ -z "$PICTURES_PATH" ]; then
+            echo "No docs/pictures directory found!"
+            exit 1
+          fi
+          
+          echo "pictures_path=$PICTURES_PATH" >> $GITHUB_OUTPUT
+          echo "Found pictures path: $PICTURES_PATH"
+      
+      - name: Trigger KiCAD Symbols Generator workflow
+        run: |
+          curl -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token ${{ secrets.REPO_DISPATCH_TOKEN }}" \
+            https://api.github.com/repos/ionutms/KiCAD_Symbols_Generator/dispatches \
+            -d "{
+              \"event_type\": \"check_pictures\",
+              \"client_payload\": {
+                \"source_repo\": \"${{ github.repository }}\",
+                \"source_ref\": \"${{ github.sha }}\",
+                \"pictures_path\": \"${{ steps.detect-path.outputs.pictures_path }}\"
+              }
+            }"
