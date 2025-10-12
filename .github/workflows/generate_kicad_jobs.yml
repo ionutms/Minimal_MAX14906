@@ -115,6 +115,12 @@ jobs:
           echo "right_view_zoom_factor=1.0" >> $GITHUB_OUTPUT
           echo "right_view_rotate=\"0,-90,0\"" >> $GITHUB_OUTPUT
           echo "right_view_pan=\"0,0,0\"" >> $GITHUB_OUTPUT
+          echo "front_view_zoom_factor=1.0" >> $GITHUB_OUTPUT
+          echo "front_view_rotate=\"0,0,0\"" >> $GITHUB_OUTPUT
+          echo "front_view_pan=\"0,0,0\"" >> $GITHUB_OUTPUT
+          echo "back_view_zoom_factor=1.0" >> $GITHUB_OUTPUT
+          echo "back_view_rotate=\"0,0,0\"" >> $GITHUB_OUTPUT
+          echo "back_view_pan=\"0,0,0\"" >> $GITHUB_OUTPUT
 
           
           # Extract parameters from config file if it exists
@@ -200,6 +206,42 @@ jobs:
               echo "right_view_pan=$RIGHT_VIEW_PAN" >> $GITHUB_OUTPUT
             else
               echo "right_view_pan=$SIDE_VIEW_PAN" >> $GITHUB_OUTPUT
+            fi
+
+            # Extract front view parameters
+            FRONT_VIEW_ZOOM_FACTOR=$(grep 'front_view_zoom_factor:' .github/kicad-config.yml | sed 's/front_view_zoom_factor: *//' | tr -d '\n\r')
+            if [ ! -z "$FRONT_VIEW_ZOOM_FACTOR" ]; then
+              echo "front_view_zoom_factor=$FRONT_VIEW_ZOOM_FACTOR" >> $GITHUB_OUTPUT
+            else
+              echo "front_view_zoom_factor=$SIDE_VIEW_ZOOM_FACTOR" >> $GITHUB_OUTPUT
+            fi
+            FRONT_VIEW_ROTATE=$(grep 'front_view_rotate:' .github/kicad-config.yml | sed 's/front_view_rotate: *//' | tr -d '\n\r')
+            if [ ! -z "$FRONT_VIEW_ROTATE" ]; then
+              echo "front_view_rotate=$FRONT_VIEW_ROTATE" >> $GITHUB_OUTPUT
+            fi
+            FRONT_VIEW_PAN=$(grep 'front_view_pan:' .github/kicad-config.yml | sed 's/front_view_pan: *//' | tr -d '\n\r')
+            if [ ! -z "$FRONT_VIEW_PAN" ]; then
+              echo "front_view_pan=$FRONT_VIEW_PAN" >> $GITHUB_OUTPUT
+            else
+              echo "front_view_pan=$SIDE_VIEW_PAN" >> $GITHUB_OUTPUT
+            fi
+
+            # Extract back view parameters
+            BACK_VIEW_ZOOM_FACTOR=$(grep 'back_view_zoom_factor:' .github/kicad-config.yml | sed 's/back_view_zoom_factor: *//' | tr -d '\n\r')
+            if [ ! -z "$BACK_VIEW_ZOOM_FACTOR" ]; then
+              echo "back_view_zoom_factor=$BACK_VIEW_ZOOM_FACTOR" >> $GITHUB_OUTPUT
+            else
+              echo "back_view_zoom_factor=$SIDE_VIEW_ZOOM_FACTOR" >> $GITHUB_OUTPUT
+            fi
+            BACK_VIEW_ROTATE=$(grep 'back_view_rotate:' .github/kicad-config.yml | sed 's/back_view_rotate: *//' | tr -d '\n\r')
+            if [ ! -z "$BACK_VIEW_ROTATE" ]; then
+              echo "back_view_rotate=$BACK_VIEW_ROTATE" >> $GITHUB_OUTPUT
+            fi
+            BACK_VIEW_PAN=$(grep 'back_view_pan:' .github/kicad-config.yml | sed 's/back_view_pan: *//' | tr -d '\n\r')
+            if [ ! -z "$BACK_VIEW_PAN" ]; then
+              echo "back_view_pan=$BACK_VIEW_PAN" >> $GITHUB_OUTPUT
+            else
+              echo "back_view_pan=$SIDE_VIEW_PAN" >> $GITHUB_OUTPUT
             fi
           fi
 
@@ -301,6 +343,30 @@ jobs:
                   --zoom ${{ steps.kicad-config.outputs.right_view_zoom_factor }}
               fi && \
 
+              # Generate PCB render front view if PCB found
+              if [ '${{ steps.find-files.outputs.pcb_found }}' == 'true' ]; then
+                kicad-cli pcb render /kicad_project/${{ steps.find-files.outputs.pcb_file }} \
+                  -o "/kicad_project/$PROJECT_NAME/docs/pictures/6_${PROJECT_NAME}_front.png" \
+                  --background transparent \
+                  --quality high \
+                  --side front \
+                  --rotate ${{ steps.kicad-config.outputs.front_view_rotate }} \
+                  --pan ${{ steps.kicad-config.outputs.front_view_pan }} \
+                  --zoom ${{ steps.kicad-config.outputs.front_view_zoom_factor }}
+              fi && \
+
+              # Generate PCB render back view if PCB found
+              if [ '${{ steps.find-files.outputs.pcb_found }}' == 'true' ]; then
+                kicad-cli pcb render /kicad_project/${{ steps.find-files.outputs.pcb_file }} \
+                  -o "/kicad_project/$PROJECT_NAME/docs/pictures/7_${PROJECT_NAME}_back.png" \
+                  --background transparent \
+                  --quality high \
+                  --side back \
+                  --rotate ${{ steps.kicad-config.outputs.back_view_rotate }} \
+                  --pan ${{ steps.kicad-config.outputs.back_view_pan }} \
+                  --zoom ${{ steps.kicad-config.outputs.back_view_zoom_factor }}
+              fi && \
+
               # Generate Interactive HTML BOM if PCB found - using Docker image's wrapper
               if [ '${{ steps.find-files.outputs.pcb_found }}' == 'true' ]; then
                 # Change to a writable directory to avoid permission issues
@@ -397,16 +463,29 @@ jobs:
               "sha": "${{ github.sha }}"
             }
 
-      - name: Trigger Symbol Check Workflow
+      - name: Run Symbol Check
         if: steps.check-files.outputs.files_generated == 'true'
-        uses: peter-evans/repository-dispatch@v3
-        with:
-          token: ${{ secrets.REPO_DISPATCH_TOKEN }}
-          event-type: symbol-check-trigger
-          client-payload: |
-            {
-              "source_repo": "${{ github.repository }}",
-              "project_name": "${{ steps.find-files.outputs.project_name }}",
-              "ref": "${{ github.ref }}",
-              "sha": "${{ github.sha }}"
-            }
+        run: |
+          # Get repository information
+          SOURCE_REPO="${{ github.repository }}"
+          SOURCE_REF="${{ github.sha }}"
+          PROJECT_NAME="${{ steps.find-files.outputs.project_name }}"
+          PICTURES_PATH="$PROJECT_NAME/docs/pictures"
+          
+          echo "Running symbol check for repository: $SOURCE_REPO"
+          echo "Source ref: $SOURCE_REF"
+          echo "Pictures path: $PICTURES_PATH"
+          
+          # Make API call to KiCAD Symbols Generator
+          curl -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token ${{ secrets.REPO_DISPATCH_TOKEN }}" \
+            https://api.github.com/repos/ionutms/KiCAD_Symbols_Generator/dispatches \
+            -d "{
+              \"event_type\": \"check_pictures\",
+              \"client_payload\": {
+                \"source_repo\": \"$SOURCE_REPO\",
+                \"source_ref\": \"$SOURCE_REF\",
+                \"pictures_path\": \"$PICTURES_PATH\"
+              }
+            }"
