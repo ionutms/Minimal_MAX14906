@@ -292,7 +292,7 @@ jobs:
               # Generate PCB render top view if PCB found
               if [ '${{ steps.find-files.outputs.pcb_found }}' == 'true' ]; then
                 kicad-cli pcb render /kicad_project/${{ steps.find-files.outputs.pcb_file }} \
-                  -o "/kicad_project/$PROJECT_NAME/docs/pictures/2_${PROJECT_NAME}__top.png" \
+                  -o "/kicad_project/$PROJECT_NAME/docs/pictures/2_${PROJECT_NAME}_top.png" \
                   --background transparent \
                   --quality high \
                   --pan ${{ steps.kicad-config.outputs.top_view_pan }} \
@@ -302,7 +302,7 @@ jobs:
               # Generate PCB render side view if PCB found
               if [ '${{ steps.find-files.outputs.pcb_found }}' == 'true' ]; then
                 kicad-cli pcb render /kicad_project/${{ steps.find-files.outputs.pcb_file }} \
-                  -o "/kicad_project/$PROJECT_NAME/docs/pictures/1_${PROJECT_NAME}__side.png" \
+                  -o "/kicad_project/$PROJECT_NAME/docs/pictures/1_${PROJECT_NAME}_side.png" \
                   --background transparent \
                   --quality high \
                   --rotate ${{ steps.kicad-config.outputs.side_view_rotate }} \
@@ -313,7 +313,7 @@ jobs:
               # Generate PCB render bottom view if PCB found
               if [ '${{ steps.find-files.outputs.pcb_found }}' == 'true' ]; then
                 kicad-cli pcb render /kicad_project/${{ steps.find-files.outputs.pcb_file }} \
-                  -o "/kicad_project/$PROJECT_NAME/docs/pictures/3_${PROJECT_NAME}__bottom.png" \
+                  -o "/kicad_project/$PROJECT_NAME/docs/pictures/3_${PROJECT_NAME}_bottom.png" \
                   --background transparent \
                   --quality high \
                   --side bottom \
@@ -324,7 +324,7 @@ jobs:
               # Generate PCB render left side view if PCB found
               if [ '${{ steps.find-files.outputs.pcb_found }}' == 'true' ]; then
                 kicad-cli pcb render /kicad_project/${{ steps.find-files.outputs.pcb_file }} \
-                  -o "/kicad_project/$PROJECT_NAME/docs/pictures/4_${PROJECT_NAME}__left.png" \
+                  -o "/kicad_project/$PROJECT_NAME/docs/pictures/4_${PROJECT_NAME}_left.png" \
                   --background transparent \
                   --quality high \
                   --side left \
@@ -335,7 +335,7 @@ jobs:
               # Generate PCB render right side view if PCB found
               if [ '${{ steps.find-files.outputs.pcb_found }}' == 'true' ]; then
                 kicad-cli pcb render /kicad_project/${{ steps.find-files.outputs.pcb_file }} \
-                  -o "/kicad_project/$PROJECT_NAME/docs/pictures/5_${PROJECT_NAME}__right.png" \
+                  -o "/kicad_project/$PROJECT_NAME/docs/pictures/5_${PROJECT_NAME}_right.png" \
                   --background transparent \
                   --quality high \
                   --side right \
@@ -346,7 +346,7 @@ jobs:
               # Generate PCB render front view if PCB found
               if [ '${{ steps.find-files.outputs.pcb_found }}' == 'true' ]; then
                 kicad-cli pcb render /kicad_project/${{ steps.find-files.outputs.pcb_file }} \
-                  -o "/kicad_project/$PROJECT_NAME/docs/pictures/6_${PROJECT_NAME}__front.png" \
+                  -o "/kicad_project/$PROJECT_NAME/docs/pictures/6_${PROJECT_NAME}_front.png" \
                   --background transparent \
                   --quality high \
                   --side front \
@@ -358,7 +358,7 @@ jobs:
               # Generate PCB render back view if PCB found
               if [ '${{ steps.find-files.outputs.pcb_found }}' == 'true' ]; then
                 kicad-cli pcb render /kicad_project/${{ steps.find-files.outputs.pcb_file }} \
-                  -o "/kicad_project/$PROJECT_NAME/docs/pictures/7_${PROJECT_NAME}__back.png" \
+                  -o "/kicad_project/$PROJECT_NAME/docs/pictures/7_${PROJECT_NAME}_back.png" \
                   --background transparent \
                   --quality high \
                   --side back \
