@@ -476,16 +476,52 @@ jobs:
           echo "Source ref: $SOURCE_REF"
           echo "Pictures path: $PICTURES_PATH"
           
-          # Make API call to KiCAD Symbols Generator
-          curl -X POST \
-            -H "Accept: application/vnd.github.v3+json" \
-            -H "Authorization: token ${{ secrets.REPO_DISPATCH_TOKEN }}" \
-            https://api.github.com/repos/ionutms/KiCAD_Symbols_Generator/dispatches \
-            -d "{
-              \"event_type\": \"check_pictures\",
-              \"client_payload\": {
-                \"source_repo\": \"$SOURCE_REPO\",
-                \"source_ref\": \"$SOURCE_REF\",
-                \"pictures_path\": \"$PICTURES_PATH\"
-              }
-            }"
+          # Try to trigger the symbol check with retries
+          MAX_RETRIES=3
+          RETRY_COUNT=0
+          
+          while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+            # Make API call to KiCAD Symbols Generator
+            HTTP_RESPONSE=$(curl -s -w "\n%{http_code}" -X POST \
+              -H "Accept: application/vnd.github.v3+json" \
+              -H "Authorization: token ${{ secrets.REPO_DISPATCH_TOKEN }}" \
+              https://api.github.com/repos/ionutms/KiCAD_Symbols_Generator/dispatches \
+              -d "{
+                \"event_type\": \"check_pictures\",
+                \"client_payload\": {
+                  \"source_repo\": \"$SOURCE_REPO\",
+                  \"source_ref\": \"$SOURCE_REF\",
+                  \"pictures_path\": \"$PICTURES_PATH\"
+                }
+              }")
+            
+            # Extract the HTTP status code
+            HTTP_STATUS=$(echo "$HTTP_RESPONSE" | tail -n1)
+            RESPONSE_BODY=$(echo "$HTTP_RESPONSE" | sed '$d')
+            
+            if [ "$HTTP_STATUS" -eq 204 ] || [ "$HTTP_STATUS" -eq 200 ]; then
+              echo "✅ Symbol check triggered successfully"
+              echo "Response: $RESPONSE_BODY"
+              break
+            else
+              echo "⚠️ Attempt $((RETRY_COUNT + 1)) failed with HTTP status: $HTTP_STATUS"
+              echo "Response: $RESPONSE_BODY"
+              
+              # Increment retry count
+              RETRY_COUNT=$((RETRY_COUNT + 1))
+              
+              # Wait before retrying (exponential backoff)
+              if [ $RETRY_COUNT -lt $MAX_RETRIES ]; then
+                WAIT_TIME=$((RETRY_COUNT * 30))  # Wait 30, 60, 90 seconds for retries
+                echo "Waiting $WAIT_TIME seconds before retry..."
+                sleep $WAIT_TIME
+              fi
+            fi
+          done
+          
+          # If all retries failed, report error
+          if [ $RETRY_COUNT -ge $MAX_RETRIES ]; then
+            echo "❌ Failed to trigger symbol check after $MAX_RETRIES attempts"
+            echo "This may be due to GitHub API rate limits or other issues."
+            exit 1
+          fi
