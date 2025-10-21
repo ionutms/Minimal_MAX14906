@@ -307,7 +307,7 @@ jobs:
                   -o "/kicad_project/$PROJECT_NAME/docs/pictures/2_${PROJECT_NAME}_top.png" \
                   --background transparent \
                   --quality high \
-                  --light-side-elevation 45 \
+                  --light-side-elevation 60 \
                   --pan ${{ steps.kicad-config.outputs.top_view_pan }} \
                   --zoom ${{ steps.kicad-config.outputs.top_view_zoom_factor }}
               fi && \
@@ -318,7 +318,7 @@ jobs:
                   -o "/kicad_project/$PROJECT_NAME/docs/pictures/3_${PROJECT_NAME}_bottom.png" \
                   --background transparent \
                   --quality high \
-                  --light-side-elevation 45 \
+                  --light-side-elevation 60 \
                   --side bottom \
                   --pan ${{ steps.kicad-config.outputs.bottom_view_pan }} \
                   --zoom ${{ steps.kicad-config.outputs.bottom_view_zoom_factor }}
@@ -330,7 +330,7 @@ jobs:
                   -o "/kicad_project/$PROJECT_NAME/docs/pictures/4_${PROJECT_NAME}_left.png" \
                   --background transparent \
                   --quality high \
-                  --light-side-elevation 0 \
+                  --light-side-elevation 10 \
                   --side left \
                   --pan ${{ steps.kicad-config.outputs.left_view_pan }} \
                   --zoom ${{ steps.kicad-config.outputs.left_view_zoom_factor }}
@@ -342,7 +342,7 @@ jobs:
                   -o "/kicad_project/$PROJECT_NAME/docs/pictures/5_${PROJECT_NAME}_right.png" \
                   --background transparent \
                   --quality high \
-                  --light-side-elevation 0 \
+                  --light-side-elevation 10 \
                   --side right \
                   --pan ${{ steps.kicad-config.outputs.right_view_pan }} \
                   --zoom ${{ steps.kicad-config.outputs.right_view_zoom_factor }}
@@ -354,7 +354,7 @@ jobs:
                   -o "/kicad_project/$PROJECT_NAME/docs/pictures/6_${PROJECT_NAME}_front.png" \
                   --background transparent \
                   --quality high \
-                  --light-side-elevation 0 \
+                  --light-side-elevation 10 \
                   --side front \
                   --rotate ${{ steps.kicad-config.outputs.front_view_rotate }} \
                   --pan ${{ steps.kicad-config.outputs.front_view_pan }} \
@@ -367,7 +367,7 @@ jobs:
                   -o "/kicad_project/$PROJECT_NAME/docs/pictures/7_${PROJECT_NAME}_back.png" \
                   --background transparent \
                   --quality high \
-                  --light-side-elevation 0 \
+                  --light-side-elevation 10 \
                   --side back \
                   --rotate ${{ steps.kicad-config.outputs.back_view_rotate }} \
                   --pan ${{ steps.kicad-config.outputs.back_view_pan }} \
