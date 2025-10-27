@@ -125,8 +125,84 @@ jobs:
             PAN=$(yq eval ".views.$VIEW.pan // .defaults.pan // \"0,0,0\"" "$CONFIG_FILE")
             LIGHT=$(yq eval ".views.$VIEW.light_elevation // .defaults.light_elevation // 60" "$CONFIG_FILE")
             SIDE=$(yq eval ".views.$VIEW.side // .defaults.side // \"top\"" "$CONFIG_FILE")
+            HIDE_FOOTPRINTS=$(yq eval ".views.$VIEW.hide_footprints // []" "$CONFIG_FILE")
+            SHOW_FOOTPRINTS=$(yq eval ".views.$VIEW.show_footprints // []" "$CONFIG_FILE")
+            OFFSET_FOOTPRINTS=$(yq eval ".views.$VIEW.offset_footprints // []" "$CONFIG_FILE")
             
-            # Build the command
+            # Store footprints that need to be restored after rendering
+            RESTORE_HIDE_FOOTPRINTS=""
+            RESTORE_SHOW_FOOTPRINTS=""
+            RESTORE_OFFSET_FOOTPRINTS=""
+            
+            # Handle footprint hiding for this view
+            if [ "$HIDE_FOOTPRINTS" != "[]" ] && [ "$HIDE_FOOTPRINTS" != "null" ]; then
+              FOOTPRINTS=$(echo "$HIDE_FOOTPRINTS" | yq eval '.[]' -)
+              for FOOTPRINT in $FOOTPRINTS; do
+                HIDE_CMD="python3 /kicad_project/.github/kicad_footprint_manager.py /kicad_project/$PCB_FILE $FOOTPRINT --hide"
+                if [ -z "$COMMANDS" ]; then
+                  COMMANDS="$HIDE_CMD"
+                else
+                  COMMANDS="$COMMANDS && $HIDE_CMD"
+                fi
+                # Mark for restoration (show after render)
+                if [ -z "$RESTORE_HIDE_FOOTPRINTS" ]; then
+                  RESTORE_HIDE_FOOTPRINTS="$FOOTPRINT"
+                else
+                  RESTORE_HIDE_FOOTPRINTS="$RESTORE_HIDE_FOOTPRINTS $FOOTPRINT"
+                fi
+              done
+            fi
+            
+            # Handle footprint showing for this view
+            if [ "$SHOW_FOOTPRINTS" != "[]" ] && [ "$SHOW_FOOTPRINTS" != "null" ]; then
+              FOOTPRINTS=$(echo "$SHOW_FOOTPRINTS" | yq eval '.[]' -)
+              for FOOTPRINT in $FOOTPRINTS; do
+                SHOW_CMD="python3 /kicad_project/.github/kicad_footprint_manager.py /kicad_project/$PCB_FILE $FOOTPRINT --show"
+                if [ -z "$COMMANDS" ]; then
+                  COMMANDS="$SHOW_CMD"
+                else
+                  COMMANDS="$COMMANDS && $SHOW_CMD"
+                fi
+                # Mark for restoration (hide after render)
+                if [ -z "$RESTORE_SHOW_FOOTPRINTS" ]; then
+                  RESTORE_SHOW_FOOTPRINTS="$FOOTPRINT"
+                else
+                  RESTORE_SHOW_FOOTPRINTS="$RESTORE_SHOW_FOOTPRINTS $FOOTPRINT"
+                fi
+              done
+            fi
+            
+            # Handle footprint offset for this view
+            if [ "$OFFSET_FOOTPRINTS" != "[]" ] && [ "$OFFSET_FOOTPRINTS" != "null" ]; then
+              # Get the number of offset entries
+              OFFSET_COUNT=$(echo "$OFFSET_FOOTPRINTS" | yq eval 'length' -)
+              for i in $(seq 0 $((OFFSET_COUNT - 1))); do
+                FOOTPRINT=$(yq eval ".views.$VIEW.offset_footprints[$i].reference" "$CONFIG_FILE")
+                OFFSET_X=$(yq eval ".views.$VIEW.offset_footprints[$i].x // 0" "$CONFIG_FILE")
+                OFFSET_Y=$(yq eval ".views.$VIEW.offset_footprints[$i].y // 0" "$CONFIG_FILE")
+                OFFSET_Z=$(yq eval ".views.$VIEW.offset_footprints[$i].z // 0" "$CONFIG_FILE")
+                
+                if [ "$FOOTPRINT" != "null" ]; then
+                  OFFSET_CMD="python3 /kicad_project/.github/kicad_footprint_manager.py /kicad_project/$PCB_FILE $FOOTPRINT --offset $OFFSET_X $OFFSET_Y $OFFSET_Z"
+                  if [ -z "$COMMANDS" ]; then
+                    COMMANDS="$OFFSET_CMD"
+                  else
+                    COMMANDS="$COMMANDS && $OFFSET_CMD"
+                  fi
+                  # Mark for restoration (reverse offset after render) - use python for negation
+                  NEG_X=$(python3 -c "print(-1 * $OFFSET_X)")
+                  NEG_Y=$(python3 -c "print(-1 * $OFFSET_Y)")
+                  NEG_Z=$(python3 -c "print(-1 * $OFFSET_Z)")
+                  if [ -z "$RESTORE_OFFSET_FOOTPRINTS" ]; then
+                    RESTORE_OFFSET_FOOTPRINTS="$FOOTPRINT:$NEG_X:$NEG_Y:$NEG_Z"
+                  else
+                    RESTORE_OFFSET_FOOTPRINTS="$RESTORE_OFFSET_FOOTPRINTS|$FOOTPRINT:$NEG_X:$NEG_Y:$NEG_Z"
+                  fi
+                fi
+              done
+            fi
+            
+            # Build the render command
             CMD="kicad-cli pcb render /kicad_project/$PCB_FILE"
             CMD="$CMD -o \"/kicad_project/$PROJECT_NAME/docs/pictures/${PREFIX}${PROJECT_NAME}${SUFFIX}.png\""
             CMD="$CMD --background transparent"
@@ -143,6 +219,8 @@ jobs:
             else
               COMMANDS="$COMMANDS && $CMD"
             fi
+            
+
           done
           
           # Save commands to output (properly escaped for multi-line)
@@ -151,6 +229,8 @@ jobs:
           echo "EOF" >> $GITHUB_OUTPUT
           
           echo "Generated render commands for views: $VIEW_NAMES"
+          echo "=== Full command chain ==="
+          echo "$COMMANDS"
 
       - name: Pull KiCad Docker image
         if: steps.find-files.outputs.project_found == 'true'
