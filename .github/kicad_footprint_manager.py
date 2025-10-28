@@ -20,17 +20,21 @@ import argparse
 import re
 import sys
 from pathlib import Path
+from typing import Dict, Tuple, Union
 
 
-def parse_kicad_pcb(file_path):
+def parse_kicad_pcb(
+    file_path: Union[str, Path],
+) -> Tuple[str, Dict[str, Dict[str, Union[str, int]]]]:
     """Parse a KiCad PCB file and extract footprint data by reference.
 
     Args:
-        file_path (str or Path): Path to the .kicad_pcb file
+        file_path: Path to the .kicad_pcb file
 
     Returns:
-        tuple: (file_content, dict mapping reference designators to footprint
-        data), including the start and end positions in the file
+        A tuple containing the file content and a dict mapping reference
+        designators to footprint data, including the start and end positions
+        in the file
 
     """
     with open(file_path, "r", encoding="utf-8") as file:
@@ -65,16 +69,18 @@ def parse_kicad_pcb(file_path):
     return content, footprints
 
 
-def replace_footprint_in_file(file_path, reference, new_footprint_code):
+def replace_footprint_in_file(
+    file_path: Union[str, Path], reference: str, new_footprint_code: str
+) -> bool:
     """Replace the footprint with the specified reference in the file.
 
     Args:
-        file_path (str or Path): Path to the .kicad_pcb file
-        reference (str): Reference designator to replace
-        new_footprint_code (str): New footprint code to insert
+        file_path: Path to the .kicad_pcb file
+        reference: Reference designator to replace
+        new_footprint_code: New footprint code to insert
 
     Returns:
-        bool: True if replacement was successful, False otherwise
+        True if replacement was successful, False otherwise
 
     """
     content, footprints = parse_kicad_pcb(file_path)
@@ -96,19 +102,19 @@ def replace_footprint_in_file(file_path, reference, new_footprint_code):
     return True
 
 
-def add_hide_to_model(footprint_code):
+def add_hide_to_model(footprint_code: str) -> str:
     """Add (hide yes) to the model field in the footprint code.
 
     Args:
-        footprint_code (str): The footprint code to modify
+        footprint_code: The footprint code to modify
 
     Returns:
-        str: The modified footprint code
+        The modified footprint code
 
     """
     pattern = r'(\(model\s+"[^"]+"\s*\n\s*)(\(\s*offset)'
 
-    def replace_func(match):
+    def replace_func(match: re.Match) -> str:
         return match.group(1) + "(hide yes)\n\t\t\t" + match.group(2)
 
     modified_code = re.sub(pattern, replace_func, footprint_code)
@@ -123,14 +129,14 @@ def add_hide_to_model(footprint_code):
     return modified_code
 
 
-def remove_hide_from_model(footprint_code):
+def remove_hide_from_model(footprint_code: str) -> str:
     """Remove (hide yes) from the model field in the footprint code.
 
     Args:
-        footprint_code (str): The footprint code to modify
+        footprint_code: The footprint code to modify
 
     Returns:
-        str: The modified footprint code
+        The modified footprint code
 
     """
     pattern = (
@@ -139,7 +145,7 @@ def remove_hide_from_model(footprint_code):
         r"(\(\s*offset)"
     )
 
-    def replace_func(match):
+    def replace_func(match: re.Match) -> str:
         return match.group(1) + match.group(3)
 
     modified_code = re.sub(pattern, replace_func, footprint_code)
@@ -154,17 +160,19 @@ def remove_hide_from_model(footprint_code):
     return modified_code
 
 
-def offset_model_coordinates(footprint_code, dx, dy, dz):
+def offset_model_coordinates(
+    footprint_code: str, dx: float, dy: float, dz: float
+) -> str:
     """Offset the existing model coordinates by the specified deltas.
 
     Args:
-        footprint_code (str): The footprint code to modify
-        dx (float): Offset to add to X coordinate
-        dy (float): Offset to add to Y coordinate
-        dz (float): Offset to add to Z coordinate
+        footprint_code: The footprint code to modify
+        dx: Offset to add to X coordinate
+        dy: Offset to add to Y coordinate
+        dz: Offset to add to Z coordinate
 
     Returns:
-        str: The modified footprint code
+        The modified footprint code
 
     """
     pattern = (
@@ -176,7 +184,7 @@ def offset_model_coordinates(footprint_code, dx, dy, dz):
         r"(\s*\))"
     )
 
-    def replace_func(match):
+    def replace_func(match: re.Match) -> str:
         x = float(match.group(2)) + dx
         y = float(match.group(3)) + dy
         z = float(match.group(4)) + dz
