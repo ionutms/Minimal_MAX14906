@@ -13,6 +13,8 @@ Usage:
         python kicad_footprint_manager.py <file> <reference> --show
     Offset coordinates:
         python kicad_footprint_manager.py <file> <reference> --offset X Y Z
+    Set position:
+        python kicad_footprint_manager.py <file> <reference> --position X Y Z
 
 """
 
@@ -200,6 +202,43 @@ def offset_model_coordinates(
     return modified_code
 
 
+def set_model_position(
+    footprint_code: str, x: float, y: float, z: float
+) -> str:
+    """Set the model coordinates to the specified values.
+
+    Args:
+        footprint_code: The footprint code to modify
+        x: X coordinate to set
+        y: Y coordinate to set
+        z: Z coordinate to set
+
+    Returns:
+        The modified footprint code
+
+    """
+    pattern = (
+        r'(\(model\s+"[^"]+"\s*\n\s*(?:\(hide yes\)\s*\n\s*)?'
+        r"\(offset\s*\n\s*\(xyz\s+)"
+        r"([+-]?\d+\.?\d*)\s+"
+        r"([+-]?\d+\.?\d*)\s+"
+        r"([+-]?\d+\.?\d*)"
+        r"(\s*\))"
+    )
+
+    def replace_func(match: re.Match) -> str:
+        return f"{match.group(1)}{x} {y} {z}{match.group(5)}"
+
+    modified_code = re.sub(pattern, replace_func, footprint_code)
+
+    if modified_code == footprint_code:
+        print("Warning: No offset section found in the model.")
+    else:
+        print(f"Set position: ({x}, {y}, {z})")
+
+    return modified_code
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description=(
@@ -236,6 +275,13 @@ if __name__ == "__main__":
         type=float,
         metavar=("DX", "DY", "DZ"),
         help="Offset the model coordinates by (dx, dy, dz)",
+    )
+    parser.add_argument(
+        "--position",
+        nargs=3,
+        type=float,
+        metavar=("X", "Y", "Z"),
+        help="Set the model coordinates to (x, y, z)",
     )
 
     args = parser.parse_args()
@@ -302,7 +348,7 @@ if __name__ == "__main__":
     elif (
         args.offset
         and args.reference
-        and not any([args.code, args.hide, args.show])
+        and not any([args.code, args.hide, args.show, args.position])
     ):
         _, footprints = parse_kicad_pcb(pcb_path)
         if args.reference not in footprints:
@@ -319,6 +365,29 @@ if __name__ == "__main__":
         replace_footprint_in_file(
             pcb_path, args.reference, modified_footprint
         )
+    elif (
+        args.position
+        and args.reference
+        and not any([args.code, args.hide, args.show, args.offset])
+    ):
+        _, footprints = parse_kicad_pcb(pcb_path)
+        if args.reference not in footprints:
+            print(
+                f"Error: No footprint found with reference: {args.reference}"
+            )
+            sys.exit(1)
+
+        original_footprint = footprints[args.reference]["full_data"]
+        modified_footprint = set_model_position(
+            original_footprint,
+            args.position[0],
+            args.position[1],
+            args.position[2],
+        )
+
+        replace_footprint_in_file(
+            pcb_path, args.reference, modified_footprint
+        )
     else:
         _, footprints = parse_kicad_pcb(pcb_path)
         print(f"Found {len(footprints)} footprints in {pcb_path.name}:")
@@ -330,3 +399,4 @@ if __name__ == "__main__":
         print("  Hide 3D model: --hide option")
         print("  Show 3D model: --show option")
         print("  Offset coordinates: --offset DX DY DZ option")
+        print("  Set position: --position X Y Z option")
