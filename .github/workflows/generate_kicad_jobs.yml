@@ -128,6 +128,9 @@ jobs:
             HIDE_FOOTPRINTS=$(yq eval ".views.$VIEW.hide_footprints // []" "$CONFIG_FILE")
             SHOW_FOOTPRINTS=$(yq eval ".views.$VIEW.show_footprints // []" "$CONFIG_FILE")
             OFFSET_FOOTPRINTS=$(yq eval ".views.$VIEW.offset_footprints // []" "$CONFIG_FILE")
+            HIDE_FOOTPRINTS_BY_INDEX=$(yq eval ".views.$VIEW.hide_footprints_by_index // []" "$CONFIG_FILE")
+            SHOW_FOOTPRINTS_BY_INDEX=$(yq eval ".views.$VIEW.show_footprints_by_index // []" "$CONFIG_FILE")
+            OFFSET_FOOTPRINTS_BY_INDEX=$(yq eval ".views.$VIEW.offset_footprints_by_index // []" "$CONFIG_FILE")
             
             # Store footprints that need to be restored after rendering
             RESTORE_HIDE_FOOTPRINTS=""
@@ -172,7 +175,68 @@ jobs:
               done
             fi
             
-            # Handle footprint offset for this view
+            # Handle footprint hiding by index for this view
+            if [ "$HIDE_FOOTPRINTS_BY_INDEX" != "[]" ] && [ "$HIDE_FOOTPRINTS_BY_INDEX" != "null" ]; then
+              # Get the number of hide entries
+              HIDE_COUNT=$(echo "$HIDE_FOOTPRINTS_BY_INDEX" | yq eval 'length' -)
+              for i in $(seq 0 $((HIDE_COUNT - 1))); do
+                FOOTPRINT=$(yq eval ".views.$VIEW.hide_footprints_by_index[$i].reference" "$CONFIG_FILE")
+                INDEX=$(yq eval ".views.$VIEW.hide_footprints_by_index[$i].index" "$CONFIG_FILE")
+                
+                if [ "$FOOTPRINT" != "null" ] && [ "$INDEX" != "null" ]; then
+                  HIDE_BY_INDEX_CMD="python3 /kicad_project/.github/kicad_footprint_manager.py /kicad_project/$PCB_FILE $FOOTPRINT --hide --idx $INDEX"
+                  if [ -z "$COMMANDS" ]; then
+                    COMMANDS="$HIDE_BY_INDEX_CMD"
+                  else
+                    COMMANDS="$COMMANDS && $HIDE_BY_INDEX_CMD"
+                  fi
+                  # Mark for restoration (show after render) - this is more complex for index-based operations
+                fi
+              done
+            fi
+            
+            # Handle footprint showing by index for this view
+            if [ "$SHOW_FOOTPRINTS_BY_INDEX" != "[]" ] && [ "$SHOW_FOOTPRINTS_BY_INDEX" != "null" ]; then
+              # Get the number of show entries
+              SHOW_COUNT=$(echo "$SHOW_FOOTPRINTS_BY_INDEX" | yq eval 'length' -)
+              for i in $(seq 0 $((SHOW_COUNT - 1))); do
+                FOOTPRINT=$(yq eval ".views.$VIEW.show_footprints_by_index[$i].reference" "$CONFIG_FILE")
+                INDEX=$(yq eval ".views.$VIEW.show_footprints_by_index[$i].index" "$CONFIG_FILE")
+                
+                if [ "$FOOTPRINT" != "null" ] && [ "$INDEX" != "null" ]; then
+                  SHOW_BY_INDEX_CMD="python3 /kicad_project/.github/kicad_footprint_manager.py /kicad_project/$PCB_FILE $FOOTPRINT --show --idx $INDEX"
+                  if [ -z "$COMMANDS" ]; then
+                    COMMANDS="$SHOW_BY_INDEX_CMD"
+                  else
+                    COMMANDS="$COMMANDS && $SHOW_BY_INDEX_CMD"
+                  fi
+                fi
+              done
+            fi
+            
+            # Handle footprint offset by index for this view
+            if [ "$OFFSET_FOOTPRINTS_BY_INDEX" != "[]" ] && [ "$OFFSET_FOOTPRINTS_BY_INDEX" != "null" ]; then
+              # Get the number of offset entries
+              OFFSET_BY_INDEX_COUNT=$(echo "$OFFSET_FOOTPRINTS_BY_INDEX" | yq eval 'length' -)
+              for i in $(seq 0 $((OFFSET_BY_INDEX_COUNT - 1))); do
+                FOOTPRINT=$(yq eval ".views.$VIEW.offset_footprints_by_index[$i].reference" "$CONFIG_FILE")
+                INDEX=$(yq eval ".views.$VIEW.offset_footprints_by_index[$i].index" "$CONFIG_FILE")
+                OFFSET_X=$(yq eval ".views.$VIEW.offset_footprints_by_index[$i].x // 0" "$CONFIG_FILE")
+                OFFSET_Y=$(yq eval ".views.$VIEW.offset_footprints_by_index[$i].y // 0" "$CONFIG_FILE")
+                OFFSET_Z=$(yq eval ".views.$VIEW.offset_footprints_by_index[$i].z // 0" "$CONFIG_FILE")
+                
+                if [ "$FOOTPRINT" != "null" ] && [ "$INDEX" != "null" ]; then
+                  OFFSET_BY_INDEX_CMD="python3 /kicad_project/.github/kicad_footprint_manager.py /kicad_project/$PCB_FILE $FOOTPRINT --offset $OFFSET_X $OFFSET_Y $OFFSET_Z --idx $INDEX"
+                  if [ -z "$COMMANDS" ]; then
+                    COMMANDS="$OFFSET_BY_INDEX_CMD"
+                  else
+                    COMMANDS="$COMMANDS && $OFFSET_BY_INDEX_CMD"
+                  fi
+                fi
+              done
+            fi
+            
+            # Handle footprint offset for this view (existing functionality)
             if [ "$OFFSET_FOOTPRINTS" != "[]" ] && [ "$OFFSET_FOOTPRINTS" != "null" ]; then
               # Get the number of offset entries
               OFFSET_COUNT=$(echo "$OFFSET_FOOTPRINTS" | yq eval 'length' -)
